@@ -1,0 +1,113 @@
+     Pavel Golikov
+____________________________________________________________________________________________
+246 Logan Ave, Unit 426, M4M 0E9, Telephone: 647-863-4112 | E-mail: 
+golikovp@toronto.cs.edu
+
+Profile
+____________________________________________________________________________________________
+
+I have graduated from University of Toronto with a Masters degree in Computer Science with a previous undergraduate degree in Mathematics and Philosophy. I have developed excellent analytical skills and strong work ethics through my previous degree and work experience. I have experience working both individually and in team environments. I have a very inquisitive mind, like to be intellectually challenged and I greatly enjoy problem solving. For the past 3 years I greatly enjoyed working in Prof. Gennady Pekhimenko's EcoSystem research group at University of Toronto and Vector Institute. I conduct research in the field of Computer Science, specifically related to Computer Systems and Networks, Artificial Intelligence and Computer Architecture. I completed my Master of Science in Fall 2022 and am currently pursuing a PhD degree at University of Toronto under Gennady Pekhimenko.
+
+Education
+____________________________________________________________________________________________
+
+Bachelor of Science, University of Toronto						   Fall 2004 - Summer 2011
+? Major: Mathematics
+? Major: Philosophy
+
+Bachelor of Science, University of Toronto						       Winter 2018 - Fall 2020
+? Major: Computer Science
+
+Master of Science, University of Toronto						           Fall 2020 - Fall 2022
+? Computer Science
+
+PhD Student, University of Toronto								Fall 2022 - present
+? Computer Science
+
+Highlights
+____________________________________________________________________________________________
+
+? Analytical
+? Research Oriented
+? Programming Skills: Assembly, C/C++, SQL, Java, Python, Verilog
+? Teaching/Tutoring
+? Language: English, Russian and French
+? Independent and Team Work
+? Leadership skills
+? Information Technology
+? Communication (Oral and Written)
+
+
+
+
+
+Research Experience
+____________________________________________________________________________________________
+
+Graduate Student Researcher, EcoSystem Research Group, Vector Institute.              	       January 2019 - present
+? Conducting Computer Science research related to Computer Hardware and Computer Systems and Sensors
+? Developing Internet of Things applications with physical sensors and microcontrollers (Arduino)
+? Testing and verifying IoT applications with real sensors and on real human subjects
+? Participating in various research projects in EcoSystem Research group and Vector Institute
+
+
+Graduate Student Researcher, EcoSystem Research Group, Vector Institute.	     January 2019 - September 2020
+? Conducting Computer Science research related to Computer Hardware 
+       and Computer Systems
+? Developing, testing, and deploying job scheduling policies aimed at improving efficiency and utilisation of large scale research-oriented computing clusters
+? Participating in various research projects in EcoSystem Research group and Vector Institute
+
+
+Student Research Intern, EcoSystem Research Group				    	   June 2019 - August 2019
+? Conduct Computer Science research in the fields of Artificial Intelligence,
+       Computer Hardware and Statistical Analysis.
+? Participated in a research project aimed at developing a novel method of estimating the training time of artificial neural networks based on exploiting the architecture of hardware accelerator (GPU) used and the structure of the neural network.
+? Participated as a junior researcher in the writing of a research paper.
+
+
+Publications
+____________________________________________________________________________________________
+FASED: Fusing Adds and Shifts for Efficient Dot Products 			        Computer Architecture Letters
+       Pavel Golikov, Karthik Ganesan, Gennady Pekhimenko, and Mark C. Jeffrey 
+
+
+GPUPool: A Holistic Approach to Fine-Grained GPU Sharing in the Cloud. 				    PACT’22
+       Xiaodan Serina Tan, Pavel Golikov, Nandita Vijaykumar, Gennady Pekhimenko.
+
+Habitat: Prediction-guided Hardware Selection for Deep Neural Network Training.		     USENIX ATC’21
+       Geoffrey Yu, YuBo Gao, Pavel Golikov, Gennady Pekhimenko.
+
+Work Experience
+____________________________________________________________________________________________
+
+Mathematics Teacher, Blyth Academy.				     2010-2013 & February 2018 - April 2018
+? Instructed Mathematics-related Ontario Secondary School
+Curriculum courses at a high level (Functions, Calculus and Vectors, and Data Management)
+? Employed engaging and innovative methods
+? Instructed classes of up to 10 students and evaluated their work
+? Created final exams and homework assignments
+
+Intelligence Operator, Canadian Forces					       August 2015 - December 2017
+? Conducted analysis of highly sensitive classified information 
+? Conduct analysis of large amounts of data
+? Produced and delivered intelligence briefs at all classification levels
+? Produced intelligence reports
+
+Engineer Officer, Canadian Forces.				           		            March 2013 to August 2015 
+? Commanded up to 30 subordinates in support of friendly units’ 
+       mobility and denial of enemy units mobility during various training exercises
+? Performed administrative duties for subordinates
+? Prepared and participated in various training exercises
+
+Assistant Expedition Leader, Quark Expeditions.			           				  July 2006 
+? Attended to passenger's needs and requests on board of the icebreaker
+? Supervised passengers during helicopter and zodiac landings
+? Supervised equipment belonging to the expedition 
+? Helped organise lectures, music performances, outings and other public events
+
+
+Interests
+____________________________________________________________________________________________
+
+Science, research, technology, mathematics, philosophy, fitness, reading.
+

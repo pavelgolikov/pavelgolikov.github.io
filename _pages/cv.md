@@ -9,56 +9,45 @@ redirect_from:
 
 {% include base_path %}
 
-Education
-======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+## Education
 
-Work experience
-======
-* Spring 2024: Academic Pages Collaborator
-  * GitHub University
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
+* **PhD in Computer Science**, University of Toronto, Fall 2022 – present
+* **Master of Science in Computer Science**, University of Toronto, Fall 2020 – Fall 2022
+* **Bachelor of Science in Computer Science**, University of Toronto, Winter 2018 – Fall 2020
+* **Bachelor of Science in Mathematics and Philosophy**, University of Toronto, Fall 2004 – Summer 2011
 
-* Fall 2015: Research Assistant
-  * GitHub University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+## Research Experience
 
-* Summer 2015: Research Assistant
-  * GitHub University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
-  
-Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* **Graduate Student Researcher**, EcoSystem Research Group, Vector Institute (January 2019 – present)
+  * Conducting research in Computer Systems, Computer Architecture, and Artificial Intelligence
+  * Working under Prof. Gennady Pekhimenko
+  * Developing and testing IoT applications with physical sensors and microcontrollers
+  * Participating in various research projects at Vector Institute
 
-Publications
-======
+* **Student Research Intern**, EcoSystem Research Group (June 2019 – August 2019)
+  * Researched novel methods for estimating deep neural network training time by exploiting GPU architecture properties
+  * Co-authored research paper (Habitat, USENIX ATC '21)
+
+## Military Service
+
+* **Intelligence Operator**, Canadian Armed Forces (August 2015 – December 2017)
+  * Held security clearance and conducted analysis of classified information at all classification levels
+  * Produced and delivered intelligence briefs and reports
+
+## Teaching Experience
+
+* **Mathematics Teacher**, Blyth Academy (2010–2013 & February 2018 – April 2018)
+  * Instructed Ontario Secondary School Curriculum courses: Functions, Calculus and Vectors, and Data Management
+  * Instructed classes of up to 10 students and created final exams and assignments
+
+## Publications
+
   <ul>{% for post in site.publications reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
-Talks
-======
-  <ul>{% for post in site.talks reversed %}
-    {% include archive-single-talk-cv.html  %}
-  {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
+
+## Skills
+
+* **Programming Languages**: Assembly, C/C++, SQL, Java, Python, Verilog
+* **Languages**: English, Russian, French
+* **Research Areas**: Computer Systems, Computer Architecture, Artificial Intelligence, Machine Learning
