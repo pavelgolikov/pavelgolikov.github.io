@@ -28,7 +28,7 @@ author_profile: true
   *USENIX ATC 2021*, pp. 503-521.
   [[Paper]](https://www.usenix.org/conference/atc21/presentation/yu)
 
-## Thesis
+## Master's Thesis
 
 * **FlexIoT** — Master's Thesis, University of Toronto, 2022.
   [[PDF]](/files/FlexIoT_Pavel_Golikov_Masters_Thesis.pdf)
