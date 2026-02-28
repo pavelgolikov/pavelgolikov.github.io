@@ -11,7 +11,7 @@ redirect_from:
 
 ## Education
 
-* **PhD in Computer Science**, University of Toronto, Fall 2022 – present
+* **PhD Student in Computer Science**, University of Toronto, Fall 2022 – present
 * **Master of Science in Computer Science**, University of Toronto, Fall 2020 – Fall 2022
 * **Bachelor of Science in Computer Science**, University of Toronto, Winter 2018 – Fall 2020
 * **Bachelor of Science in Mathematics and Philosophy**, University of Toronto, Fall 2004 – Summer 2011
@@ -31,7 +31,7 @@ redirect_from:
 ## Military Service
 
 * **Intelligence Operator**, Canadian Armed Forces (August 2015 – December 2017)
-  * Held security clearance and conducted analysis of classified information at all classification levels
+  * Held security clearance and conducted analysis of highly classified information
   * Produced and delivered intelligence briefs and reports
 
 ## Teaching Experience
@@ -40,11 +40,6 @@ redirect_from:
   * Instructed Ontario Secondary School Curriculum courses: Functions, Calculus and Vectors, and Data Management
   * Instructed classes of up to 10 students and created final exams and assignments
 
-## Publications
-
-  <ul>{% for post in site.publications reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
 
 ## Skills
 

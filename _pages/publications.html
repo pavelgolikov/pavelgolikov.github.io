@@ -9,28 +9,26 @@ author_profile: true
   <div class="wordwrap">You can also find my articles on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
 {% endif %}
 
-{% include base_path %}
+## Journal Articles
 
-<!-- New style rendering if publication categories are defined -->
-{% if site.publication_category %}
-  {% for category in site.publication_category  %}
-    {% assign title_shown = false %}
-    {% for post in site.publications reversed %}
-      {% if post.category != category[0] %}
-        {% continue %}
-      {% endif %}
-      {% unless title_shown %}
-        <h2>{{ category[1].title }}</h2><hr />
-        {% assign title_shown = true %}
-      {% endunless %}
-      {% include archive-single.html %}
-    {% endfor %}
-  {% endfor %}
-{% else %}
-  {% for post in site.publications reversed %}
-    {% include archive-single.html %}
-  {% endfor %}
-{% endif %}
+* **Fusing Adds and Shifts for Efficient Dot Products**
+  Pavel Golikov, Karthik Ganesan, Gennady Pekhimenko, and Mark C. Jeffrey.
+  *IEEE Computer Architecture Letters*, 25(1), pp. 33-36, 2026.
+  [[DOI]](https://doi.org/10.1109/LCA.2025.3637718)
 
+## Conference Papers
 
+* **GPUPool: A Holistic Approach to Fine-Grained GPU Sharing in the Cloud**
+  Xiaodan Serina Tan, Pavel Golikov, Nandita Vijaykumar, Gennady Pekhimenko.
+  *PACT 2022*, pp. 317-332.
+  [[DOI]](https://doi.org/10.1145/3559009.3569650)
 
+* **Habitat: A Runtime-Based Computational Performance Predictor for Deep Neural Network Training**
+  Geoffrey X. Yu, Yubo Gao, Pavel Golikov, Gennady Pekhimenko.
+  *USENIX ATC 2021*, pp. 503-521.
+  [[Paper]](https://www.usenix.org/conference/atc21/presentation/yu)
+
+## Thesis
+
+* **FlexIoT** — Master's Thesis, University of Toronto, 2022.
+  [[PDF]](/files/FlexIoT_Pavel_Golikov_Masters_Thesis.pdf)
