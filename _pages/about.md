@@ -15,7 +15,7 @@ I hold a Master of Science in Computer Science (2022) from the University of Tor
 
 ## Current Project
 
-**[Degrading Math Reasoning with Human Trivial Transformations](/projects/degrading-math-reasoning/)**
+**Context Management Benchmarks**
 
 ## Publications
 
