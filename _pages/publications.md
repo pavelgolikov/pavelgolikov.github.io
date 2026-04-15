@@ -9,6 +9,14 @@ author_profile: true
   <div class="wordwrap">You can also find my articles on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
 {% endif %}
 
+
+## arXiv
+
+* **Robust Reasoning Benchmark**
+  Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
+  *arXiv preprint arXiv:2604.08571*, 2026.
+  [[arXiv]](https://arxiv.org/abs/2604.08571) [[DOI]](https://doi.org/10.48550/arXiv.2604.08571)
+
 ## Journal Articles
 
 * **Fusing Adds and Shifts for Efficient Dot Products**
