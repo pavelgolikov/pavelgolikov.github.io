@@ -11,7 +11,7 @@ I am a PhD student in Computer Science at the [University of Toronto](https://ww
 
 Prior to my academic career, I served as an **Intelligence Operator** in the Canadian Armed Forces, where I held security clearance and conducted analysis of classified information at all classification levels. This experience shaped my analytical mindset and discipline that I bring to my research today.
 
-I hold a Master of Science in Computer Science (2022) and a Bachelor of Science in Computer Science (2020), both from the University of Toronto. I also hold an earlier Bachelor of Science in Mathematics and Philosophy (2011) from the University of Toronto.
+I hold a Master of Science in Computer Science (2022) from the University of Toronto. I also hold a Bachelor of Science in Mathematics and Philosophy (2011) from the University of Toronto.
 
 ## Current Project
 
