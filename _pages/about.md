@@ -28,5 +28,3 @@ Context Management Benchmark - investigating model's ability to maintain context
   Pavel Golikov, Karthik Ganesan, Gennady Pekhimenko, and Mark C. Jeffrey.
   *IEEE Computer Architecture Letters*, 25(1), pp. 33-36, 2026.
   [[DOI]](https://doi.org/10.1109/LCA.2025.3637718)
-
-You can find my articles on my [Google Scholar](https://scholar.google.ca/citations?user=Vgv-NP8AAAAJ&hl=en) profile and [DBLP](https://dblp.org/pid/284/8044.html) page.
