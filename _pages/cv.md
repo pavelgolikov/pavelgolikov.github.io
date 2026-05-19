@@ -37,7 +37,7 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
 
 * **Fusing Adds and Shifts for Efficient Dot Products** (2026)
   *IEEE Computer Architecture Letters*
-  * Proposed and validated a novel algorithmic optimization for dot-product computations.
+  * Proposed and validated a novel hardware algorithmic optimization for dot-product computations.
 
 ## Engineering & Professional Experience
 * **Systems & Infrastructure Engineering (MSc Thesis)** (2020 – 2022)
