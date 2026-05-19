@@ -11,7 +11,7 @@ redirect_from:
 
 # Curriculum Vitae
 
-[**📄 Download 1-Page PDF CV**](/files/Pavel_Golikov_CV.pdf) *(Please ensure you upload your new PDF to your /files/ directory!)*
+[**📄 Download 1-Page PDF CV**](/files/Pavel_Golikov_CV.pdf)
 
 ## Professional Profile
 AI Researcher specializing in machine reasoning and alignment. Blends formal logic with rigorous low-level systems engineering to design highly creative adversarial evaluations. Identified structural vulnerabilities and single-query attention dilution in frontier LLMs. Former Military Intelligence Operator with a Top Secret clearance, bringing a rigorous, threat-modeling mindset to AI security and model capability evaluations.
