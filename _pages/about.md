@@ -29,7 +29,7 @@ Academically, I began with a BSc in Mathematics and Philosophy (formal logic). I
 
 * **Fusing Adds and Shifts for Efficient Dot Products**
   **Pavel Golikov**, Karthik Ganesan, Gennady Pekhimenko, and Mark C. Jeffrey.
-  *IEEE Computer Architecture Letters*, 25(1), pp. 33-36, 2026.
+  *IEEE Computer Architecture Letters*, 25(1), pp. 33-36, 2025.
   [[DOI]](https://doi.org/10.1109/LCA.2025.3637718)
   > *Brief:* Hardware architecture research proposing a novel algorithmic optimization for dot-product computations.
 

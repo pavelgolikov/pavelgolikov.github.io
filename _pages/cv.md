@@ -35,7 +35,7 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
   * Engineering a highly customizable evaluation framework combining LeetCode Python tracing and SymPy mathematical operations to generate arbitrary, programmatic chains of reasoning.
   * Testing foundation models' capacity to manage relevant variables while flushing irrelevant context across long logical trajectories.
 
-* **Fusing Adds and Shifts for Efficient Dot Products** (2026)
+* **Fusing Adds and Shifts for Efficient Dot Products** (2025)
   *IEEE Computer Architecture Letters*
   * Proposed and validated a novel hardware algorithmic optimization for dot-product computations.
 
