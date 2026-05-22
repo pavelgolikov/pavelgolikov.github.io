@@ -24,8 +24,8 @@ Academically, I began with a BSc in Mathematics and Philosophy (formal logic). I
 * **Robust Reasoning Benchmark**
   **Pavel Golikov**, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
   *arXiv preprint arXiv:2604.08571*, 2026. (Under review at NeurIPS 2026)
-  [[arXiv]](https://arxiv.org/abs/2604.08571) | [[DOI]](https://doi.org/10.48550/arXiv.2604.08571)
-  > *Brief:* Introduced RRB to evaluate structural fragility in LLM reasoning. Used mechanistic interpretability to identify "Intra-Query Attention Dilution" in open-weights models and exposed critical over-refusal vulnerabilities in proprietary safety filters (Claude 4.6 Opus). Raised the open problem of the optimal granularity of reasoning - a critical question for AI safety, model alignment, and context management. *(Code available privately upon request).*
+  [[arXiv]](https://arxiv.org/abs/2604.08571) | [[DOI]](https://doi.org/10.48550/arXiv.2604.08571) | [[Project Page]](https://github.com/pavelgolikov/Robust-Reasoning-Benchmark)
+  > *Brief:* Introduced RRB to evaluate structural fragility in LLM reasoning. Used mechanistic interpretability to identify "Intra-Query Attention Dilution" in open-weights models and exposed critical over-refusal vulnerabilities in proprietary safety filters (Claude 4.6 Opus). Raised the open problem of the optimal granularity of reasoning - a critical question for AI safety, model alignment, and context management.
 
 * **Fusing Adds and Shifts for Efficient Dot Products**
   **Pavel Golikov**, Karthik Ganesan, Gennady Pekhimenko, and Mark C. Jeffrey.
