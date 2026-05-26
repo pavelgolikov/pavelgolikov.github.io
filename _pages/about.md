@@ -21,14 +21,12 @@ Academically, I began with a BSc in Mathematics and Philosophy (formal logic). I
 
 ## Selected Publications
 
-* **Robust Reasoning Benchmark**
-  **Pavel Golikov**, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
+* **Robust Reasoning Benchmark** - Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
   *arXiv preprint arXiv:2604.08571*, 2026. (Under review at NeurIPS 2026)
   [[arXiv]](https://arxiv.org/abs/2604.08571) | [[DOI]](https://doi.org/10.48550/arXiv.2604.08571) | [[Project Page]](https://github.com/pavelgolikov/Robust-Reasoning-Benchmark)
   > *Brief:* Introduced RRB to evaluate structural fragility in LLM reasoning. Used mechanistic interpretability to identify "Intra-Query Attention Dilution" in open-weights models and over-refusal in proprietary safety filters (Claude 4.6 Opus). Raised the open problem of the optimal granularity of reasoning - a critical question for model rasoning and context management.
 
-* **Fusing Adds and Shifts for Efficient Dot Products**
-  **Pavel Golikov**, Karthik Ganesan, Gennady Pekhimenko, and Mark C. Jeffrey.
+* **Fusing Adds and Shifts for Efficient Dot Products** - Pavel Golikov, Karthik Ganesan, Gennady Pekhimenko, and Mark C. Jeffrey.
   *IEEE Computer Architecture Letters*, 25(1), pp. 33-36, 2025.
   [[DOI]](https://doi.org/10.1109/LCA.2025.3637718)
   > *Brief:* Hardware architecture research proposing a novel algorithmic optimization for dot-product computations.
