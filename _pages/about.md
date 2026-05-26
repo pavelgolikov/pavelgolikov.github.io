@@ -9,9 +9,9 @@ redirect_from:
 
 > 🚨 **I am currently transitioning to industry and actively seeking full-time roles as an AI Researcher / Scientist, with a focus on robust machine reasoning and AI alignment.**
 
-I am an AI Researcher at the [University of Toronto](https://www.utoronto.ca/), working in [Prof. Gennady Pekhimenko's](https://www.cs.toronto.edu/~pekhMDL/) EcoSystem research group, and a member of the [Vector Institute](https://vectorinstitute.ai/). My research focuses on understanding the fundamental limits of algorithmic reasoning in Large Language Models. I use adversarial evaluations and mechanistic interpretability to diagnose structural failures in frontier models—such as context pollution and intra-query attention dilution.
+I am an AI Researcher at the [University of Toronto](https://www.utoronto.ca/), working in [Prof. Gennady Pekhimenko's](https://www.cs.toronto.edu/~pekhMDL/) EcoSystem research group, and a member of the [Vector Institute](https://vectorinstitute.ai/). My research focuses on understanding the fundamental limits of algorithmic reasoning in Large Language Models. I use adversarial evaluations and mechanistic interpretability to diagnose structural failures in frontier models.
 
-My path to AI research is highly multidisciplinary, blending formal logic, low-level systems engineering, and security analysis. Before my graduate studies, I served as an Intelligence Operator in the Canadian Armed Forces, where I held a Top Secret clearance and analyzed classified information. This experience ingrained the rigorous, threat-modeling mindset I now apply to AI security and adversarial testing.
+My path to AI research is highly multidisciplinary, blending formal logic, low-level systems engineering, and security analysis. Before my graduate studies, I served as an Intelligence Operator in the Canadian Armed Forces, where I analyzed classified information. This experience ingrained the rigorous, threat-modeling mindset I now apply to AI security and adversarial testing.
 
 Academically, I began with a BSc in Mathematics and Philosophy (formal logic). In my Master's research, I focused on distributed systems, building full-stack IoT streaming framework using C++, Python, AWS, and Apache Flink. Today, my background in computer systems allows me to approach ML not just mathematically, but with a rigorous engineering lens.
 
@@ -24,7 +24,7 @@ Academically, I began with a BSc in Mathematics and Philosophy (formal logic). I
 * **Robust Reasoning Benchmark** - Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
   *arXiv preprint arXiv:2604.08571*, 2026. (Under review at NeurIPS 2026)
   [[arXiv]](https://arxiv.org/abs/2604.08571) | [[DOI]](https://doi.org/10.48550/arXiv.2604.08571) | [[Project Page]](https://github.com/pavelgolikov/Robust-Reasoning-Benchmark)
-  > *Brief:* Introduced RRB to evaluate structural fragility in LLM reasoning. Used mechanistic interpretability to identify "Intra-Query Attention Dilution" in open-weights models and over-refusal in proprietary safety filters (Claude 4.6 Opus). Raised the open problem of the optimal granularity of reasoning - a critical question for model rasoning and context management.
+  > *Brief:* Introduced RRB to evaluate structural fragility in LLM reasoning. Used mechanistic interpretability to identify "Intra-Query Attention Dilution" in open-weights models and over-refusal in proprietary safety filters (Claude 4.6 Opus). Raised the open problem of the optimal granularity of reasoning - an important question for model reasoning and context management.
 
 * **Fusing Adds and Shifts for Efficient Dot Products** - Pavel Golikov, Karthik Ganesan, Gennady Pekhimenko, and Mark C. Jeffrey.
   *IEEE Computer Architecture Letters*, 25(1), pp. 33-36, 2025.

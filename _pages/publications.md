@@ -16,7 +16,6 @@ author_profile: true
   Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
   *arXiv preprint arXiv:2604.08571*, 2026. (Under Review at a top-tier conference)
   [[arXiv]](https://arxiv.org/abs/2604.08571) [[DOI]](https://doi.org/10.48550/arXiv.2604.08571)
-  > *Brief:* Introduced RRB, an adversarial evaluation framework using 13 deterministic structural perturbations. Identified "Intra-Query Attention Dilution" in open-weights models and exposed critical over-refusal vulnerabilities in proprietary safety filters (Claude 4.6 Opus). Raising the optimal granularity of reasoning as a critical open research problem for AI reasoning.
 
 
 ## Journal Articles
