@@ -14,7 +14,7 @@ redirect_from:
 [**📄 Download 1-Page PDF CV**](/files/Pavel_Golikov_CV.pdf)
 
 ## Professional Profile
-AI Researcher specializing in machine reasoning and alignment. Blends formal logic with rigorous low-level systems engineering to design highly creative adversarial evaluations. Former Military Intelligence Operator bringing a rigorous, threat-modeling mindset to AI security and model capability evaluations.
+AI Researcher specializing in machine reasoning and alignment. Blends formal logic with rigorous low-level systems engineering to architect custom agentic frameworks and highly creative adversarial evaluations. Former Military Intelligence Operator with a Top Secret clearance, bringing a rigorous, threat-modeling mindset to AI security and model capability evaluations.
 
 ## Technical Skills
 * **Languages:** Python, C++, Java, SQL, LaTeX

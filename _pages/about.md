@@ -9,16 +9,17 @@ redirect_from:
 
 > 🚨 **I am currently transitioning to industry and actively seeking full-time roles as an AI Researcher / Scientist, with a focus on robust machine reasoning and AI alignment.**
 
-I am an AI Researcher at the [University of Toronto](https://www.utoronto.ca/), working in [Prof. Gennady Pekhimenko's](https://www.cs.toronto.edu/~pekhMDL/) EcoSystem research group, and a member of the [Vector Institute](https://vectorinstitute.ai/). My research focuses on understanding the fundamental limits of algorithmic reasoning in Large Language Models. I use adversarial evaluations and mechanistic interpretability to diagnose structural failures in frontier models.
+I am an AI Researcher at the [University of Toronto](https://www.utoronto.ca/), working in [Prof. Gennady Pekhimenko's](https://www.cs.toronto.edu/~pekhMDL/) EcoSystem research group, and a member of the [Vector Institute](https://vectorinstitute.ai/). My research focuses on understanding the fundamental limits of algorithmic reasoning in Large Language Models and agentic systems. I design custom autonomous agents alongside adversarial evaluations and use mechanistic interpretability to diagnose structural failures in frontier models and agentic systems.
+
 
 My path to AI research is highly multidisciplinary, blending formal logic, low-level systems engineering, and security analysis. Before my graduate studies, I served as an Intelligence Operator in the Canadian Armed Forces, where I analyzed classified information. This experience ingrained the rigorous, threat-modeling mindset I now apply to AI security and adversarial testing.
 
 Academically, I began with a BSc in Mathematics and Philosophy (formal logic). In my Master's research, I focused on distributed systems, building full-stack IoT streaming framework using C++, Python, AWS, and Apache Flink. Today, my background in computer systems allows me to approach ML not just mathematically, but with a rigorous engineering lens.
 
-## Current Research
+## Current Research - Context Management Benchmark
 
-* **Context Management Benchmark:** Investigating foundation models' ability to maintain working memory and logical coherence over arbitrarily long, customizable mathematical and coding reasoning chains. This work explores the boundaries of attention mechanisms in agentic and multi-step tasks.
-  * Engineered a custom, tightly coupled LLM agent and evaluation engine from scratch - bypassing off-the-shelf MCP solutions -
+* Investigating foundation models' ability to maintain working memory and logical coherence over arbitrarily long, customizable mathematical and coding reasoning chains. This work explores the boundaries of attention mechanisms in agentic and multi-step tasks.
+* Engineered a custom, tightly coupled LLM agent and evaluation engine from scratch - bypassing off-the-shelf MCP solutions -
 to dynamically compile cross-domain algorithmic tasks (Python/Math) into programmable computational graphs, utilizing AST
 parsing and dynamic rejection sampling to rigorously benchmark multi-step state tracking and working memory.
 
