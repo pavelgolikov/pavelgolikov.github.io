@@ -18,6 +18,9 @@ Academically, I began with a BSc in Mathematics and Philosophy (formal logic). I
 ## Current Research
 
 * **Context Management Benchmark:** Investigating foundation models' ability to maintain working memory and logical coherence over arbitrarily long, customizable mathematical and coding reasoning chains. This work explores the boundaries of attention mechanisms in agentic and multi-step tasks.
+  * Engineered a custom, tightly coupled LLM agent and evaluation engine from scratch - bypassing off-the-shelf MCP solutions -
+to dynamically compile cross-domain algorithmic tasks (Python/Math) into programmable computational graphs, utilizing AST
+parsing and dynamic rejection sampling to rigorously benchmark multi-step state tracking and working memory.
 
 ## Selected Publications
 
