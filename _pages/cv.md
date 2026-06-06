@@ -32,7 +32,7 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
 
 * **Context Management Benchmark** (2026 – Present)
   *Active Research*
-  * Engineering a highly customizable evaluation framework combining LeetCode Python tracing and SymPy mathematical operations to generate arbitrary, programmatic chains of reasoning.
+  * Designed a custom, tightly coupled LLM agent and evaluation pipline (without MCP solutions) to compile Python/Math tasks into programmable computational graphs, utilizing AST parsing and dynamic rejection sampling to rigorously benchmark multi-step state tracking and working memory. Engineered a targeted repair layer for calculator-augmented agent that enforces tool-use and answer recovery via agent-loop interventions. This improved math benchmark accuracy by +23% to +45% across 3 Qwen models.
   * Testing foundation models' capacity to manage relevant variables while flushing irrelevant context across long logical trajectories.
 
 * **Fusing Adds and Shifts for Efficient Dot Products** (2025)

@@ -17,7 +17,7 @@ My path to AI research is highly multidisciplinary, blending formal logic, low-l
 Academically, I began with a BSc in Mathematics and Philosophy (formal logic). In my Master's research, I focused on distributed systems, building full-stack IoT streaming framework using C++, Python, AWS, and Apache Flink. Today, my background in computer systems allows me to approach ML not just mathematically, but with a rigorous engineering lens.
 
 ## Current Research
-* **Context Management Benchmark** - Engineered a custom, tightly coupled LLM agent and evaluation framework from scratch - bypassing off-the-shelf MCP solutions - to dynamically compile cross-domain algorithmic tasks (Python/Math) into programmable computational graphs, utilizing AST parsing and dynamic rejection sampling to rigorously benchmark multi-step state tracking and working memory.
+* **Context Management Benchmark** - Designed a custom, tightly coupled LLM agent and evaluation pipline (without MCP solutions) to compile Python/Math tasks into programmable computational graphs, utilizing AST parsing and dynamic rejection sampling to rigorously benchmark multi-step state tracking and working memory. Engineered a targeted repair layer for calculator-augmented agent that enforces tool-use and answer recovery via agent-loop interventions. This improved math benchmark accuracy by +23% to +45% across 3 Qwen models.
 
 ## Selected Publications
 
