@@ -9,7 +9,7 @@ redirect_from:
 
 > 🚨 **I am currently transitioning to industry and actively seeking full-time roles as an AI Researcher / Scientist, with a focus on robust machine reasoning and AI alignment.**
 
-I am an AI Researcher at the [University of Toronto](https://www.utoronto.ca/), working in [Prof. Gennady Pekhimenko's](https://www.cs.toronto.edu/~pekhMDL/) EcoSystem research group, and a member of the [Vector Institute](https://vectorinstitute.ai/). My research focuses on understanding the fundamental limits of algorithmic reasoning in Large Language Models and agentic systems. I design custom autonomous agents alongside adversarial evaluations and use mechanistic interpretability to diagnose structural failures in frontier models and agentic systems.
+I am an AI Researcher at the [University of Toronto](https://www.utoronto.ca/), working in [Prof. Gennady Pekhimenko's](https://www.cs.toronto.edu/~pekhMDL/) EcoSystem research group, and a member of the [Vector Institute](https://vectorinstitute.ai/). My research focuses on understanding the fundamental limits of algorithmic reasoning in Large Language Models and agentic systems. I design custom agents alongside adversarial evaluations and use mechanistic interpretability to diagnose structural failures in frontier models and agentic systems.
 
 
 My path to AI research is highly multidisciplinary, blending formal logic, low-level systems engineering, and security analysis. Before my graduate studies, I served as an Intelligence Operator in the Canadian Armed Forces, where I analyzed classified information. This experience ingrained the rigorous, threat-modeling mindset I now apply to AI security and adversarial testing.
@@ -17,7 +17,7 @@ My path to AI research is highly multidisciplinary, blending formal logic, low-l
 Academically, I began with a BSc in Mathematics and Philosophy (formal logic). In my Master's research, I focused on distributed systems, building full-stack IoT streaming framework using C++, Python, AWS, and Apache Flink. Today, my background in computer systems allows me to approach ML not just mathematically, but with a rigorous engineering lens.
 
 ## Current Research
-* **Context Management Benchmark** - Designed a custom, tightly coupled LLM agent and evaluation pipline (without MCP solutions) to compile Python/Math tasks into programmable computational graphs, utilizing AST parsing and dynamic rejection sampling to rigorously benchmark multi-step state tracking and working memory. Engineered a targeted repair layer for calculator-augmented agent that enforces tool-use and answer recovery via agent-loop interventions. This improved math benchmark accuracy by +23% to +45% across 3 Qwen models.
+* **Context Management Benchmark** - Designed a custom, tightly coupled LLM agent and evaluation pipline (without MCP solutions) to compile Python/Math tasks into programmable computational graphs, utilizing AST parsing and dynamic rejection sampling to rigorously benchmark multi-step state tracking and working memory. I manually engineered repair mechanisms that detect protocol violations, enforce required tool use, and recover incomplete agent responses. Across 5,760 paired Python and math evaluations on three Qwen models (3.5-27B, 3.6-27B, 3.5-122-A10B), these interventions increased end-to-end accuracy from 60.2% to 94.0%, a 33.8-point improvement and an 84.9% reduction in errors, while holding models, prompts, datasets, and sampling parameters constant.
 
 ## Selected Publications
 
