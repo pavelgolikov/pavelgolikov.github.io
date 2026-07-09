@@ -30,8 +30,8 @@ Cover:
 - Random variables, expectation, variance, covariance.
 - Common distributions: Bernoulli, categorical, Gaussian, exponential family.
 - Bayes’ rule, conditional independence.
-- Maximum likelihood estimation, MAP estimation.
 - Cross-entropy, KL divergence, entropy.
+- Maximum likelihood estimation, MAP estimation.
 - Confidence intervals, hypothesis testing, p-values.
 - Bootstrap, permutation tests.
 - Bias, variance, irreducible error.
