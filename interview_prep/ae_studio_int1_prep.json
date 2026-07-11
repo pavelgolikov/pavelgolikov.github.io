@@ -1,0 +1,72 @@
+{
+  "id": "msg_06a087aa94ac8cfd006a4f3ea0c83c819da5cec6dedbda848a",
+  "type": "message",
+  "status": "completed",
+  "content": [
+    {
+      "type": "output_text",
+      "annotations": [
+        {
+          "type": "url_citation",
+          "end_index": 367,
+          "start_index": 323,
+          "title": "Careers | Join AE Studio",
+          "url": "https://www.ae.studio/join-us"
+        },
+        {
+          "type": "url_citation",
+          "end_index": 807,
+          "start_index": 720,
+          "title": "Job Application for Alignment Scientist/Engineer at AE Studio",
+          "url": "https://job-boards.greenhouse.io/aestudio/jobs/6009528004"
+        },
+        {
+          "type": "url_citation",
+          "end_index": 1138,
+          "start_index": 1092,
+          "title": "AE Studio | AI Alignment Research",
+          "url": "https://www.ae.studio/alignment"
+        },
+        {
+          "type": "url_citation",
+          "end_index": 1773,
+          "start_index": 1686,
+          "title": "Job Application for Alignment Scientist/Engineer at AE Studio",
+          "url": "https://job-boards.greenhouse.io/aestudio/jobs/6009528004"
+        },
+        {
+          "type": "url_citation",
+          "end_index": 2016,
+          "start_index": 1964,
+          "title": "The Values of Increasing Agency | AE Studio",
+          "url": "https://ae.studio/blog/ae-core-values"
+        },
+        {
+          "type": "url_citation",
+          "end_index": 2412,
+          "start_index": 2325,
+          "title": "Job Application for Alignment Scientist/Engineer at AE Studio",
+          "url": "https://job-boards.greenhouse.io/aestudio/jobs/6009528004"
+        },
+        {
+          "type": "url_citation",
+          "end_index": 3323,
+          "start_index": 3279,
+          "title": "Careers | Join AE Studio",
+          "url": "https://www.ae.studio/join-us"
+        },
+        {
+          "type": "url_citation",
+          "end_index": 4050,
+          "start_index": 4009,
+          "title": "AE Studio AI Alignment Research",
+          "url": "https://ae.studio/research"
+        }
+      ],
+      "logprobs": [],
+      "text": "Short answer: **yes, it is probably partly a culture-fit / values / communication interview, but not “just HR.”** AE’s own hiring page says the intro call is **30–45 minutes** and “go[es] further than most first calls,” with “real questions about your work and how you think”; later rounds are craft, team, CEO, and offer. ([ae.studio](https://www.ae.studio/join-us))\n\n## What they are likely screening for\n\nFor an **Alignment Scientist/Engineer** role, AE says they want a **“high-agency technical-generalist”** who can work autonomously, own research, decompose complex problems into testable experiments, use modern ML/PyTorch, communicate technical work clearly, and thrive in a fast-paced startup-like environment. ([job-boards.greenhouse.io](https://job-boards.greenhouse.io/aestudio/jobs/6009528004)) So expect the Ops interviewer to test:\n\n1. **Why alignment / why AE?**  \n   Do you genuinely care, or are you “AI-curious”? AE’s alignment thesis emphasizes neglected approaches, human agency, and treating alignment as a scientific R&D problem rather than just RLHF/prompt-filtering. ([ae.studio](https://www.ae.studio/alignment))\n\n2. **High agency / ownership**  \n   “Tell me about a self-directed project.” “How do you work when the goal is ambiguous?” “What did you personally drive?”\n\n3. **Research taste**  \n   “What alignment direction do you think is underexplored?” “What experiment would you run first?” “How would you know if it failed?”\n\n4. **Communication clarity**  \n   Since the interviewer is from Operations and may not be the technical evaluator, they may ask you to explain your work simply. AE explicitly values communicating technical work to all audiences. ([job-boards.greenhouse.io](https://job-boards.greenhouse.io/aestudio/jobs/6009528004))\n\n5. **Culture fit with AE’s values**  \n   Their stated values include growth mindset, A/B-tested baby steps, overcommunication, ownership, and steelmanning while still making working plans. ([ae.studio](https://ae.studio/blog/ae-core-values))\n\n6. **Remote-work / cross-border logistics**  \n   The posting says “Fully Remote; LA office / US remote,” and the listed compensation is for US-based candidates, so because you are in Canada, be ready to clarify employment setup, time-zone overlap, contractor/EOR/payroll, benefits, and travel expectations. ([job-boards.greenhouse.io](https://job-boards.greenhouse.io/aestudio/jobs/6009528004))\n\n---\n\n## Specific questions you may get\n\n### Motivation / mission\n- “Why do you want to work on AI alignment?”\n- “Why AE Studio rather than Anthropic/OpenAI/academia/startup X?”\n- “What do you think is actually hard about alignment?”\n- “Do you think alignment is solvable? Why?”\n- “What are your timelines / risk model / cruxes?”\n- “What would change your mind about the importance of this work?”\n\n### Your work\n- “Walk me through the most impressive thing you’ve built.”\n- “What is a research or engineering project where you had little direction?”\n- “What was your contribution versus the team’s?”\n- “What did you ship, publish, open-source, evaluate, or deploy?”\n- “What result are you proud of that I can actually look at?”\n\nAE’s careers page says their teams care about things you can show — “a question answered or a result you can show” on the research side. ([ae.studio](https://www.ae.studio/join-us))\n\n### Alignment research taste\n- “What neglected alignment approach seems promising to you?”\n- “What are you skeptical of in current alignment research?”\n- “Pick one of our research directions and critique it.”\n- “How would you design a 2-week experiment to test your idea?”\n- “How do you think about dual-use / infohazard risk?”\n\nAE’s recent research page lists work on modular pretraining/access-control modules, self-interpretation from interpretability artifacts, endogenous steering resistance, self-referential processing, self-other overlap fine-tuning, self-modeling, harmful fine-tuning/refusals, and prompt injection. Pick **one or two** to understand well enough to discuss. ([ae.studio](https://ae.studio/research))\n\n### Culture / collaboration\n- “Tell me about a time you disagreed strongly with someone.”\n- “Can you steelman a view you disagree with?”\n- “How do you handle negative feedback?”\n- “How do you communicate when something is blocked or going badly?”\n- “How do you operate remotely?”\n- “How do you use AI tools in your own workflow?”\n\n### Practical\n- “Are you authorized to work from Canada?”\n- “What time zone are you in?”\n- “Can you overlap with US hours?”\n- “When could you start?”\n- “What compensation range are you targeting?”\n- “Are you open to contractor arrangements if needed?”\n\n---\n\n## How to prepare tonight for Friday, July 10, 2026\n\n### 1. Prepare a crisp “why AE” answer\n\nUse this structure:\n\n> “I’m interested in AE because your model combines serious alignment research with a team that actually ships. I’m especially drawn to the neglected-approaches angle: instead of only improving surface behavior, AE seems willing to test less crowded hypotheses with concrete experiments. My fit is that I’ve done ___, I’m strong at ___, and I’m motivated by turning vague research questions into measurable ML experiments.”\n\nMake it specific. Mention one AE project you read.\n\nGood examples to mention:\n- self-other overlap / deception reduction,\n- mechanistic interpretability,\n- modular pretraining / removable dual-use capabilities,\n- model self-interpretation,\n- benchmarks for AI control.\n\n### 2. Prepare three stories\n\nHave these ready in STAR format — Situation, Task, Action, Result.\n\n**Story A: high-agency project**  \nA project where nobody told you exactly what to do and you made progress anyway.\n\n**Story B: technical depth**  \nA project showing ML/PyTorch/research/engineering competence.\n\n**Story C: disagreement / humility**  \nA time you changed your mind, handled feedback, or steelmanned the other side.\n\nEach story should include:\n- the problem,\n- your exact contribution,\n- what was hard,\n- what evidence showed success,\n- what you would do differently now.\n\n### 3. Prepare a “neglected alignment idea” mini-pitch\n\nEven if they do not ask, this will help you sound serious.\n\nUse this template:\n\n> **Problem:** Current method X fails under condition Y.  \n> **Hypothesis:** Maybe Z mechanism would reduce that failure.  \n> **Why neglected:** Most work focuses on A/B/C, but not this angle.  \n> **Experiment:** In 2 weeks I would test ___ on ___ models/tasks.  \n> **Metric:** I would measure ___, with baselines ___.  \n> **Failure modes:** It might just be capability gain / benchmark overfitting / superficial behavior change.  \n> **Safety:** I would avoid publishing ___ if it increased misuse risk.\n\nThis is likely much better than saying only, “I’m interested in interpretability.”\n\n### 4. Practice explaining your work to a nontechnical but sharp person\n\nBecause the interviewer is from Operations, do **not** hide behind jargon. Practice:\n\n- 30-second version,\n- 2-minute version,\n- “why this matters” version,\n- “what was technically hard” version.\n\nFor example:\n\n> “The core problem was that we needed to know whether the model was genuinely generalizing or just exploiting artifacts in the benchmark. I built an evaluation pipeline that changed the distribution in controlled ways, then compared performance across baselines. The surprising result was ___.”\n\n### 5. Prepare remote-work evidence\n\nDo not merely say “I’m good remotely.” Give evidence:\n\n> “I’m in Canada, in ___ time zone. I’m comfortable with async work, written updates, and overlapping with US hours. In previous remote work I used daily/weekly written check-ins, issue trackers, and clear escalation when blocked.”\n\nAlso prepare a question:\n\n> “I noticed the role is listed as fully remote / US remote. Since I’m in Canada, what employment setup do you usually use for Canadian candidates — contractor, EOR, or something else?”\n\n### 6. Prepare thoughtful questions for them\n\nAsk 3–5 of these:\n\n- “What makes someone successful in this role in the first 90 days?”\n- “For this role, how much is partner-driven research versus self-directed agenda development?”\n- “What are the current bottlenecks on the alignment team: experiment design, engineering throughput, infra, writing, or research taste?”\n- “What does AE mean by ‘high agency’ in day-to-day research work?”\n- “What should I expect in the craft interview if I move forward?”\n- “How does AE decide what is safe to publish?”\n- “How do applied AI/client work and alignment research interact for this particular role?”\n- “Given I’m Canada-based, are there constraints around employment setup, benefits, compensation currency, or travel?”\n\n---\n\n## How to come across well\n\nDo:\n\n- Be concrete: “I built X, measured Y, learned Z.”\n- Show urgency without sounding dogmatic.\n- Show epistemic humility: “My current model is ___, but my crux is ___.”\n- Communicate clearly to a nontechnical audience.\n- Emphasize autonomy, ownership, and fast iteration.\n- Bring links to papers, repos, demos, posts, or project writeups.\n\nAvoid:\n\n- Treating this as a casual HR call.\n- Saying generic things like “AI is the future.”\n- Over-indexing on doom without a clear model.\n- Being dismissive of their unusual/neuroscience-inspired agenda.\n- Giving purely theoretical answers with no experiment or measurable output.\n- Sounding like you need a professor-style advisor to tell you every next step.\n\n---\n\n## A strong closing answer\n\nIf they ask, “Anything else we should know?” you could say:\n\n> “The main thing I want to convey is that I’m not only interested in alignment abstractly. I’m excited by the kind of work where you take a fuzzy but important research hypothesis, turn it into a concrete experiment, implement it carefully, and communicate the result clearly. AE’s emphasis on high-agency researchers and neglected approaches is exactly the environment where I think I could contribute.”\n\nThat is probably the tone you want: **serious, high-agency, technically capable, philosophically thoughtful, and easy to work with remotely.**"
+    }
+  ],
+  "phase": "final_answer",
+  "role": "assistant"
+}

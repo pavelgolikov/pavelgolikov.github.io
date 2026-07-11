@@ -30,7 +30,20 @@ These exercises are designed to help you confidently answer the core questions a
 - **Level 1: Conceptual**
   - Explain to a non-technical manager why minimizing cross-entropy loss is the same as maximizing the probability of our training data given the model.
 - **Level 2: Mathematical**
-  - **Exercise**: Start with the likelihood function \(L(\theta) = \prod_{i=1}^n P(y_i | x_i; \theta)\). Take the negative log-likelihood (NLL). Show that for a categorical distribution (classification), the NLL is mathematically equivalent to the Cross-Entropy loss \(\sum -y_i \log(\hat{y}_i)\).
+  - **Exercise**: 
+    1. Let your dataset have $n$ independent samples. For each sample $x_i$, the true label $y_i$ is a one-hot vector of length $K$ (where $y_{i,c} = 1$ for the correct class $c$, and $0$ otherwise).
+    2. Let your model output a vector of predicted probabilities $\hat{y}_i = f_\theta(x_i)$, where $\hat{y}_{i,c}$ is the predicted probability that sample $i$ belongs to class $c$.
+    3. Assume the true labels are generated from a **Categorical Distribution** (the multi-class generalization of a coin flip). Mathematically, the probability of observing the specific one-hot label $y_i$ given the input $x_i$ and weights $\theta$ is defined as:
+       $$ P(y_i | x_i; \theta) = \prod_{c=1}^K (\hat{y}_{i,c})^{y_{i,c}} $$
+       **How does this product collapse?** 
+       Suppose there are $K=3$ classes, and the correct class is $c=2$. Your one-hot label is $y_i = [0, 1, 0]$.
+       Plugging this into the product:
+       $$ P(y_i | x_i; \theta) = (\hat{y}_{i,1})^0 \times (\hat{y}_{i,2})^1 \times (\hat{y}_{i,3})^0 $$
+       Since any non-zero number to the power of 0 is 1, this simplifies to:
+       $$ P(y_i | x_i; \theta) = 1 \times \hat{y}_{i,2} \times 1 = \hat{y}_{i,2} $$
+       So the product formula perfectly isolates the probability the model assigned to the *correct* class.
+    4. **The Task:** Start with the total Likelihood function over the entire dataset: $L(\theta) = \prod_{i=1}^n P(y_i | x_i; \theta)$. Take the Negative Log-Likelihood (NLL). Prove step-by-step that the NLL is mathematically exactly equal to the standard Cross-Entropy loss formula:
+       $$ \text{NLL}(\theta) = - \sum_{i=1}^n \sum_{c=1}^K y_{i,c} \log(\hat{y}_{i,c}) $$
 - **Level 3: Implementation**
   - **Exercise**: Write a Python/NumPy function from scratch that computes the Cross-Entropy loss between a batch of true labels (one-hot encoded) and predicted probabilities. Then compute the gradient of this loss with respect to the predicted probabilities.
 - **Level 4: Systems/Research Judgment**

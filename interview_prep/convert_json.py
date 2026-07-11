@@ -14,6 +14,10 @@ def convert_json_to_md(input_filepath, output_filepath):
         # data["content"][0]["text"]
         text_content = data.get("content", [])[0].get("text", "")
         
+        # Replace LaTeX math delimiters with Markdown math delimiters
+        text_content = text_content.replace(r'\[', '$$').replace(r'\]', '$$')
+        text_content = text_content.replace(r'\(', '$').replace(r'\)', '$')
+        
         if not text_content:
             print("Error: Could not find text content in the JSON structure.", file=sys.stderr)
             sys.exit(1)
@@ -36,7 +40,7 @@ def convert_json_to_md(input_filepath, output_filepath):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extract markdown text from a JSON file.")
-    parser.add_argument("input_file", help="Path to the input JSON file")
+    parser.add_argument("--input_file", help="Path to the input JSON file")
     parser.add_argument("-o", "--output", help="Path to the output Markdown file (optional)", default=None)
     
     args = parser.parse_args()

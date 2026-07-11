@@ -12,18 +12,18 @@ These are the two fundamental frameworks for answering the question: *"How do we
 *   **Concept:** Finds the parameters $\theta$ that make the observed data $D$ most probable. It trusts the training data completely and assumes no prior knowledge about what the weights should look like.
 *   **ML Context (Optimization Objective):** In ML, MLE is the core optimization objective. When you train a classification network using Cross-Entropy Loss, you are literally doing Maximum Likelihood Estimation. You are adjusting the network weights so that the probability the network assigns to the correct labels in the training set is maximized.
 *   **Formula Breakdown:** 
-    $$ \hat{\theta}_{MLE} = \arg\max_{\theta} P(D | \theta) = \arg\max_{\theta} \prod_{i=1}^n P(x_i | \theta) $$
+    $$ \hat{\theta}_{MLE} = \arg\max_{\theta} P(D | \theta) = \arg\max_{\theta} \prod_{i=1}^n P(y_i | x_i; \theta) $$
     *   $\hat{\theta}_{MLE}$: The optimal weights we want to find.
     *   $\arg\max_{\theta}$: "Find the value of $\theta$ that maximizes the following expression."
     *   $P(D | \theta)$: The likelihood of the entire dataset $D$ given the model weights $\theta$.
-    *   $\prod_{i=1}^n P(x_i | \theta)$: We assume each training example $x_i$ is independent, so the total probability is the product of individual probabilities.
+    *   $\prod_{i=1}^n P(y_i | x_i; \theta)$: We assume each training example is independent. In classification, we are maximizing the probability of the correct label $y_i$ given the input $x_i$ and weights $\theta$.
 
     **How does Maximization become Minimization? (The Log-Likelihood Trick)**
     1. **The Underflow Problem:** Multiplying thousands of tiny probabilities (e.g., $0.1 \times 0.05 \times 0.2 \dots$) quickly results in a number so small that computers round it to `0.0` (numerical underflow). 
     2. **The Logarithm Solution:** To fix this, we take the natural logarithm ($\log$) of the probability. Because $\log(A \times B) = \log(A) + \log(B)$, the massive multiplication turns into a massive addition, which computers handle perfectly. Also, because $\log$ is a strictly increasing function, the $\theta$ that maximizes the probability is the *exact same* $\theta$ that maximizes the log-probability.
-       $$ \arg\max_{\theta} \prod P(x_i | \theta) \quad \text{becomes} \quad \arg\max_{\theta} \sum \log P(x_i | \theta) $$
+       $$ \arg\max_{\theta} \prod P(y_i | x_i; \theta) \quad \text{becomes} \quad \arg\max_{\theta} \sum \log P(y_i | x_i; \theta) $$
     3. **Flipping the Sign:** By convention, Deep Learning libraries (like PyTorch and TensorFlow) are built to **minimize** loss functions, not maximize them. Maximizing a positive number is mathematically identical to minimizing its negative. So, we multiply the whole equation by $-1$.
-       $$ \arg\max_{\theta} \sum \log P(x_i | \theta) \quad \text{becomes} \quad \arg\min_{\theta} -\sum_{i=1}^n \log P(x_i | \theta) $$
+       $$ \arg\max_{\theta} \sum \log P(y_i | x_i; \theta) \quad \text{becomes} \quad \arg\min_{\theta} -\sum_{i=1}^n \log P(y_i | x_i; \theta) $$
     *(This final equation, the Negative Log-Likelihood, is the exact mathematical definition of Cross-Entropy Loss!)*
 
 **Maximum A Posteriori (MAP)**
@@ -35,8 +35,8 @@ These are the two fundamental frameworks for answering the question: *"How do we
     *   $P(\theta)$: The "Prior" — how likely these weights were *before* seeing any data.
     
     In log-space (our optimization objective), this becomes:
-    $$ \hat{\theta}_{MAP} = \arg\min_{\theta} \left( -\sum_{i=1}^n \log P(x_i | \theta) - \log P(\theta) \right) $$
-    *   $-\sum \log P(x_i | \theta)$: The standard loss (e.g., Cross-Entropy / MLE).
+    $$ \hat{\theta}_{MAP} = \arg\min_{\theta} \left( -\sum_{i=1}^n \log P(y_i | x_i; \theta) - \log P(\theta) \right) $$
+    *   $-\sum \log P(y_i | x_i; \theta)$: The standard loss (e.g., Cross-Entropy / MLE).
     *   $-\log P(\theta)$: The penalty term. If $P(\theta)$ is a Gaussian distribution, $-\log P(\theta)$ simplifies to $\lambda \sum \theta^2$, which is exactly the L2 weight penalty!
 
 ---
