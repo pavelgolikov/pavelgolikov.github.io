@@ -1,1016 +1,1335 @@
-# Study packet: model-training fundamentals and loss-curve diagnosis
+You’re right. The earlier version mixed levels of abstraction:
 
-This is optimized for a **research pairing interview**, where the strongest answer is rarely just “that’s overfitting.” A better response is:
+- It gave a high-level training loop.
+- Then zoomed into **two pieces of the loss/objective stage**: cross-entropy and causal language modeling.
+- Then jumped to **one piece of the optimizer stage**: learning rate.
+- It skipped equally important stages such as target construction, the forward pass, backpropagation, optimizer mechanics, minibatch sampling, and validation.
 
-> “Assuming the curves use comparable losses and evaluation settings, overfitting is the leading hypothesis. I would verify that with these checks, then run the cheapest discriminating experiment.”
+That was not a coherent presentation.
 
-Use this loop:
+The original three details were chosen because they answer three important questions:
 
-1. **Observe** the evidence.
-2. **Generate** several plausible hypotheses.
-3. **Choose a test** that separates those hypotheses.
-4. **Intervene** only after identifying the likely mechanism.
-5. **Verify** that the intervention changed the expected quantity.
+1. **Causal-LM objective:** What prediction task are we asking the model to perform?
+2. **Cross-entropy:** How do we numerically score its predictions?
+3. **Learning rate:** How large a parameter change do we make from that score?
+
+But those are not the only things you need to understand. They belong inside a larger process.
 
 ---
 
-## 1. The core training mechanism
+# The complete map
 
-A conventional training step is:
+An end-to-end training system has eight connected stages:
 
-$$
-x,y
-\;\xrightarrow{\text{model}}\;
-z=f_\theta(x)
-\;\xrightarrow{\text{loss}}\;
-L
-\;\xrightarrow{\text{backprop}}\;
-\nabla_\theta L
-\;\xrightarrow{\text{optimizer}}\;
-\theta'
-$$
-
-In PyTorch, that normally corresponds to:
-
-```python
-optimizer.zero_grad()
-logits = model(inputs)
-loss = loss_fn(logits, targets)
-loss.backward()
-optimizer.step()
+```text
+1. Define the task and split the data
+             ↓
+2. Construct inputs, targets, and masks
+             ↓
+3. Run the model forward to produce logits
+             ↓
+4. Convert logits and targets into a scalar objective
+             ↓
+5. Backpropagate: compute gradients for every parameter
+             ↓
+6. Use the optimizer to update the parameters
+             ↓
+7. Repeat over minibatches while logging training behavior
+             ↓
+8. Periodically validate on held-out data
 ```
 
-Autograd records the operations connecting parameters to the loss, then applies the chain rule backward through that graph. The optimizer updates only the parameters it was explicitly given. ([docs.pytorch.org](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html?utm_source=openai))
+Here is where the earlier topics fit:
 
-A failure can therefore come from any stage:
+```text
+Causal-LM objective ── stages 1, 2, 3, and 4
+Cross-entropy      ── stage 4
+Learning rate      ── stage 6
+```
 
-1. Data or targets are wrong.
-2. The model forward pass is wrong.
-3. The loss or masking is wrong.
-4. The loss is disconnected from the graph.
-5. Gradients are zero, absent, or nonfinite.
-6. The optimizer does not update the intended parameters.
-7. Evaluation or logging is misleading.
+The missing subjects were:
 
-That list is a useful diagnostic stack.
+```text
+Data and label construction ── stages 1 and 2
+Forward computation         ── stage 3
+Gradient computation        ── stage 5
+Optimizer mechanics         ── stage 6
+Minibatch stochasticity     ── stage 7
+Validation/generalization   ── stage 8
+Numerical precision         ── cuts across stages 3–6
+```
+
+We will now walk through the whole process in order.
 
 ---
 
-## 2. Cross-entropy intuition
+# 1. Define what the model is supposed to learn
 
-For a classification problem, a model produces logits $z_1,\ldots,z_C$. Softmax converts them to probabilities:
+Training starts before any computation occurs. We must first define a learning problem.
+
+In general, we have:
+
+- A model with parameters $\theta$
+- Inputs $x$
+- Desired targets $y$
+- A function that measures how bad the predictions are
+
+The abstract goal is:
 
 $$
-p_j=\frac{e^{z_j}}{\sum_k e^{z_k}}
+\theta^*
+=
+\arg\min_\theta
+\mathbb{E}_{(x,y)\sim \text{real data}}
+\left[
+\ell(f_\theta(x),y)
+\right]
 $$
 
-If the correct class is $y$, cross-entropy is:
+This says:
+
+> Find model parameters that produce low loss on examples from the real-world data distribution.
+
+We do not actually possess the entire real-world distribution. We have a finite dataset, so we approximate the expectation with an average:
+
+$$
+L_{\text{train}}(\theta)
+=
+\frac{1}{N}
+\sum_{i=1}^N
+\ell(f_\theta(x_i),y_i)
+$$
+
+This is the **empirical training loss**.
+
+## For a causal language model
+
+A causal LM is given earlier tokens and asked to predict the next token:
+
+$$
+p_\theta(x_t\mid x_1,\ldots,x_{t-1})
+$$
+
+For the sequence:
+
+```text
+The cat sat down
+```
+
+the conceptual training examples are:
+
+```text
+Context             Target
+--------------------------------
+<BOS>               The
+<BOS> The           cat
+<BOS> The cat       sat
+<BOS> The cat sat   down
+```
+
+The model is not directly trained to “write good text.” It is trained to assign high probability to the correct next token in these examples.
+
+That is what the **causal-language-model objective** defines: the prediction problem itself.
+
+## Train, validation, and test splits
+
+The dataset is normally divided into:
+
+- **Training data:** directly used to update parameters
+- **Validation data:** used to measure generalization and select checkpoints/hyperparameters
+- **Test data:** reserved for final evaluation
+
+The optimizer sees only training examples. Validation tells us whether improvements on training data transfer to unseen examples.
+
+This distinction will later explain:
+
+```text
+training loss ↓, validation loss ↑
+```
+
+The training procedure is succeeding at its direct objective, but the resulting behavior is not generalizing.
+
+---
+
+# 2. Construct inputs, targets, and masks
+
+The raw data must now be converted into tensors.
+
+For an LM, this usually includes:
+
+```text
+input_ids
+attention_mask
+labels
+loss mask
+```
+
+These have different roles.
+
+## Tokenization
+
+Suppose tokenization produces:
+
+```text
+[<BOS>, The, cat, sat, down, <EOS>]
+```
+
+Conceptually:
+
+- `<BOS>` should predict `The`
+- `The` should predict `cat`
+- `cat` should predict `sat`
+- `sat` should predict `down`
+- `down` should predict `<EOS>`
+
+In a custom implementation, we can express this as:
+
+```text
+Model outputs used:  positions 0 through T-2
+Targets used:        positions 1 through T-1
+```
+
+Or:
+
+```python
+prediction_logits = logits[:, :-1, :]
+target_tokens = input_ids[:, 1:]
+```
+
+This is the **one-token shift**.
+
+Some libraries perform that shift internally. The important invariant is:
+
+> The representation at position $t$ should be scored against the token at position $t+1$, exactly once.
+
+Common bugs include:
+
+- No shift
+- Shifting in the wrong direction
+- Shifting twice
+- Inputs and labels having inconsistent truncation
+- Labels belonging to a different example
+
+These bugs can produce flat or misleading loss curves even if the optimizer works perfectly.
+
+---
+
+## Three different masks
+
+For an LM, “the mask” can refer to three separate mechanisms.
+
+### A. Causal attention mask
+
+This operates **inside the model’s forward pass**.
+
+At the position containing `cat`, the model may attend to:
+
+```text
+<BOS> The cat
+```
+
+but not:
+
+```text
+sat down <EOS>
+```
+
+Otherwise it could simply look at the answer it is supposed to predict.
+
+The causal mask therefore defines what information the model is allowed to use.
+
+### B. Padding attention mask
+
+Sequences in a batch usually have different lengths, so shorter ones are padded:
+
+```text
+Sequence A: The cat sat <EOS>
+Sequence B: Hello <EOS> <PAD> <PAD>
+```
+
+The padding attention mask tells the model not to treat `<PAD>` tokens as meaningful context.
+
+This also affects the forward pass.
+
+### C. Loss mask
+
+The loss mask controls which token predictions are actually scored.
+
+Consider supervised fine-tuning:
+
+```text
+User: What is the capital of France?
+Assistant: Paris.
+```
+
+The full sequence may be provided as context. But we might want to train only on:
+
+```text
+Paris.
+```
+
+The model may attend to the user prompt, but prompt positions do not contribute to the loss.
+
+Conceptually:
+
+```text
+Tokens:     [User prompt ........] [Paris] [.]
+Loss mask:  [0 0 0 0 0 0 0 0 0] [  1  ] [1]
+```
+
+This distinction is crucial:
+
+- **Attention mask:** what information can be seen?
+- **Loss mask:** which predictions are graded?
+
+If the loss mask accidentally selects only prompt tokens, the loss can decrease while response quality remains unchanged. If it selects no tokens, the loss may become undefined, zero, or NaN depending on the implementation.
+
+At the end of Stage 2, we therefore have a batch containing valid inputs and a precise specification of the predictions we want to reward.
+
+---
+
+# 3. Run the forward pass
+
+Now we apply the current model to the input batch.
+
+Let:
+
+- $B$ be batch size
+- $T$ be sequence length
+- $V$ be vocabulary size
+
+The model returns logits:
+
+$$
+Z=f_\theta(X)
+$$
+
+with shape:
+
+$$
+[B,T,V]
+$$
+
+For every example and token position, there is one score for every vocabulary token.
+
+For example, the logits at the position containing `The` might conceptually be:
+
+```text
+cat      2.4
+dog      1.8
+sat      0.3
+car     -0.2
+...
+```
+
+These are not probabilities yet. They are unrestricted scores.
+
+## What happens inside the model?
+
+For a Transformer LM, the forward pass approximately does:
+
+```text
+token IDs
+   ↓
+token embeddings + position information
+   ↓
+causal self-attention and MLP layers
+   ↓
+hidden state at every token position
+   ↓
+language-model output head
+   ↓
+vocabulary logits at every position
+```
+
+All the trainable matrices in:
+
+- Embeddings
+- Attention projections
+- MLP layers
+- Normalization layers
+- Output head
+
+are part of $\theta$.
+
+At this stage, no learning has happened. The model has only made predictions using its current parameters.
+
+## Why a causal LM can train all positions simultaneously
+
+Conceptually, next-token prediction looks sequential:
+
+```text
+Predict The
+then predict cat
+then predict sat
+...
+```
+
+But during training, the whole ground-truth sequence is available. The causal attention mask ensures that position $t$ cannot see future positions.
+
+This allows all next-token predictions to be computed in one parallel forward pass.
+
+This is sometimes called **teacher forcing**:
+
+- During training, each position receives the real previous tokens.
+- During generation, the model receives its own previously generated tokens.
+
+This difference is one reason token-level loss can improve without an equivalent improvement in free-running generation.
+
+---
+
+# 4. Convert the predictions into one scalar objective
+
+We now have:
+
+- Logits from the model
+- Correct next-token targets
+- A mask specifying which targets matter
+
+But backpropagation requires a scalar quantity representing how bad the batch was.
+
+This is where **cross-entropy** enters.
+
+## From logits to probabilities
+
+At a particular position, suppose the logits are:
+
+$$
+z_1,\ldots,z_V
+$$
+
+Softmax conceptually turns these into probabilities:
+
+$$
+p_j
+=
+\frac{e^{z_j}}{\sum_k e^{z_k}}
+$$
+
+The probabilities are positive and sum to one.
+
+If the correct next token is $y$, the per-token cross-entropy is:
 
 $$
 \ell=-\log p_y
 $$
 
-Equivalently, in a numerically stable implementation:
+This answers:
 
-$$
-\ell=\operatorname{logsumexp}(z)-z_y
-$$
+> How much probability did the model assign to the correct next token?
 
-Some useful values:
+Examples:
 
-| Probability on correct answer | Loss |
+| Probability on correct token | Loss |
 |---:|---:|
-| $0.9$ | $0.105$ |
-| $0.5$ | $0.693$ |
-| $0.1$ | $2.303$ |
+| $0.90$ | $0.105$ |
+| $0.50$ | $0.693$ |
+| $0.10$ | $2.303$ |
 | $0.01$ | $4.605$ |
 
-**Intuition:** loss is not simply “right or wrong.” It measures how much probability the model assigned to the correct answer. Confident mistakes are heavily penalized.
+A confident wrong prediction is strongly penalized.
 
-An especially useful result is:
+## Why cross-entropy is useful for learning
+
+Accuracy only says whether the largest-probability token was correct. Cross-entropy provides a more detailed signal.
+
+Suppose the correct token is `cat`.
+
+### Before
+
+```text
+P(cat) = 0.10
+P(dog) = 0.60
+```
+
+### After
+
+```text
+P(cat) = 0.30
+P(dog) = 0.40
+```
+
+The model is still wrong because `dog` remains the top prediction. Accuracy has not changed.
+
+But cross-entropy improves:
+
+$$
+-\log 0.10=2.303
+$$
+
+$$
+-\log 0.30=1.204
+$$
+
+This gives the optimizer useful information before the prediction becomes correct.
+
+---
+
+## The output-layer error signal
+
+A particularly useful result is:
 
 $$
 \frac{\partial \ell}{\partial z_j}
 =
-p_j-\mathbf 1[j=y]
+p_j-\mathbf{1}[j=y]
 $$
 
-- For the correct class, this is $p_y-1<0$, so gradient descent raises its logit.
-- For incorrect classes, it is $p_j>0$, so gradient descent lowers their logits.
-- Incorrect classes receiving more probability are pushed down more strongly.
-
-PyTorch’s `CrossEntropyLoss` expects logits and combines the stable log-softmax and negative-log-likelihood operations. You generally should not manually apply softmax and then take a logarithm. ([docs.pytorch.org](https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html?utm_source=openai))
-
----
-
-## 3. The causal-language-model objective
-
-For tokens $x_1,\ldots,x_T$, a causal LM minimizes:
+For the correct token:
 
 $$
-L(\theta)=
--\frac{1}{\sum_t m_t}
-\sum_t m_t
-\log p_\theta(x_t\mid x_{<t})
+\frac{\partial \ell}{\partial z_y}=p_y-1
 $$
 
-Here $m_t\in\{0,1\}$ is a **loss mask** identifying which tokens contribute to the objective.
+This is negative, so gradient descent will try to increase the correct token’s logit.
 
-Three masks must be conceptually separated:
-
-1. **Causal mask:** prevents attending to future tokens.
-2. **Attention/padding mask:** prevents attention to padding.
-3. **Loss mask:** determines which target tokens contribute to loss.
-
-For supervised fine-tuning, you might allow the model to attend to the prompt while computing loss only on the response tokens.
-
-Implementation convention also matters:
-
-- A custom model may require you to use `logits[:, :-1]` against `labels[:, 1:]`.
-- Hugging Face causal-LM classes such as `GPT2LMHeadModel` shift labels internally, so passing `labels=input_ids` is appropriate. Shifting manually as well would create a **double-shift bug**.
-- Labels set to `-100` are conventionally ignored by the loss. ([huggingface.co](https://huggingface.co/docs/transformers/model_doc/gpt2?utm_source=openai))
-
-For a causal LM, perplexity is:
+For every incorrect token:
 
 $$
-\operatorname{PPL}=e^L
+\frac{\partial \ell}{\partial z_j}=p_j
 $$
 
-Thus a loss of $2$ corresponds to perplexity $e^2\approx7.39$. Perplexity comparisons depend on tokenization and evaluation context, so they are not automatically comparable across tokenizers or evaluation procedures. ([huggingface.co](https://huggingface.co/docs/transformers/perplexity?utm_source=openai))
+This is positive, so gradient descent will try to decrease its logit.
 
-### Useful baseline
-
-For uniform predictions over a vocabulary of size $V$:
-
-$$
-L=\log V
-$$
-
-For $V=50{,}000$:
-
-$$
-\log(50{,}000)\approx10.82
-$$
-
-A from-scratch model stuck around this value may still be producing nearly uniform predictions. A pretrained model should normally begin substantially below this baseline.
-
----
-
-## 4. Learning rate intuition
-
-For plain gradient descent:
-
-$$
-g_t=\nabla_\theta L(\theta_t)
-$$
-
-$$
-\theta_{t+1}=\theta_t-\eta g_t
-$$
-
-where $\eta$ is the learning rate.
-
-A local approximation explains why both very small and very large learning rates are bad:
-
-$$
-L(\theta-\eta g)
-\approx
-L(\theta)
--\eta\lVert g\rVert^2
-+
-\frac{\eta^2}{2}g^\top Hg
-$$
-
-- The negative term is the expected downhill improvement.
-- The positive quadratic term captures curvature.
-- If $\eta$ is too small, movement is negligible.
-- If $\eta$ is too large, the curvature term can dominate, causing overshoot, oscillation, spikes, or divergence.
-
-Adam adds momentum and coordinate-wise scaling, but the basic diagnostic principle remains: inspect both the **gradient** and the **actual parameter update**. ([deeplearningbook.org](https://www.deeplearningbook.org/contents/numerical.html?utm_source=openai))
-
-Minibatch gradients are noisy estimates of the full-dataset gradient. Under standard sampling assumptions, the standard error decreases roughly as $1/\sqrt B$, where $B$ is batch size. This is why smaller batches generally produce noisier curves, though noise can also reveal data or optimization problems. ([deeplearningbook.org](https://www.deeplearningbook.org/contents/optimization.html))
-
----
-
-# 5. The highest-value debugging sequence
-
-Before memorizing individual curve shapes, memorize this sequence.
-
-## Step 1: Confirm that the curves are comparable
-
-Ask:
-
-- Are train and validation using the same underlying loss?
-- Is one a sum and the other a mean?
-- Are they averaged per sequence, per batch, or per valid token?
-- Does training loss include a regularization term?
-- Are different label masks used?
-- Is train loss measured throughout the epoch while validation is measured using the final model?
-- Is validation using `model.eval()`?
-- Is one curve heavily smoothed?
-- Are they evaluating the same checkpoint?
-
-For variable-length LM batches, averaging batch means can differ from:
-
-$$
-\frac{\text{total negative log-likelihood}}
-     {\text{total valid tokens}}
-$$
-
-The latter is normally the cleanest corpus-level comparison.
-
-## Step 2: Inspect examples end to end
-
-For several samples, display:
-
-- Raw input
-- Tokenized input
-- Labels
-- Shifted input-label pairs
-- Attention mask
-- Loss mask
-- Number of valid target tokens
-- Decoded prompt and response
-
-This catches an enormous fraction of “optimizer problems.”
-
-## Step 3: Try to overfit one small, trustworthy batch
-
-Use deterministic data and disable augmentation. A sufficiently capable model should usually drive the training loss very low on one small batch.
-
-- **Cannot fit one batch:** suspect an implementation, objective, gradient, optimizer, or numerical problem.
-- **Can fit one batch but not the dataset:** suspect capacity, regularization, data difficulty/noise, or optimization at scale.
-
-## Step 4: Inspect the gradient and the update separately
-
-Ask:
-
-1. Does the loss have a `grad_fn`?
-2. Does each intended parameter have `requires_grad=True`?
-3. Is it in the optimizer?
-4. Is its gradient `None`, zero, finite, or enormous?
-5. Does it actually change after `optimizer.step()`?
-
-## Step 5: Locate the first nonfinite value
-
-Check, in order:
-
-$$
-\text{inputs}
-\rightarrow
-\text{activations/logits}
-\rightarrow
-\text{loss}
-\rightarrow
-\text{gradients}
-\rightarrow
-\text{updated parameters}
-$$
-
-The first nonfinite value is usually much more informative than the eventual NaN loss.
-
-## Step 6: Re-evaluate the training set in evaluation mode
-
-Compute:
-
-- Online training loss
-- Training-set loss in `eval()` mode after the epoch
-- Validation loss in `eval()` mode
-
-This is especially useful when validation loss is unexpectedly lower than training loss.
-
----
-
-# 6. Loss-curve diagnosis
-
-## Case 1: Training loss decreases, validation loss increases
-
-### Leading interpretation
-
-If the losses are comparable, the model is increasingly fitting properties specific to the training set rather than properties that generalize. The widening difference
-
-$$
-L_{\text{val}}-L_{\text{train}}
-$$
-
-is the generalization gap. The classic curve is validation loss initially falling and then rising while training loss continues falling. ([developers.google.com](https://developers.google.com/machine-learning/crash-course/overfitting/overfitting?utm_source=openai))
-
-### What to check first
-
-1. **Split integrity**
-   - Exact or near duplicates
-   - Chunks from the same document in both splits
-   - Same users or entities crossing splits
-   - Random split when a time- or group-based split is required
-
-2. **Leakage**
-   - Preprocessing fitted on all data
-   - Target information appearing in features or prompts
-   - Validation data used during data selection
-   - Repeated tuning on the same validation set
-
-3. **Distribution mismatch**
-   - Different class frequencies
-   - Different lengths, domains, sources, or time periods
-
-Data leakage generally biases validation performance optimistically, rather than directly causing the classic rising-validation curve. Nevertheless, the split must be audited before trusting any generalization conclusion. ([scikit-learn.org](https://scikit-learn.org/stable/common_pitfalls.html?highlight=linearregression))
-
-### Appropriate interventions
-
-- Restore the checkpoint with minimum validation loss.
-- Early stop.
-- Add or improve training data.
-- Deduplicate or improve the split.
-- Increase weight decay or dropout.
-- Reduce model capacity.
-- Reduce the number of training epochs.
-- Use better task-relevant augmentation.
-- Reduce label noise.
-- For fine-tuning, consider a smaller learning rate or fewer trainable parameters.
-
-### Interview-ready answer
-
-> “Assuming the two losses use the same definition, this is most consistent with overfitting. Before changing regularization, I would audit split contamination and train-validation distribution differences. If the split is sound, I would select the checkpoint at minimum validation loss and test stronger regularization, less capacity, or more data.”
-
----
-
-## Case 2: Both losses are high and flat
-
-First distinguish:
-
-- **High and flat:** likely a problem.
-- **Low and flat:** possibly normal convergence or an irreducible limit.
-
-### Main hypothesis categories
-
-#### A. The model is not actually being optimized
-
-- Learning rate is zero or extremely small.
-- Optimizer is missing parameters.
-- Parameters are frozen.
-- Gradient scaler repeatedly skips steps.
-- The loss is disconnected.
-- `optimizer.step()` is missing.
-- A newly replaced output head was added after optimizer construction.
-
-#### B. The objective or labels are broken
-
-- Labels have the wrong shape or type.
-- Labels are shifted incorrectly.
-- Padding or prompt masks remove all useful targets.
-- Input-label pairs are misaligned.
-- Labels are effectively random.
-- Classification labels map to the wrong class IDs.
-
-#### C. Genuine underfitting
-
-- Insufficient model capacity
-- Excessive regularization
-- Features or context are insufficient
-- Task is noisy or ambiguous
-- Model architecture cannot represent the required mapping
-
-### Best discriminating experiment
-
-**Overfit one small batch.**
-
-If it cannot, do not begin by increasing model capacity. First prove that the model, loss, gradients, and optimizer form a functioning training loop.
-
-### Useful clue for LMs
-
-If a from-scratch LM with vocabulary size 50,000 stays almost exactly around $10.82$, inspect whether it is still approximately uniform and whether the output head receives gradients.
-
-### Interview-ready answer
-
-> “Both losses being high and flat could mean underfitting, but it could equally be a broken optimization path. My first test would be to overfit a single clean batch. If that fails, I would inspect label alignment, masks, gradient flow, optimizer membership, learning rate, and actual parameter deltas.”
-
----
-
-## Case 3: Loss is noisy or spikes
-
-Some minibatch noise is expected. Diagnose the **structure** of the noise.
-
-### Shape clues
-
-- **Small random fluctuations:** normal batch stochasticity.
-- **Spikes at the same place every epoch:** data ordering, a particular shard, or scheduler event.
-- **Spike associated with long batches:** reduction or token-count issue.
-- **Spike that immediately recovers:** hard/corrupt batch or transient numerical event.
-- **Spike that permanently damages training:** unstable parameter update.
-- **Increasing spike amplitude:** likely divergence.
-- **Only happens in FP16:** mixed-precision range issue.
-
-### Likely causes
-
-- Learning rate too high
-- Missing or inadequate warmup
-- Small effective batch size
-- Outlier or corrupt examples
-- Poor data shuffling
-- Exploding gradients
-- Gradient accumulation without correct scaling
-- Mixed-precision overflow
-- Sudden learning-rate scheduler change
-- Variable-length loss logged as a sum
-- Distributed reduction or logging bug
-
-Google’s loss-curve exercises specifically recommend checking bad examples, reducing learning rate, and testing on a tiny trustworthy subset when loss oscillates or jumps. ([developers.google.com](https://developers.google.com/machine-learning/crash-course/overfitting/interpreting-loss-curves))
-
-### Discriminating tests
-
-Log these together:
+Thus cross-entropy creates an error signal that says:
 
 ```text
-step
-batch/shard ID
+Raise the correct token's score.
+Lower the incorrect token scores.
+Lower especially those incorrect tokens receiving too much probability.
+```
+
+This error signal will be propagated backward through the model in Stage 5.
+
+---
+
+## Combining token losses
+
+The model makes many predictions in one batch. We first obtain a loss for every valid token:
+
+$$
+\ell_{b,t}
+=
+-\log p_\theta(y_{b,t}\mid x_{b,\le t})
+$$
+
+Then apply the loss mask $m_{b,t}$:
+
+$$
+L_{\text{data}}
+=
+\frac{
+\sum_{b,t}m_{b,t}\ell_{b,t}
+}{
+\sum_{b,t}m_{b,t}
+}
+$$
+
+This is the average negative log-likelihood over valid target tokens.
+
+The denominator matters. We normally want to divide by the number of valid targets, not by:
+
+- The padded sequence length
+- The number of batches
+- A fixed maximum length
+- The number of examples regardless of their token counts
+
+Otherwise train and validation losses may not be comparable.
+
+## Optional regularization
+
+The training objective may also include a regularization term:
+
+$$
+J(\theta)
+=
+L_{\text{data}}(\theta)
++
+\lambda R(\theta)
+$$
+
+For example:
+
+$$
+R(\theta)=\frac{1}{2}\lVert\theta\rVert^2
+$$
+
+The scalar sent into backpropagation is then $J$, not merely the data loss.
+
+However, regularization can enter training in different places:
+
+- An explicit penalty may be added to the scalar objective.
+- Dropout modifies the forward pass.
+- AdamW weight decay modifies the optimizer update.
+
+These differences matter when interpreting training versus validation loss.
+
+At the end of Stage 4, the entire batch has been summarized into one scalar:
+
+```python
 loss
-learning rate
-valid token count
-max sequence length
-gradient norm
-update norm
-AMP scale
 ```
 
-Then:
-
-1. Reload a checkpoint from before the spike.
-2. Replay the suspicious batch.
-3. Replay a normal batch.
-4. Lower the learning rate by 10×.
-5. Run the same step in FP32.
-6. Inspect the raw examples.
-
-If the same batch reliably spikes, suspect the data or its preprocessing. If the spike depends on the preceding optimization trajectory, suspect instability.
-
-### Interview-ready answer
-
-> “I would first determine whether the noise is ordinary minibatch variance or a structured failure. I’d correlate spikes with the batch, sequence length, learning rate, gradient norm, and AMP scale. Replaying the offending batch from a fixed checkpoint is a useful way to separate a data issue from an optimizer-state issue.”
+That scalar tells us how badly the current model performed on this batch.
 
 ---
 
-## Case 4: Validation loss is lower than training loss
+# 5. Backpropagate the loss
 
-This is not automatically an error.
+The loss tells us that the model is wrong, but not yet how each individual parameter contributed to the error.
 
-### Benign explanations
-
-1. **Dropout is active during training but disabled during evaluation.**
-2. **Training augmentation or noise makes training examples harder.**
-3. **The displayed training loss includes explicit regularization.**
-4. **Training loss is averaged throughout the epoch, while validation uses the better model at the end of the epoch.**
-5. **The validation subset is simply easier or cleaner.**
-
-PyTorch dropout randomly removes activations during training and becomes an identity operation in evaluation. Also, `model.eval()` and `torch.no_grad()` solve different problems: `eval()` changes behaviors such as dropout, while `no_grad()` disables graph recording. ([docs.pytorch.org](https://docs.pytorch.org/docs/stable/generated/torch.nn.modules.dropout.Dropout.html?utm_source=openai))
-
-The “training loss averaged throughout the epoch versus validation at epoch end” effect is a documented reason validation loss can be lower. ([keras.io](https://keras.io/getting_started/faq/?utm_source=openai))
-
-### Best test
-
-At the end of an epoch:
-
-1. Set `model.eval()`.
-2. Run the validation code on the training dataset.
-3. Use exactly the same loss, mask, and reduction.
-
-Call this `train_eval_loss`.
-
-Interpretation:
-
-- `online_train_loss > train_eval_loss ≈ val_loss`  
-  Likely dropout, augmentation, or timing.
-
-- `train_eval_loss > val_loss`  
-  Validation may genuinely be easier—or possibly contaminated.
-
-- Large unexplained differences  
-  Inspect loss reductions, masks, preprocessing, and duplicates.
-
-### Interview-ready answer
-
-> “Validation below online training loss can be completely legitimate because training may use dropout, augmentation, or earlier model states. I would calculate training-set loss again in evaluation mode using the exact validation pipeline. If validation remains much easier, I would then inspect the split and loss normalization.”
-
----
-
-## Case 5: Training loss is flat
-
-Think of the chain:
+Backpropagation computes:
 
 $$
-\text{loss}
-\rightarrow
-\text{graph}
-\rightarrow
-\text{gradient}
-\rightarrow
-\text{optimizer}
-\rightarrow
-\text{parameter update}
+g_i
+=
+\frac{\partial L}{\partial \theta_i}
 $$
 
-### Common implementation failures
+for every trainable parameter $\theta_i$.
 
-- `loss.requires_grad == False`
-- `loss.grad_fn is None`
-- `.detach()` was applied inside the computation.
-- A tensor was converted to NumPy and back.
-- A new loss was constructed from `loss.item()`.
-- Forward pass accidentally ran inside `torch.no_grad()`.
-- `requires_grad=False`
-- Parameters are not registered as `nn.Parameter`.
-- Parameters are not in the optimizer.
-- Output head was replaced after creating the optimizer.
-- Learning rate is zero.
-- `optimizer.step()` is absent.
-- All labels are ignored.
-- The wrong loss target is used.
-- An `argmax` or other nondifferentiable operation occurs before the loss.
-- Logging is reading a stale value.
+Collectively:
 
-PyTorch records a `grad_fn` only when the operation participates in the autograd graph, while `.detach()` explicitly removes the autograd relationship. Optimizers update only their registered parameter collections. ([docs.pytorch.org](https://docs.pytorch.org/docs/stable/autograd?utm_source=openai))
+$$
+g=\nabla_\theta L
+$$
 
-### Interpret gradient states carefully
+The gradient answers:
 
-- **`grad is None`:** parameter was not connected to the loss or not used.
-- **Gradient exactly zero:** connected, but current computation produced no signal.
-- **Gradient nonzero, update zero:** optimizer/LR/scaler problem.
-- **Update nonzero, logged loss flat:** logging, scale, insufficient progress, or hard optimization.
+> If I increase this parameter slightly, in which direction and by approximately how much will the loss change?
 
-### Interview-ready answer
+## How the error travels backward
 
-> “For a flat training curve, I’d verify the mechanics before tuning hyperparameters. I’d check that the loss has a graph, intended parameters require gradients and belong to the optimizer, gradients are finite and nonzero, and a parameter actually changes after the optimizer step.”
+At the logits, cross-entropy produces:
 
----
+$$
+p-\operatorname{onehot}(y)
+$$
 
-## Case 6: Loss becomes NaN
+Backpropagation then applies the chain rule:
 
-Do not treat “NaN” as a single diagnosis. Find the first nonfinite value.
+```text
+loss
+  ↓
+logits
+  ↓
+LM output head
+  ↓
+final Transformer layer
+  ↓
+earlier Transformer layers
+  ↓
+embeddings
+```
 
-### Common causes
+For a simplified chain:
 
-- NaN or infinity in the data
-- Learning rate too high
-- Exploding activations or gradients
-- FP16 overflow or underflow
-- `log(0)`
-- Division by zero
-- Exponentiating large values
-- Manual softmax followed by log
-- Zero valid-token denominator
-- All labels ignored in a mean reduction
-- Attention row in which every position is masked
-- Invalid custom normalization
-- Parameters already corrupted by an earlier step
+$$
+\theta
+\rightarrow h
+\rightarrow z
+\rightarrow L
+$$
 
-Mixed precision has a narrower representable range, and gradient scaling exists partly to address representability problems. PyTorch recommends disabling autocast or running suspicious regions in FP32 when diagnosing nonfinite values. ([docs.pytorch.org](https://docs.pytorch.org/docs/stable/amp.html?highlight=module&utm_source=openai))
+the chain rule says:
 
-### Debugging protocol
+$$
+\frac{\partial L}{\partial \theta}
+=
+\frac{\partial L}{\partial z}
+\frac{\partial z}{\partial h}
+\frac{\partial h}{\partial \theta}
+$$
 
-1. Check that inputs and labels are finite.
-2. Check logits before computing loss.
-3. Check that loss is finite.
-4. Backpropagate.
-5. If using AMP, unscale gradients.
-6. Check every gradient for finiteness.
-7. Check the gradient norm.
-8. Step the optimizer.
-9. Check parameters again.
+Cross-entropy supplies the first error signal:
 
-Use anomaly detection during debugging:
+$$
+\frac{\partial L}{\partial z}
+$$
+
+The model architecture determines how that signal propagates to every earlier parameter.
+
+## What `loss.backward()` does
+
+In PyTorch:
 
 ```python
-with torch.autograd.detect_anomaly():
-    loss.backward()
+loss.backward()
 ```
 
-It can identify the forward operation associated with a failing backward operation, although it is too slow for normal training. ([docs.pytorch.org](https://docs.pytorch.org/docs/stable/autograd?utm_source=openai))
-
-For AMP and clipping:
+computes and stores gradients in:
 
 ```python
-scaler.scale(loss).backward()
-scaler.unscale_(optimizer)
-
-grad_norm = torch.nn.utils.clip_grad_norm_(
-    model.parameters(),
-    max_norm=1.0,
-    error_if_nonfinite=True,
-)
-
-scaler.step(optimizer)
-scaler.update()
+parameter.grad
 ```
 
-Gradients should be unscaled before inspection or clipping; the scaler can skip the optimizer step when gradients contain infinities or NaNs. ([docs.pytorch.org](https://docs.pytorch.org/docs/stable/notes/amp_examples.html?utm_source=openai))
+It does **not** update parameters.
 
-A subtle rule: **mask before performing an invalid operation**, not only afterward. For example, computing a division by zero and masking the resulting infinity may still produce NaN gradients because the invalid operation remains in the graph. ([docs.pytorch.org](https://docs.pytorch.org/docs/main/notes/autograd.html?utm_source=openai))
+This distinction is essential:
 
-### Interview-ready answer
+```text
+backward()         computes gradients
+optimizer.step()   changes parameters
+```
 
-> “I would locate the first nonfinite tensor rather than guessing from the final NaN. I’d check inputs, logits, loss, unscaled gradients, and parameters in that order. Then I’d retry the failing batch in FP32 and at a lower learning rate, while checking masks and any manual log, exp, or division operations.”
+## Why graph connectivity matters
 
----
+The framework can calculate a gradient only if it recorded a differentiable path from a parameter to the loss.
 
-## Case 7: Loss decreases but the evaluation metric does not improve
+The path can be broken by:
 
-The loss is usually a differentiable **surrogate objective**. The actual metric may be discrete, thresholded, sequence-level, or weighted differently. Training minimizes the surrogate in the hope that it improves the desired performance measure; that implication is not guaranteed. ([deeplearningbook.org](https://www.deeplearningbook.org/contents/optimization.html))
+- `.detach()`
+- Converting a tensor to NumPy
+- Constructing a new tensor from `loss.item()`
+- Running the forward pass under `no_grad`
+- Using nondifferentiable decisions such as `argmax` before the loss
+- Setting `requires_grad=False`
 
-### Simple classification example
+If a parameter does not contribute to the loss, its gradient is often `None`.
 
-Suppose an example is already classified correctly:
+If it contributes but the derivative is zero, its gradient is a tensor containing zeros.
 
-- Correct-class probability moves from $0.55$ to $0.90$.
-- Accuracy remains 1.
-- Cross-entropy improves substantially.
+Those mean different things:
 
-Or suppose:
+```text
+grad is None
+→ No gradient path was computed.
 
-- Correct class moves from $0.20$ to $0.35$.
-- Incorrect top class moves from $0.21$ to $0.36$.
-- Loss improves.
-- Accuracy remains 0.
+grad is zero
+→ A path exists, but the local derivative produced no signal.
+```
 
-A metric can therefore remain flat while probabilities improve.
+## Why gradients are zeroed
 
-### LLM-specific causes
+By default, PyTorch accumulates gradients:
 
-- Loss is dominated by easy prompt tokens.
-- Prompt tokens should have been masked.
-- Common tokens dominate rare task-critical tokens.
-- Token NLL improves but exact match requires every token to be correct.
-- Teacher-forced token prediction improves, but autoregressive generation does not.
-- Generation uses the wrong prompt template.
-- Stop-token or maximum-length settings are wrong.
-- Sampling makes evaluation noisy.
-- Tokenizer or normalization differs between training and evaluation.
-- Evaluation uses the wrong checkpoint.
-- The metric implementation is flawed.
+```python
+parameter.grad = old_gradient + new_gradient
+```
 
-For illustration, if ten answer tokens were independently correct with probability $0.95$, the probability of the whole sequence being exact would be:
+Therefore each ordinary step begins with:
 
-$$
-0.95^{10}\approx0.60
-$$
+```python
+optimizer.zero_grad()
+```
 
-Thus strong token-level performance can coexist with much lower sequence-level exact match.
+Otherwise gradients from unrelated batches would unintentionally add together.
 
-### Other common causes
+Intentional gradient accumulation is possible, but it changes when and how the optimizer update occurs.
 
-- Class imbalance
-- Wrong classification threshold
-- Label-ID mapping bug
-- Spurious correlations
-- Train/evaluation distribution shift
-- Metric averaging method hides minority-class failure
-
-### Discriminating tests
-
-1. Compute the metric on the training set.
-2. Compare token-level accuracy with free-running generation.
-3. Report metrics per class, domain, length, and source.
-4. Inspect a confusion matrix.
-5. Validate the metric on hand-written examples.
-6. Compare loss on only the tokens/classes the metric cares about.
-7. Inspect model probabilities, not just final predictions.
-8. Verify generation and decoding settings.
-
-### Interview-ready answer
-
-> “A decreasing surrogate loss does not guarantee movement in a discrete metric. I would check whether the objective weights the behavior the metric measures. For an LM, I’d inspect prompt-versus-response loss, token accuracy versus free-running generation, and evaluation decoding settings before changing the optimizer.”
+At the end of Stage 5, we have not yet learned anything. We have only computed a proposed direction for changing every parameter.
 
 ---
 
-# 7. Minimal PyTorch diagnostic toolkit
+# 6. Convert gradients into a parameter update
 
-## Gradient and optimizer audit
+Now the optimizer uses the gradients to modify the parameters.
 
-Run this after `loss.backward()` and before `optimizer.step()`:
+For plain stochastic gradient descent:
+
+$$
+\theta_{k+1}
+=
+\theta_k-\eta g_k
+$$
+
+where:
+
+- $\theta_k$ is the current parameter vector
+- $g_k$ is the gradient from the current batch
+- $\eta$ is the learning rate
+
+This is where the earlier **learning-rate explanation** belongs.
+
+## What the gradient and learning rate do separately
+
+The gradient specifies a direction and relative magnitudes:
+
+```text
+Change parameter A strongly downward.
+Change parameter B slightly upward.
+Do not change parameter C.
+```
+
+The learning rate controls the overall update scale:
+
+```text
+gradient = proposed direction
+learning rate = how far to move
+```
+
+If the learning rate is too small:
+
+- Parameter updates are tiny.
+- Training loss may appear flat.
+- Progress may require an impractical number of steps.
+
+If it is too large:
+
+- Updates overshoot useful regions.
+- Loss oscillates or spikes.
+- Activations or parameters may explode.
+- Training may produce infinities or NaNs.
+
+---
+
+## Adam and AdamW
+
+LLMs are generally not trained with plain SGD. Adam-like optimizers maintain state across updates.
+
+Simplifying slightly, Adam computes:
+
+$$
+m_k
+=
+\beta_1m_{k-1}
++
+(1-\beta_1)g_k
+$$
+
+$$
+v_k
+=
+\beta_2v_{k-1}
++
+(1-\beta_2)g_k^2
+$$
+
+The parameter update is approximately:
+
+$$
+\Delta\theta_k
+=
+-\eta_k
+\frac{\hat m_k}
+{\sqrt{\hat v_k}+\epsilon}
+$$
+
+Intuitively:
+
+- $m$ is a moving average of gradient direction.
+- $v$ tracks recent squared gradient magnitude.
+- Dividing by $\sqrt v$ gives different effective scaling to different parameters.
+- $\eta$ still scales the overall update.
+- $\epsilon$ prevents division by zero.
+
+AdamW also applies weight decay separately from the gradient-based update.
+
+Because Adam has persistent state, an update depends not only on the current batch but also on previous gradients. This is why the same batch can behave differently depending on the optimizer state that precedes it.
+
+## Gradient clipping
+
+Between backward and the optimizer step, we may limit the gradient norm:
+
+```text
+loss.backward()
+      ↓
+inspect/unscale gradients
+      ↓
+clip gradients
+      ↓
+optimizer.step()
+```
+
+Clipping prevents a single extremely large gradient from causing an unbounded update.
+
+It is a guardrail, not necessarily a cure. If clipping activates constantly, the underlying causes still need investigation.
+
+## Learning-rate scheduling
+
+The learning rate may change over time:
+
+```text
+warmup → peak learning rate → gradual decay
+```
+
+Warmup makes the earliest updates smaller while optimizer statistics and model activations stabilize.
+
+A scheduler therefore acts at Stage 6 by changing $\eta_k$ before or after each update, depending on the implementation.
+
+At the end of Stage 6, the model parameters have actually changed:
+
+$$
+\theta_k\rightarrow\theta_{k+1}
+$$
+
+The next forward pass will therefore produce slightly different logits.
+
+---
+
+# 7. Repeat over minibatches
+
+The ideal objective averages over the entire training dataset:
+
+$$
+L_{\text{train}}
+=
+\frac{1}{N}
+\sum_{i=1}^N \ell_i
+$$
+
+Computing that full gradient before every update would be expensive. Instead, we sample a minibatch $B_k$:
+
+$$
+L_{B_k}
+=
+\frac{1}{|B_k|}
+\sum_{i\in B_k}\ell_i
+$$
+
+and use:
+
+$$
+g_k=\nabla_\theta L_{B_k}
+$$
+
+as an estimate of the full-dataset gradient.
+
+This creates the feedback loop:
+
+```text
+Current parameters
+       ↓
+Predictions on one minibatch
+       ↓
+Batch loss
+       ↓
+Batch gradients
+       ↓
+Parameter update
+       ↓
+New parameters
+       ↓
+Predictions on the next minibatch
+```
+
+Training is this loop repeated thousands or millions of times.
+
+## Why training loss is noisy
+
+Different batches contain different:
+
+- Examples
+- Sequence lengths
+- Domains
+- Difficulty levels
+- Numbers of valid target tokens
+- Outliers
+
+Therefore batch losses and gradients fluctuate.
+
+A larger batch generally gives a more stable estimate of the dataset-average direction. A smaller batch produces noisier updates.
+
+Noise itself is not automatically bad. The diagnostic question is whether it is:
+
+- Small and random
+- Associated with particular examples
+- Periodic
+- Growing over time
+- Accompanied by large gradient or update norms
+- Causing permanent damage
+
+## Epochs and steps
+
+A **step** usually means one optimizer update.
+
+An **epoch** means processing roughly the entire training dataset once.
+
+If there are 10,000 batches and one optimizer update per batch:
+
+```text
+1 epoch = 10,000 steps
+```
+
+With gradient accumulation over four batches:
+
+```text
+4 forward/backward passes = 1 optimizer step
+```
+
+This distinction matters when configuring:
+
+- Learning-rate schedules
+- Logging
+- Evaluation frequency
+- Checkpoint frequency
+
+## What the displayed training loss means
+
+The training loss displayed for an epoch is often an average of losses observed while the model was changing:
+
+```text
+Batch 1: evaluated with θ₁
+Batch 2: evaluated with θ₂
+Batch 3: evaluated with θ₃
+...
+```
+
+It is not necessarily the loss of the final model on the training set.
+
+That fact will become important in Stage 8.
+
+---
+
+# 8. Validate the current model
+
+Periodically, training pauses and the current parameter state is evaluated on held-out data.
+
+Conceptually:
+
+```text
+Freeze current parameters
+         ↓
+Run forward passes on validation data
+         ↓
+Compute validation loss and metrics
+         ↓
+Do not call backward()
+         ↓
+Do not update parameters
+```
+
+Validation answers a different question from training.
+
+- **Training loss:** Is the optimization procedure fitting the data it receives?
+- **Validation loss:** Does the learned behavior transfer to unseen examples?
+
+## Evaluation mode
+
+During validation, the model is placed in evaluation mode:
+
+```python
+model.eval()
+```
+
+This changes operations such as dropout from training behavior to inference behavior.
+
+Gradient recording is also disabled:
+
+```python
+with torch.no_grad():
+    ...
+```
+
+These are separate:
+
+- `model.eval()` changes model behavior.
+- `torch.no_grad()` avoids building a backward graph.
+
+## Loss versus evaluation metric
+
+Validation may compute both:
+
+- The same cross-entropy loss used for training
+- A task-specific metric such as accuracy, F1, exact match, pass rate, or reward
+
+The optimizer receives feedback from the training loss, not necessarily from the metric.
+
+The connection is:
+
+```text
+training loss
+    ↓
+backpropagation
+    ↓
+parameter updates
+
+evaluation metric
+    ↓
+reported to researcher
+    ✕
+normally no direct gradient
+```
+
+This explains how loss can decrease while a metric remains flat.
+
+For example, cross-entropy rewards moving the correct-token probability from $0.1$ to $0.4$, even if another token still has probability $0.41$. Exact-match accuracy does not improve until the prediction actually changes.
+
+## Generalization
+
+If training and validation losses both decrease:
+
+```text
+The model is learning patterns that transfer.
+```
+
+If training decreases but validation increases:
+
+```text
+The optimization loop is fitting training data,
+but the resulting behavior is becoming less transferable.
+```
+
+That is the central meaning of overfitting.
+
+If both remain high and flat:
+
+```text
+Either the earlier training stages are broken,
+or the model/objective cannot fit the task.
+```
+
+Validation closes the loop by telling us whether successful optimization also produced useful learning.
+
+---
+
+# The complete loop in code
+
+The following is a custom causal-LM loop written to expose every stage explicitly:
 
 ```python
 import torch
+import torch.nn.functional as F
 
-def audit_gradients(model, optimizer, loss):
-    assert loss.requires_grad, "Loss is detached."
-    assert loss.grad_fn is not None, "No autograd graph reaches the loss."
+model.train()
 
-    optimizer_param_ids = {
-        id(p)
-        for group in optimizer.param_groups
-        for p in group["params"]
-    }
+for batch in train_loader:
+    # ---------------------------------------------------------
+    # Stage 2: Constructed batch
+    # ---------------------------------------------------------
+    input_ids = batch["input_ids"]          # [B, T]
+    attention_mask = batch["attention_mask"] # [B, T]
+    loss_mask = batch["loss_mask"]          # [B, T]
 
-    rows = []
+    # Remove gradients left from the previous update.
+    optimizer.zero_grad(set_to_none=True)
 
-    for name, p in model.named_parameters():
-        if not p.requires_grad:
-            continue
+    # ---------------------------------------------------------
+    # Stage 3: Forward pass
+    # ---------------------------------------------------------
+    outputs = model(
+        input_ids=input_ids,
+        attention_mask=attention_mask,
+    )
 
-        grad = p.grad
+    logits = outputs.logits                 # [B, T, V]
 
-        rows.append({
-            "name": name,
-            "in_optimizer": id(p) in optimizer_param_ids,
-            "grad_is_none": grad is None,
-            "grad_norm": (
-                None if grad is None
-                else float(grad.detach().float().norm())
-            ),
-            "grad_is_finite": (
-                None if grad is None
-                else bool(torch.isfinite(grad).all())
-            ),
-        })
+    # ---------------------------------------------------------
+    # Stage 4: Next-token objective and cross-entropy
+    # ---------------------------------------------------------
+    # Position t predicts token t+1.
+    shift_logits = logits[:, :-1, :].contiguous()
+    shift_targets = input_ids[:, 1:].contiguous()
+    shift_mask = loss_mask[:, 1:].contiguous().float()
 
-    return rows
+    batch_size, prediction_length, vocab_size = shift_logits.shape
+
+    per_token_loss = F.cross_entropy(
+        shift_logits.view(-1, vocab_size),
+        shift_targets.view(-1),
+        reduction="none",
+    ).view(batch_size, prediction_length)
+
+    valid_token_count = shift_mask.sum()
+    assert valid_token_count > 0
+
+    loss = (
+        per_token_loss * shift_mask
+    ).sum() / valid_token_count
+
+    # ---------------------------------------------------------
+    # Stage 5: Backpropagation
+    # ---------------------------------------------------------
+    loss.backward()
+
+    # Optional protection between backward and update.
+    torch.nn.utils.clip_grad_norm_(
+        model.parameters(),
+        max_norm=1.0,
+    )
+
+    # ---------------------------------------------------------
+    # Stage 6: Parameter update
+    # ---------------------------------------------------------
+    optimizer.step()
+    scheduler.step()
+
+    # ---------------------------------------------------------
+    # Stage 7: Logging
+    # ---------------------------------------------------------
+    log({
+        "train_loss": loss.item(),
+        "learning_rate": scheduler.get_last_lr()[0],
+    })
 ```
 
-Interpret it as follows:
-
-| Observation | Likely direction |
-|---|---|
-| Not in optimizer | Optimizer construction problem |
-| Gradient is `None` | Disconnected, unused, or frozen |
-| Gradient is zero | No signal, saturation, mask, or wrong target |
-| Gradient nonfinite | Numerical issue |
-| Healthy gradient but no update | LR, scaler, or optimizer issue |
-
-To inspect an update, clone only a few selected parameters rather than the entire LLM:
+Validation uses the same target and loss construction, but removes Stages 5 and 6:
 
 ```python
-name, probe = next(
-    (n, p)
-    for n, p in model.named_parameters()
-    if p.requires_grad
-)
+model.eval()
 
-before = probe.detach().clone()
+total_nll = 0.0
+total_valid_tokens = 0
 
-optimizer.step()
+with torch.no_grad():
+    for batch in validation_loader:
+        input_ids = batch["input_ids"]
+        attention_mask = batch["attention_mask"]
+        loss_mask = batch["loss_mask"]
 
-delta_norm = (probe.detach() - before).float().norm()
-weight_norm = probe.detach().float().norm()
+        logits = model(
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+        ).logits
 
-print({
-    "parameter": name,
-    "delta_norm": float(delta_norm),
-    "relative_update": float(delta_norm / (weight_norm + 1e-12)),
-})
+        shift_logits = logits[:, :-1, :]
+        shift_targets = input_ids[:, 1:]
+        shift_mask = loss_mask[:, 1:].float()
+
+        B, T, V = shift_logits.shape
+
+        per_token_loss = F.cross_entropy(
+            shift_logits.reshape(-1, V),
+            shift_targets.reshape(-1),
+            reduction="none",
+        ).reshape(B, T)
+
+        total_nll += (
+            per_token_loss * shift_mask
+        ).sum().item()
+
+        total_valid_tokens += shift_mask.sum().item()
+
+validation_loss = total_nll / total_valid_tokens
+
+model.train()
 ```
 
-There is no universal “correct” update ratio, but zero or astronomically large values are immediately informative.
-
----
-
-## Causal-LM label audit
-
-```python
-labels = input_ids.clone()
-
-# Padding does not contribute to loss.
-labels[attention_mask == 0] = -100
-
-# For response-only supervised fine-tuning:
-labels[~response_token_mask] = -100
-
-valid_tokens = (labels != -100).sum()
-assert valid_tokens > 0, "Batch has no supervised tokens."
-
-outputs = model(
-    input_ids=input_ids,
-    attention_mask=attention_mask,
-    labels=labels,  # Common HF causal-LM classes shift internally.
-)
-
-loss = outputs.loss
-assert torch.isfinite(loss)
-```
-
-For a custom implementation that does **not** shift internally:
-
-```python
-shift_logits = logits[:, :-1, :].contiguous()
-shift_labels = labels[:, 1:].contiguous()
-
-loss = torch.nn.functional.cross_entropy(
-    shift_logits.view(-1, shift_logits.size(-1)),
-    shift_labels.view(-1),
-    ignore_index=-100,
-)
-```
-
-Shift exactly once.
-
----
-
-# 8. LLM training checklist
-
-Before trusting an LM curve, check:
-
-- [ ] Input and target are shifted exactly once.
-- [ ] Future tokens are blocked by the causal mask.
-- [ ] Padding is excluded from loss.
-- [ ] Every batch has at least one valid target token.
-- [ ] Prompt tokens are included or excluded intentionally.
-- [ ] Loss is normalized by valid target-token count.
-- [ ] EOS and document boundaries are handled intentionally.
-- [ ] Packed examples cannot attend across invalid boundaries.
-- [ ] Train and validation use the same tokenizer and chat template.
-- [ ] Validation uses the intended context window.
-- [ ] Perplexity uses the same tokenization and aggregation procedure.
-- [ ] Generation evaluation uses the correct prompt, stop tokens, and maximum length.
-- [ ] Train/validation splitting is done by document, user, or group when appropriate.
-
-Hugging Face’s causal-LM and perplexity documentation is particularly useful for understanding label shifting, ignored labels, token-level NLL, and context-window effects. ([huggingface.co](https://huggingface.co/docs/transformers/main_classes/data_collator?utm_source=openai))
-
----
-
-# 9. Interview flashcards
-
-### What is the first test when a model does not learn?
-
-Try to overfit a single clean batch.
-
-### What is the difference between a `None` gradient and a zero gradient?
-
-- `None`: no gradient was computed for that parameter.
-- Zero: the parameter participated, but the derivative happened to be zero.
-
-### Why are `model.eval()` and `torch.no_grad()` not interchangeable?
-
-- `eval()` changes module behavior such as dropout.
-- `no_grad()` disables graph recording.
-
-### What if gradients are nonzero but parameters do not change?
-
-Check optimizer membership, learning rate, AMP step skipping, and whether the inspected parameters belong to that optimizer.
-
-### What if a spike occurs at the same step every epoch?
-
-Inspect the corresponding batch, data shard, ordering, and scheduler event.
-
-### What if a spike occurs only after many normal updates?
-
-Suspect optimizer-state instability, accumulated large weights, scheduler behavior, or progressive numerical corruption.
-
-### Why can validation loss be lower than training loss?
-
-Dropout, augmentation, explicit regularization, end-of-epoch timing, or an easier validation set.
-
-### Why can loss improve while accuracy is flat?
-
-Loss is probability-sensitive; accuracy only changes when the argmax changes.
-
-### Why can LM loss improve while exact match is flat?
-
-Token-level NLL may improve on easy or prompt tokens while critical answer tokens or autoregressive generation remain wrong.
-
-### What is the most useful response to NaN?
-
-Find the first nonfinite input, activation, loss, gradient, or parameter.
-
----
-
-# 10. Recommended practical exercises
-
-## Exercise A: Break the graph
-
-Train a small model normally, then introduce:
-
-```python
-hidden = hidden.detach()
-```
-
-Observe:
-
-- Which layers receive `grad=None`?
-- Can the output head still learn?
-- What does the loss curve look like?
-
-## Exercise B: Omit parameters from the optimizer
-
-Construct the optimizer using only the backbone, not the output head. Then reverse it.
-
-Inspect gradient norms and parameter deltas.
-
-## Exercise C: Learning-rate sweep
-
-Run the same small problem with:
+The important difference is:
 
 ```text
-1e-6
-1e-4
-1e-2
-1
+Training:
+forward → loss → backward → update
+
+Validation:
+forward → loss/metrics
 ```
 
-Record loss, gradient norm, and update norm.
+---
 
-## Exercise D: Validation below training
+# Where additional training mechanisms plug in
 
-Train with dropout. Compare:
+Real training adds several mechanisms to this base loop. They are not independent topics; each occupies a precise location.
 
-1. Online train loss
-2. Train loss recomputed in `eval()` mode
-3. Validation loss
+| Mechanism | Location in process | What it changes |
+|---|---|---|
+| Data augmentation | Stage 2 | Makes training examples different or harder |
+| Causal mask | Stage 3 | Prevents access to future tokens |
+| Dropout | Stage 3 | Randomly changes the training-time forward pass |
+| Cross-entropy | Stage 4 | Turns logits and labels into error |
+| Loss masking | Stage 4 | Selects which token errors matter |
+| Explicit regularization | Stage 4 | Adds a penalty to the scalar objective |
+| Backpropagation | Stage 5 | Converts scalar error into parameter gradients |
+| Gradient accumulation | Stages 5–6 | Combines gradients across multiple batches |
+| Mixed precision | Stages 3–6 | Changes numerical representation and scaling |
+| Gradient clipping | Between 5 and 6 | Limits gradient magnitude before updating |
+| Adam/AdamW | Stage 6 | Transforms gradients into updates |
+| Learning rate | Stage 6 | Controls overall update scale |
+| Weight decay | Stage 6 | Shrinks parameters during optimization |
+| Warmup/scheduler | Stage 6 | Changes learning rate over time |
+| Batch sampling | Stage 7 | Determines the stochastic gradient estimate |
+| Validation loss | Stage 8 | Measures held-out objective performance |
+| Evaluation metric | Stage 8 | Measures task behavior, possibly differently from loss |
+| Early stopping | After Stage 8 | Selects when to stop updating |
+| Checkpointing | Between iterations | Saves particular parameter/optimizer states |
 
-## Exercise E: Masking error
-
-For a tiny causal LM:
-
-1. Train with the correct shift.
-2. Double shift the labels.
-3. Include padding in the loss.
-4. Mask every label.
-5. Let prompt tokens dominate response tokens.
-
-Explain every resulting curve.
-
-## Exercise F: Loss/metric mismatch
-
-Construct an imbalanced classifier where accuracy remains high by predicting the majority class. Track:
-
-- Cross-entropy
-- Accuracy
-- Minority recall
-- Confusion matrix
+This is the map you should use whenever a mechanism is introduced: ask **where in the loop it acts** and **what quantity it changes**.
 
 ---
 
-# 11. A focused four-hour study plan
+# Mapping loss-curve problems back to the process
 
-## Hour 1: Rebuild the mechanism
+The curve patterns now correspond to failures in particular stages.
 
-- Write the PyTorch training loop from memory.
-- Derive or explain $p-\text{one-hot}(y)$.
-- Explain learning rate using the curvature approximation.
-- Explain `grad=None` versus zero.
+| Observation | First stages to inspect |
+|---|---|
+| Training loss is flat | 2: labels/masks; 4: loss; 5: graph/gradients; 6: optimizer |
+| Both train and validation are high | 1–6, or insufficient model capacity |
+| Training is noisy or spikes | 2: batch data; 5: gradients; 6: LR/update; numerical precision |
+| Loss becomes NaN | Find first nonfinite value across stages 2–6 |
+| Validation is lower than training | 3: dropout/mode; 4: loss definition; 7–8: timing and aggregation |
+| Train decreases, validation increases | Training loop works; inspect generalization, data split, and regularization |
+| Loss decreases, metric stays flat | Stage 4 objective does not fully align with Stage 8 metric |
 
-## Hour 2: Debugging mechanics
-
-- Implement the one-batch overfit test.
-- Add the gradient/optimizer audit.
-- Introduce `.detach()`, a zero LR, and missing optimizer parameters.
-- Verify that you can identify each from evidence.
-
-## Hour 3: LLM-specific mechanics
-
-- Review causal shifting.
-- Review attention mask versus loss mask.
-- Calculate valid-token-normalized loss.
-- Explain perplexity.
-- Practice identifying prompt-loss domination.
-
-## Hour 4: Verbal curve diagnosis
-
-For every curve, practice saying:
-
-1. Leading hypothesis
-2. Alternative hypotheses
-3. First discriminating test
-4. Likely intervention
-5. Evidence that would confirm success
+This is why loss curves cannot be diagnosed purely from their shape. The shape is evidence about where in this process the failure might be.
 
 ---
 
-# 12. Authoritative online reading
+# What you should know in detail
 
-Read these in approximately this order:
+No, cross-entropy, the causal objective, and learning rate are not the only three detailed topics.
 
-1. **PyTorch: Optimizing Model Parameters** — the standard forward/loss/backward/step loop. ([docs.pytorch.org](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html?utm_source=openai))
-2. **PyTorch: Autograd Mechanics** — `requires_grad`, graph construction, evaluation mode, and gradient disabling. ([docs.pytorch.org](https://docs.pytorch.org/docs/main/notes/autograd.html?utm_source=openai))
-3. **Google ML Crash Course: Interpreting Loss Curves** — visual exercises on oscillation, spikes, overfitting, and bad data. ([developers.google.com](https://developers.google.com/machine-learning/crash-course/overfitting/interpreting-loss-curves))
-4. **Deep Learning, Chapter 4** — numerical computation and gradient-descent intuition. ([deeplearningbook.org](https://www.deeplearningbook.org/contents/numerical.html?utm_source=openai))
-5. **Deep Learning, Chapters 7–8** — regularization and optimization. ([deeplearningbook.org](https://www.deeplearningbook.org/contents/regularization.html?utm_source=openai))
-6. **PyTorch AMP documentation and examples** — overflow, gradient scaling, unscaling, and clipping. ([docs.pytorch.org](https://docs.pytorch.org/docs/stable/amp.html?highlight=module&utm_source=openai))
-7. **Hugging Face: Causal Language Modeling** — next-token training workflow. ([huggingface.co](https://huggingface.co/docs/transformers/v4.36.1/tasks/language_modeling?utm_source=openai))
-8. **Hugging Face: GPT-2 model documentation** — internal label shifting and ignored labels. ([huggingface.co](https://huggingface.co/docs/transformers/model_doc/gpt2?utm_source=openai))
-9. **Hugging Face: Perplexity of Fixed-Length Models** — the relationship between NLL, perplexity, tokenization, and context windows. ([huggingface.co](https://huggingface.co/docs/transformers/perplexity?utm_source=openai))
-10. **Scikit-learn: Common Pitfalls** — especially preprocessing and data leakage. ([scikit-learn.org](https://scikit-learn.org/stable/common_pitfalls.html?highlight=linearregression))
+For loss-curve diagnosis, the coherent core is:
 
----
+## Highest priority
 
-# 13. Using AI agents effectively during the pairing
+1. **Data, labels, and masks**
+   - Next-token shifting
+   - Padding
+   - Prompt versus response loss
+   - Split integrity
 
-Use agents to gather evidence in parallel, but retain ownership of the hypothesis tree.
+2. **Forward-pass outputs**
+   - Logits
+   - Train versus evaluation mode
+   - Causal attention
 
-### Agent A: Training-loop audit
+3. **Loss construction**
+   - Cross-entropy
+   - Reduction and normalization
+   - Regularization
+   - Loss versus metric
 
-> Inspect this training loop for disconnected losses, missing optimizer parameters, incorrect zeroing/stepping, frozen parameters, and scheduler mistakes. Return line-level evidence and the smallest test for each hypothesis.
+4. **Backpropagation**
+   - Chain rule intuition
+   - Graph connectivity
+   - `grad=None` versus zero gradients
+   - Gradient accumulation
 
-### Agent B: Data and label audit
+5. **Optimizer update**
+   - SGD intuition
+   - Adam/AdamW intuition
+   - Learning rate
+   - Gradient clipping
+   - Schedulers and warmup
 
-> Trace one example from raw data through tokenization to input IDs, labels, attention masks, and loss masks. Verify causal shifting, padding exclusion, response masking, and valid-token counts.
+6. **Minibatch training**
+   - Why loss is noisy
+   - Batch size
+   - Steps versus epochs
+   - Batch composition
 
-### Agent C: Evaluation audit
+7. **Validation and generalization**
+   - Train versus validation loss
+   - Evaluation mode
+   - Overfitting and underfitting
+   - Metric mismatch
 
-> Compare train and validation code for differences in model mode, loss definition, reduction, checkpoint, tokenizer, preprocessing, and generation settings.
+8. **Numerical stability**
+   - NaN and infinity
+   - Mixed precision
+   - Exploding gradients
+   - Stable loss implementations
 
-### Agent D: Numerical audit
+## A separate, adjacent subject
 
-> Identify operations that can create NaN or infinity. Propose checks that locate the first nonfinite tensor and a minimal FP32 reproduction.
+The internal Transformer architecture lives mostly inside Stage 3:
 
-The researcher-friendly behavior is to summarize their output as:
+- Attention
+- MLP blocks
+- Residual connections
+- Layer normalization
+- Embeddings
+- Output head
 
-> “The agents found four possibilities. Two are inconsistent with the observed nonzero gradients. The fastest remaining test is to compare parameter deltas before and after the optimizer step.”
+You need some understanding of those components to diagnose layer-specific gradient or numerical problems, but they are a distinct layer of detail. You do not need to derive every Transformer operation before understanding the training loop itself.
 
-That demonstrates scientific reasoning rather than simply outsourcing the answer.
+The central mental model to retain is:
+
+> The data construction defines the question.  
+> The forward pass produces an answer.  
+> The loss scores the answer.  
+> Backpropagation assigns responsibility for the error.  
+> The optimizer changes the responsible parameters.  
+> Repetition fits the training data.  
+> Validation determines whether that learning generalizes.
