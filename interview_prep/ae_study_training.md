@@ -1215,7 +1215,7 @@ Real training adds several mechanisms to this base loop. They are not independen
 |---|---|---|
 | Data augmentation | Stage 2 | Makes training examples different or harder |
 | Causal mask | Stage 3 | Prevents access to future tokens |
-| Dropout | Stage 3 | Randomly changes the training-time forward pass |
+| Dropout | Stage 3 | Randomly zeroes out a portion of activations during the forward pass |
 | Cross-entropy | Stage 4 | Turns logits and labels into error |
 | Loss masking | Stage 4 | Selects which token errors matter |
 | Explicit regularization | Stage 4 | Adds a penalty to the scalar objective |
