@@ -403,10 +403,10 @@ Softmax conceptually turns these into probabilities:
 $$
 p_j
 =
-\frac{e^{z_j}}{\sum_k e^{z_k}}
+\frac{e^{z_j}}{\sum_{k=1}^V e^{z_k}}
 $$
 
-The probabilities are positive and sum to one.
+*(Note: The denominator sums the exponentiated logits over all $V$ tokens in the vocabulary, using $k$ as the iterator. This ensures the probabilities are positive and sum to exactly one.)*
 
 If the correct next token is $y$, the per-token cross-entropy is:
 
@@ -505,7 +505,28 @@ This error signal will be propagated backward through the model in Stage 5.
 
 ## Combining token losses
 
-The model makes many predictions in one batch. We first obtain a loss for every valid token:
+
+For a **single sequence** (one training sample), we first obtain a cross-entropy loss for every valid token at position $t$:
+
+$$
+\ell_t
+=
+-\log p_\theta(y_t \mid x_{\le t})
+$$
+
+Then we apply a mask $m_t$ to ignore padding or prompt tokens, and calculate the overall sequence loss $L_{\text{seq}}$ by averaging the valid token losses:
+
+$$
+L_{\text{seq}}
+=
+\frac{
+\sum_{t} m_t \ell_t
+}{
+\sum_{t} m_t
+}
+$$
+
+In practice, the model processes many sequences simultaneously in a batch. To find the overall batch loss, we first obtain a loss for every token across all sequences:
 
 $$
 \ell_{b,t}
@@ -516,7 +537,7 @@ $$
 Then apply the loss mask $m_{b,t}$:
 
 $$
-L_{\text{data}}
+L_{\text{batch}}
 =
 \frac{
 \sum_{b,t}m_{b,t}\ell_{b,t}
@@ -541,9 +562,9 @@ Otherwise train and validation losses may not be comparable.
 The training objective may also include a regularization term:
 
 $$
-J(\theta)
+L(\theta)
 =
-L_{\text{data}}(\theta)
+L_{\text{batch}}(\theta)
 +
 \lambda R(\theta)
 $$
@@ -813,13 +834,25 @@ Intuitively:
 - $\eta$ still scales the overall update.
 - $\epsilon$ prevents division by zero.
 
-AdamW also applies weight decay separately from the gradient-based update.
+AdamW also applies weight decay ($\lambda$) separately from the gradient-based update. The full AdamW update looks like this:
+
+$$
+\theta_{k+1}
+=
+\theta_k
+-
+\eta_k \lambda \theta_k
+-
+\eta_k \frac{\hat m_k}{\sqrt{\hat v_k}+\epsilon}
+$$
 
 Because Adam has persistent state, an update depends not only on the current batch but also on previous gradients. This is why the same batch can behave differently depending on the optimizer state that precedes it.
 
 ## Gradient clipping
 
-Between backward and the optimizer step, we may limit the gradient norm:
+Between backward and the optimizer step, we may limit the global gradient norm to a maximum threshold $c$:
+
+$$ g \leftarrow g \cdot \min\left(1, \frac{c}{\|g\|}\right) $$
 
 ```text
 loss.backward()
