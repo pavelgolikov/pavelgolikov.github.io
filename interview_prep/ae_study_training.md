@@ -1117,73 +1117,51 @@ import torch.nn.functional as F
 model.train()
 
 for batch in train_loader:
-    # ---------------------------------------------------------
-    # Stage 2: Constructed batch
-    # ---------------------------------------------------------
+    # Constructed batch
     input_ids = batch["input_ids"]          # [B, T]
     attention_mask = batch["attention_mask"] # [B, T]
     loss_mask = batch["loss_mask"]          # [B, T]
 
-    # Remove gradients left from the previous update.
+    # Remove gradients left from the previous update
     optimizer.zero_grad(set_to_none=True)
 
-    # ---------------------------------------------------------
-    # Stage 3: Forward pass
-    # ---------------------------------------------------------
-    outputs = model(
-        input_ids=input_ids,
-        attention_mask=attention_mask,
-    )
-
+    # Forward pass
+    outputs = model(input_ids=input_ids, attention_mask=attention_mask)
     logits = outputs.logits                 # [B, T, V]
 
-    # ---------------------------------------------------------
-    # Stage 4: Next-token objective and cross-entropy
-    # ---------------------------------------------------------
-    # Position t predicts token t+1.
+    # Shift to align logits with correct targets
     shift_logits = logits[:, :-1, :].contiguous()
     shift_targets = input_ids[:, 1:].contiguous()
     shift_mask = loss_mask[:, 1:].contiguous().float()
 
     batch_size, prediction_length, vocab_size = shift_logits.shape
 
+    # Calculate per-token cross-entropy loss
     per_token_loss = F.cross_entropy(
         shift_logits.view(-1, vocab_size),
         shift_targets.view(-1),
         reduction="none",
     ).view(batch_size, prediction_length)
 
+    # calculate number of valid tokens
     valid_token_count = shift_mask.sum()
     assert valid_token_count > 0
 
-    loss = (
-        per_token_loss * shift_mask
-    ).sum() / valid_token_count
+    # Average per-token loss over valid tokens in the batch
+    loss = (per_token_loss * shift_mask).sum() / valid_token_count
 
-    # ---------------------------------------------------------
-    # Stage 5: Backpropagation
-    # ---------------------------------------------------------
+    # Backpropagation
     loss.backward()
 
     # Optional protection between backward and update.
-    torch.nn.utils.clip_grad_norm_(
-        model.parameters(),
-        max_norm=1.0,
-    )
+    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
-    # ---------------------------------------------------------
-    # Stage 6: Parameter update
-    # ---------------------------------------------------------
+    # Parameter update
     optimizer.step()
     scheduler.step()
 
-    # ---------------------------------------------------------
-    # Stage 7: Logging
-    # ---------------------------------------------------------
-    log({
-        "train_loss": loss.item(),
-        "learning_rate": scheduler.get_last_lr()[0],
-    })
+    # Logging
+    log({"train_loss": loss.item(), "learning_rate": scheduler.get_last_lr()[0] })
 ```
 
 Validation uses the same target and loss construction, but removes Stages 5 and 6:
