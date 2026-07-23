@@ -1,0 +1,149 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages
+% \usepackage[left=0.75in, right=0.75in, top=0.75in, bottom=0.75in]{geometry}
+\usepackage[left=0.5in, right=0.5in, top=0.42in, bottom=0.42in]{geometry}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{lmodern}
+\usepackage{xparse}
+
+% Colors and Links
+\definecolor{darkblue}{RGB}{0, 0, 139}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=darkblue,
+    filecolor=darkblue,      
+    urlcolor=darkblue,
+}
+
+% Section Formatting
+\titleformat{\section}{\large\bfseries\uppercase}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{1.0ex plus .5ex minus .2ex}{0.6ex plus .2ex}
+
+% Custom Commands
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+\NewDocumentCommand{\resumeSubheading}{m m g g}{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \IfNoValueF{#3}{\textit{\small#3} & \textit{\small #4} \\}
+    \end{tabular*}\vspace{-7pt}
+}
+
+\begin{document}
+
+%-----------------------------------------------------------
+% HEADER
+%-----------------------------------------------------------
+\begin{center}
+    {\Huge \textbf{Pavel Golikov}} \\ \vspace{1pt}
+    Toronto, ON $\vert$ 
+    \href{mailto:paulgolikov@gmail.com}{paulgolikov@gmail.com} $\vert$ 
+    \href{https://pavelgolikov.github.io/}{pavelgolikov.github.io} $\vert$ 
+    \href{https://www.linkedin.com/in/pavel-golikov-b266211b6/}{linkedin.com/in/pavel-golikov}
+\end{center}
+
+%-----------------------------------------------------------
+% PROFESSIONAL SUMMARY
+%-----------------------------------------------------------
+\section{Professional Profile}
+\vspace{0pt}
+    \small{AI Researcher specializing in machine reasoning and alignment. Blends formal logic with rigorous low-level systems engineering to architect custom agentic frameworks and highly creative adversarial evaluations. Former Military Intelligence Operator with a Top Secret clearance, bringing a rigorous, threat-modeling mindset to AI security and model capability evaluations.}
+
+%-----------------------------------------------------------
+% SKILLS
+%-----------------------------------------------------------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages:}{ Python, C++, Java, SQL, LaTeX} \\
+     \textbf{ML \& AI:}{ PyTorch, vLLM, HuggingFace, Transformers, Google/Anthropic/OpenAI APIs, Agent Harness} \\
+     \textbf{Systems \& Infrastructure:}{ Linux/Ubuntu Server, AWS, Apache Flink, Distributed GPU Clusters} \\
+     \textbf{Core Competencies:}{ Large Language Models (LLMs), Machine Reasoning, AI Alignment, Context Management, Mechanistic Interpretability, Adversarial Evaluations, Threat Modeling, Distributed Systems }
+    }}
+\end{itemize}
+
+%-----------------------------------------------------------
+% RESEARCH & PUBLICATIONS
+%-----------------------------------------------------------
+\section{First-Author AI Research}
+\begin{itemize}[leftmargin=0.15pt]
+
+\resumeSubheading
+    {ArbiGraph $\vert$ \normalfont{\textit{\href{https://github.com/pavelgolikov/ArbiGraph}{GitHub}}}}{2026 -- Present}
+    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
+        \resumeItem{Built \textbf{ArbiGraph}, a Python evaluation framework for testing whether LLM agents can follow long, multi-step workflows without losing, mixing up, or reusing stale intermediate state.}
+        \resumeItem{Converted math, word-problem, and Python-tracing tasks into automatically generated workflows with executable ground truth, enabling exact grading without manual labels.}
+        \resumeItem{Added controls for workflow length, branching, irrelevant distractors, and value types, letting researchers reproduce agent failure modes and scale difficulty without hand-crafting prompts.}
+        \resumeItem{Implemented the agent evaluation harness around a calculator tool, including answer extraction, tool-call validation, continuation handling, and repair prompts for incomplete or malformed runs.}
+%        \resumeItem{Found that Qwen3.5-27B stays strong on isolated tasks but degrades when tasks depend on earlier outputs, exposing a practical reliability risk for long-running LLM agent workflows.}
+    \end{itemize}
+
+  \resumeSubheading
+    {Robust Reasoning Benchmark (RRB) $\vert$ \normalfont{\textit{\href{https://arxiv.org/abs/2604.08571}{arXiv} $\vert$ \href{https://doi.org/10.48550/arXiv.2604.08571}{DOI} $\vert$ \href{https://github.com/pavelgolikov/Robust-Reasoning-Benchmark.git}{GitHub}}}}{2026}
+    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
+        \resumeItem{Designed a highly creative adversarial evaluation framework leveraging 13 deterministic textual perturbations to decouple an LLM's mechanical deciphering from its underlying mathematical logic.}
+        \resumeItem{Demonstrated that the attention drift occurs \textit{within a single query's Chain-of-Thought}, empirically showing that intermediate reasoning steps pollute the dense attention mechanism, identifying the optimal \textbf{granularity of reasoning} as a critical open research problem.}
+        \resumeItem{Engineered custom mechanistic interpretability pipelines in \textbf{PyTorch} to extract and analyze causal attention probability matrices across token index boundaries, testing models ranging from 7B to 30B parameters.}
+    \end{itemize}
+
+  \resumeSubheading
+    {Fusing Adds and Shifts for Efficient Dot Products $\vert$ \normalfont{\textit{\href{https://ieeexplore.ieee.org/abstract/document/11269714}{IEEE CAL}}} $\vert$ \href{https://github.com/mcj-group/fased-verilog.git}{GitHub}}{2026}
+    {Hardware ML Research}{Toronto, ON}
+    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
+        \resumeItem{Proposed and validated a novel algorithmic optimization for dot-product computations, demonstrating a strong foundational understanding of hardware-level ML primitives and efficiency.}
+    \end{itemize}
+
+\end{itemize}
+
+%-----------------------------------------------------------
+% ENGINEERING & PROFESSIONAL EXPERIENCE
+%-----------------------------------------------------------
+\section{Engineering \& Professional Experience}
+\begin{itemize}[leftmargin=0.15in]
+
+  \resumeSubheading
+    {Systems \& Infrastructure Engineering (MSc Thesis)}{2020 -- 2022}
+    {University of Toronto}{Toronto, ON}
+    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
+        \resumeItem{Engineered a flexible IoT distributed data-streaming framework from scratch, designed to automatically partition computational streaming queries between edge devices and cloud instances.}
+        \resumeItem{Built the full software stack: programmed Arduino/C++ sensors for real-time biological data collection (EMG/ECG), developed custom socket networking protocols, and deployed cloud infrastructure using \textbf{AWS} and \textbf{Apache Flink}.}
+    \end{itemize}
+
+  \resumeSubheading
+    {Intelligence Operator}{2013 -- 2018}
+    {Canadian Armed Forces}{Canada}
+    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
+        \resumeItem{Held a \textbf{Top Secret} security clearance, conducting rigorous analysis of classified information streams to produce actionable intelligence reports for command elements.}
+        \resumeItem{Developed a strong adversarial threat-modeling mindset, emphasizing operational security, rigorous data validation, and the identification of logical vulnerabilities in complex, multi-agent scenarios.}
+    \end{itemize}
+
+    \resumeSubheading
+    {Mathematics Teacher}{2012 -- 2013 \& 2018 -- 2019}
+    {Blyth Academy}{Toronto}
+    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
+        \resumeItem{Taught foundational mathematics to students in Grades 10, 11, and 12, developing the ability to distill and communicate complex quantitative concepts.}
+    \end{itemize}
+
+\end{itemize}
+
+%-----------------------------------------------------------
+% EDUCATION
+%-----------------------------------------------------------
+\section{Education}
+\begin{itemize}[leftmargin=0.15in]
+  \resumeSubheading
+    {University of Toronto}{Toronto, ON}
+    {PhD in Computer Science (Paused to transition to industry)}{2022 -- Present}
+  \resumeSubheading
+    {University of Toronto}{Toronto, ON}
+    {Master of Science (MSc) in Computer Science}{2020 -- 2022}
+  \resumeSubheading
+    {University of Toronto}{Toronto, ON}
+    {Bachelor of Science (BSc) in Mathematics and Philosophy (Formal Logic)}{Graduated 2011}
+\end{itemize}
+
+\end{document}

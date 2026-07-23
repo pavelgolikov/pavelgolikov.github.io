@@ -18,28 +18,27 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
 
 ## Technical Skills
 * **Languages:** Python, C++, Java, SQL, LaTeX
-* **ML & AI Frameworks:** PyTorch, vLLM, HuggingFace, Transformers
+* **ML & AI:** PyTorch, vLLM, HuggingFace, Transformers, Google/Anthropic/OpenAI APIs, Agent Harness
 * **Systems & Infrastructure:** Linux/Ubuntu Server, AWS, Apache Flink, Distributed GPU Clusters
 * **Core Competencies:** Large Language Models (LLMs), Machine Reasoning, AI Alignment, Context Management, Mechanistic Interpretability, Adversarial Evaluations, Threat Modeling, Distributed Systems
 
 ## First-Author AI Research
-* **Robust Reasoning Benchmark (RRB)** (2026)
-  *Under Review at a top-tier conference* | University of Toronto & Vector Institute
-  * Designed a highly creative adversarial evaluation framework leveraging 13 deterministic textual perturbations to decouple an LLM's mechanical deciphering from its underlying mathematical logic.
-  * Demonstrated that the well-known phenomenon of attention drift occurs even *within a single query's Chain-of-Thought*, empirically showing that intermediate reasoning steps pollute the dense attention mechanism. 
-  * Engineered custom mechanistic interpretability pipelines in PyTorch to extract and analyze causal attention probability matrices.
-  * Identified critical safety-filter vulnerabilities in **Claude 4.6 Opus**, discovering that current alignment strategies penalize abstract character-level reasoning by misclassifying inputs as prompt injections.
-
 * **ArbiGraph** (2026 – Present)
-  *arXiv preprint submitted; open-source project*
   [[GitHub]](https://github.com/pavelgolikov/ArbiGraph)
-  * Designed ArbiGraph, an open-source benchmark generator for evaluating context management in tool-assisted language agents using arbitrarily scalable, exactly verifiable task graphs.
-  * Implemented typed task-graph generation across math, GSM-style, and Python-tracing workloads, with executable solvers, scalar/list adapters, dynamic rejection sampling, and user-defined DAG support.
-  * Built a calculator-assisted Qwen3.5-27B evaluation harness with targeted repair protocols that improved accuracy and tool use rate.
+  * Built **ArbiGraph**, a Python evaluation framework for testing whether LLM agents can follow long, multi-step workflows without losing, mixing up, or reusing stale intermediate state.
+  * Converted math, word-problem, and Python-tracing tasks into automatically generated workflows with executable ground truth, enabling exact grading without manual labels.
+  * Added controls for workflow length, branching, irrelevant distractors, and value types, letting researchers reproduce agent failure modes and scale difficulty without hand-crafting prompts.
+  * Implemented the agent evaluation harness around a calculator tool, including answer extraction, tool-call validation, continuation handling, and repair prompts for incomplete or malformed runs.
 
-* **Fusing Adds and Shifts for Efficient Dot Products** (2025)
-  *IEEE Computer Architecture Letters*
-  * Proposed and validated a novel hardware algorithmic optimization for dot-product computations.
+* **Robust Reasoning Benchmark (RRB)** (2026)
+  [[arXiv]](https://arxiv.org/abs/2604.08571) | [[DOI]](https://doi.org/10.48550/arXiv.2604.08571) | [[GitHub]](https://github.com/pavelgolikov/Robust-Reasoning-Benchmark.git)
+  * Designed a highly creative adversarial evaluation framework leveraging 13 deterministic textual perturbations to decouple an LLM's mechanical deciphering from its underlying mathematical logic.
+  * Demonstrated that the attention drift occurs *within a single query's Chain-of-Thought*, empirically showing that intermediate reasoning steps pollute the dense attention mechanism, identifying the optimal **granularity of reasoning** as a critical open research problem.
+  * Engineered custom mechanistic interpretability pipelines in **PyTorch** to extract and analyze causal attention probability matrices across token index boundaries, testing models ranging from 7B to 30B parameters.
+
+* **Fusing Adds and Shifts for Efficient Dot Products** (2026)
+  [[IEEE CAL]](https://ieeexplore.ieee.org/abstract/document/11269714) | [[GitHub]](https://github.com/mcj-group/fased-verilog.git)
+  * Proposed and validated a novel algorithmic optimization for dot-product computations, demonstrating a strong foundational understanding of hardware-level ML primitives and efficiency.
 
 ## Engineering & Professional Experience
 * **Systems & Infrastructure Engineering (MSc Thesis)** (2020 – 2022)
@@ -50,11 +49,11 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
 * **Intelligence Operator** (2013 – 2018)
   *Canadian Armed Forces*
   * Held a Top Secret security clearance, conducting rigorous analysis of classified information streams to produce actionable intelligence reports for command elements.
-  * Developed a strong adversarial threat-modeling mindset, emphasizing operational security, rigorous data validation, and the identification of logical vulnerabilities.
+  * Developed a strong adversarial threat-modeling mindset, emphasizing operational security, rigorous data validation, and the identification of logical vulnerabilities in complex, multi-agent scenarios.
 
-* **Mathematics Teacher** (2012 – 2013)
+* **Mathematics Teacher** (2012 – 2013; 2018 – 2019)
   *Blyth Academy*
-  * Taught foundational mathematics, developing the ability to distill and communicate complex quantitative concepts.
+  * Taught foundational mathematics to students in Grades 10, 11, and 12, developing the ability to distill and communicate complex quantitative concepts.
 
 ## Co-Authored Systems Research
 * **GPUPool: A Holistic Approach to Fine-Grained GPU Sharing in the Cloud**
@@ -65,5 +64,4 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
 ## Education
 * **PhD in Computer Science (Paused to transition to industry)**, University of Toronto, 2022 – Present
 * **Master of Science (MSc) in Computer Science**, University of Toronto, 2020 – 2022
-* **Bachelor of Science (BSc) in Computer Science**, University of Toronto, 2018 – 2020
 * **Bachelor of Science (BSc) in Mathematics and Philosophy (Formal Logic)**, University of Toronto, Graduated 2011
