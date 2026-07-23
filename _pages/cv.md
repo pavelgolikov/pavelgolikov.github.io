@@ -30,10 +30,12 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
   * Engineered custom mechanistic interpretability pipelines in PyTorch to extract and analyze causal attention probability matrices.
   * Identified critical safety-filter vulnerabilities in **Claude 4.6 Opus**, discovering that current alignment strategies penalize abstract character-level reasoning by misclassifying inputs as prompt injections.
 
-* **Context Management Benchmark** (2026 – Present)
-  *Active Research*
-  * Designed a custom, tightly coupled LLM agent and evaluation pipline (without MCP solutions) to compile Python/Math tasks into programmable computational graphs, utilizing AST parsing and dynamic rejection sampling to rigorously benchmark multi-step state tracking and working memory. Engineered a targeted repair layer for calculator-augmented agent that enforces tool-use and answer recovery via agent-loop interventions. This improved math benchmark accuracy by +23% to +45% across 3 Qwen models.
-  * Testing foundation models' capacity to manage relevant variables while flushing irrelevant context across long logical trajectories.
+* **ArbiGraph** (2026 – Present)
+  *arXiv preprint submitted; open-source project*
+  [[GitHub]](https://github.com/pavelgolikov/ArbiGraph)
+  * Designed ArbiGraph, an open-source benchmark generator for evaluating context management in tool-assisted language agents using arbitrarily scalable, exactly verifiable task graphs.
+  * Implemented typed task-graph generation across math, GSM-style, and Python-tracing workloads, with executable solvers, scalar/list adapters, dynamic rejection sampling, and user-defined DAG support.
+  * Built a calculator-assisted Qwen3.5-27B evaluation harness with targeted repair protocols that improved accuracy and tool use rate.
 
 * **Fusing Adds and Shifts for Efficient Dot Products** (2025)
   *IEEE Computer Architecture Letters*

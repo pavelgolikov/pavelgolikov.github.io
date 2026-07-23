@@ -17,9 +17,14 @@ My path to AI research is highly multidisciplinary, blending formal logic, low-l
 Academically, I began with a BSc in Mathematics and Philosophy (formal logic). In my Master's research, I focused on distributed systems, building full-stack IoT streaming framework using C++, Python, AWS, and Apache Flink. Today, my background in computer systems allows me to approach ML not just mathematically, but with a rigorous engineering lens.
 
 ## Current Research
-* **Context Management Benchmark** - Designed a custom, tightly coupled LLM agent and evaluation pipeline (without MCP solutions) to compile Python/Math tasks into programmable computational graphs, utilizing AST parsing and dynamic rejection sampling to rigorously benchmark multi-step state tracking and working memory. I manually engineered repair mechanisms that detect protocol violations, enforce required tool use, and recover incomplete agent responses. Across 5,760 paired Python and math evaluations on three Qwen models (3.5-27B, 3.6-27B, 3.5-122-A10B), these interventions increased end-to-end accuracy from 60.2% to 94.0%, a 33.8-point improvement and an 84.9% reduction in errors, while holding models, prompts, datasets, and sampling parameters constant.
+* **ArbiGraph** - Built an open-source benchmark generator for evaluating context management in tool-assisted language agents. ArbiGraph composes executable natural-language math, GSM-style, and Python-tracing tasks into typed task graphs, making dependency length, distractors, branches, and scalar/list state controllable while preserving exact automatic verification. In preliminary Qwen3.5-27B evaluations, isolated tasks remained high accuracy (94.5% math, 96.8% Python, 100.0% GSM), but dependent math accuracy fell to 75.5% on chains and 61.2% on multichains, exposing state-propagation failures hidden by single-task benchmarks. [[GitHub]](https://github.com/pavelgolikov/ArbiGraph)
 
 ## Selected Publications
+
+* **ArbiGraph: Arbitrarily Scalable Verifiable Task Graphs for Evaluating Context Management** - Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
+  *arXiv preprint submitted*, 2026. (arXiv link pending)
+  [[GitHub]](https://github.com/pavelgolikov/ArbiGraph)
+  > *Brief:* Introduced ArbiGraph, a benchmark generator that turns context into typed computational state. It composes executable tasks into user-defined dataflow graphs so agents can be tested on retaining, updating, propagating, and discarding relevant context under exact verification.
 
 * **Robust Reasoning Benchmark** - Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
   *arXiv preprint arXiv:2604.08571*, 2026. (Under review at NeurIPS 2026)

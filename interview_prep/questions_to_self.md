@@ -1,1 +1,0 @@
-write negative log likelihood from memory

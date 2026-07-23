@@ -12,6 +12,11 @@ author_profile: true
 
 ## arXiv
 
+* **ArbiGraph: Arbitrarily Scalable Verifiable Task Graphs for Evaluating Context Management**
+  Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
+  *arXiv preprint submitted*, 2026. (arXiv link pending)
+  [[GitHub]](https://github.com/pavelgolikov/ArbiGraph)
+
 * **Robust Reasoning Benchmark**
   Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
   *arXiv preprint arXiv:2604.08571*, 2026. (Under Review at a top-tier conference)
