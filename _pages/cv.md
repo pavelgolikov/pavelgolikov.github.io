@@ -24,7 +24,7 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
 
 ## First-Author AI Research
 * **ArbiGraph** (2026 – Present)
-  [[GitHub]](https://github.com/pavelgolikov/ArbiGraph)
+  [[arXiv]](https://arxiv.org/abs/2607.20764) | [[GitHub]](https://github.com/pavelgolikov/ArbiGraph)
   * Built **ArbiGraph**, a Python evaluation framework for testing whether LLM agents can follow long, multi-step workflows without losing, mixing up, or reusing stale intermediate state.
   * Converted math, word-problem, and Python-tracing tasks into automatically generated workflows with executable ground truth, enabling exact grading without manual labels.
   * Added controls for workflow length, branching, irrelevant distractors, and value types, letting researchers reproduce agent failure modes and scale difficulty without hand-crafting prompts.
