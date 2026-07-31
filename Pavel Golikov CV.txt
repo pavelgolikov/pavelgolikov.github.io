@@ -6,7 +6,7 @@ golikovp@toronto.cs.edu
 Profile
 ____________________________________________________________________________________________
 
-I have graduated from University of Toronto with a Masters degree in Computer Science with a previous undergraduate degree in Mathematics and Philosophy. I have developed excellent analytical skills and strong work ethics through my previous degree and work experience. I have experience working both individually and in team environments. I have a very inquisitive mind, like to be intellectually challenged and I greatly enjoy problem solving. For the past 3 years I greatly enjoyed working in Prof. Gennady Pekhimenko's EcoSystem research group at University of Toronto and Vector Institute. I conduct research in the field of Computer Science, specifically related to Computer Systems and Networks, Artificial Intelligence and Computer Architecture. I completed my Master of Science in Fall 2022 and am currently pursuing a PhD degree at University of Toronto under Gennady Pekhimenko.
+I am an AI researcher at the University of Toronto, working in Prof. Gennady Pekhimenko's EcoSystem research group, and a member of the Vector Institute. My research focuses on robust machine reasoning, AI alignment, agent evaluation, and context management in large language models. I combine a background in formal logic, systems engineering, and security analysis to build adversarial evaluations and diagnostic tools for frontier models and agentic systems.
 
 Education
 ____________________________________________________________________________________________

@@ -12,7 +12,7 @@ site_theme               : "default" # The available themes options are "default
 title                    : "Pavel Golikov"
 title_separator          : "-"
 name                     : &name "Pavel Golikov"
-description              : &description "Pavel Golikov's academic portfolio — Computer Systems, Architecture, and AI research at the University of Toronto"
+description              : &description "Pavel Golikov's academic portfolio — AI researcher at the University of Toronto and Vector Institute focused on robust machine reasoning, alignment, and agent evaluation"
 url                      : https://pavelgolikov.github.io
 baseurl                  : ""
 repository               : "pavelgolikov/pavelgolikov.github.io"
@@ -25,7 +25,7 @@ author:
   avatar           : "profile.jpg"
   name             : "Pavel Golikov"
   pronouns         :
-  bio              : "AI Researcher | Machine Reasoning, Alignment, & Systems"
+  bio              : "AI Researcher at U of T & Vector | Machine Reasoning, Alignment, & Agent Evaluation"
   location         : "Toronto, Canada"
   employer         : "University of Toronto"
   uri              :

@@ -14,7 +14,7 @@ redirect_from:
 [**📄 Download 1-Page PDF CV**](/files/Pavel_Golikov_CV.pdf)
 
 ## Professional Profile
-AI Researcher specializing in machine reasoning and alignment. Blends formal logic with rigorous low-level systems engineering to architect custom agentic frameworks and highly creative adversarial evaluations. Former Military Intelligence Operator with a Top Secret clearance, bringing a rigorous, threat-modeling mindset to AI security and model capability evaluations.
+AI Researcher specializing in machine reasoning and alignment. Blends formal logic with rigorous low-level systems engineering to architect custom agentic frameworks and highly creative adversarial evaluations. Former Military Intelligence Operator who formerly held a Top Secret clearance, bringing a rigorous, threat-modeling mindset to AI security and model capability evaluations.
 
 ## Technical Skills
 * **Languages:** Python, C++, Java, SQL, LaTeX
@@ -34,7 +34,7 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
   [[arXiv]](https://arxiv.org/abs/2604.08571) | [[DOI]](https://doi.org/10.48550/arXiv.2604.08571) | [[GitHub]](https://github.com/pavelgolikov/Robust-Reasoning-Benchmark.git)
   * Designed a highly creative adversarial evaluation framework leveraging 13 deterministic textual perturbations to decouple an LLM's mechanical deciphering from its underlying mathematical logic.
   * Demonstrated that the attention drift occurs *within a single query's Chain-of-Thought*, empirically showing that intermediate reasoning steps pollute the dense attention mechanism, identifying the optimal **granularity of reasoning** as a critical open research problem.
-  * Engineered custom mechanistic interpretability pipelines in **PyTorch** to extract and analyze causal attention probability matrices across token index boundaries, testing models ranging from 7B to 30B parameters.
+  * Engineered custom mechanistic interpretability pipelines in **PyTorch** for layerwise attention-allocation analysis across token index boundaries, testing models ranging from 7B to 30B parameters.
 
 * **Fusing Adds and Shifts for Efficient Dot Products** (2026)
   [[IEEE CAL]](https://ieeexplore.ieee.org/abstract/document/11269714) | [[GitHub]](https://github.com/mcj-group/fased-verilog.git)
@@ -48,7 +48,7 @@ AI Researcher specializing in machine reasoning and alignment. Blends formal log
 
 * **Intelligence Operator** (2013 – 2018)
   *Canadian Armed Forces*
-  * Held a Top Secret security clearance, conducting rigorous analysis of classified information streams to produce actionable intelligence reports for command elements.
+  * Formerly held a Top Secret security clearance while conducting rigorous analysis of classified information streams to produce actionable intelligence reports for command elements.
   * Developed a strong adversarial threat-modeling mindset, emphasizing operational security, rigorous data validation, and the identification of logical vulnerabilities in complex, multi-agent scenarios.
 
 * **Mathematics Teacher** (2012 – 2013; 2018 – 2019)

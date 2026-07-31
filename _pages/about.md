@@ -32,7 +32,7 @@ Academically, I began with a BSc in Mathematics and Philosophy (formal logic). I
   > *Brief:* Introduced RRB to evaluate structural fragility in LLM reasoning. Used mechanistic interpretability to identify "Intra-Query Attention Dilution" in open-weights models and over-refusal in proprietary safety filters (Claude 4.6 Opus). Raised the open problem of the optimal granularity of reasoning - an important question for model reasoning and context management.
 
 * **Fusing Adds and Shifts for Efficient Dot Products** - Pavel Golikov, Karthik Ganesan, Gennady Pekhimenko, and Mark C. Jeffrey.
-  *IEEE Computer Architecture Letters*, 25(1), pp. 33-36, 2025.
+  *IEEE Computer Architecture Letters*, 25(1), pp. 33-36, 2026.
   [[DOI]](https://doi.org/10.1109/LCA.2025.3637718)
   > *Brief:* Hardware architecture research proposing a novel algorithmic optimization for dot-product computations.
 
