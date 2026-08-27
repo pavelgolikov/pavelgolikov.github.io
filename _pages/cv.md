@@ -11,18 +11,27 @@ redirect_from:
 
 # Curriculum Vitae
 
-[**📄 Download 1-Page PDF CV**](/files/Pavel_Golikov_CV.pdf)
+[**📄 Download PDF CV**](/files/Pavel_Golikov_CV.pdf)
 
 ## Professional Profile
-AI Researcher specializing in machine reasoning and alignment. Blends formal logic with rigorous low-level systems engineering to architect custom agentic frameworks and highly creative adversarial evaluations. Former Military Intelligence Operator who formerly held a Top Secret clearance, bringing a rigorous, threat-modeling mindset to AI security and model capability evaluations.
+AI Researcher and agent engineer specializing in robust machine reasoning, retrieval-augmented generation (RAG), LLM evaluation, and alignment. Builds grounded agentic workflows, vector-retrieval systems, and dataset generators for context-management evaluation in LLM agents. Former Military Intelligence Operator who held a Top Secret clearance, bringing a threat-modeling mindset to AI security and model capability evaluation.
 
 ## Technical Skills
 * **Languages:** Python, C++, Java, SQL, LaTeX
-* **ML & AI:** PyTorch, vLLM, HuggingFace, Transformers, Google/Anthropic/OpenAI APIs, Agent Harness
-* **Systems & Infrastructure:** Linux/Ubuntu Server, AWS, Apache Flink, Distributed GPU Clusters
-* **Core Competencies:** Large Language Models (LLMs), Machine Reasoning, AI Alignment, Context Management, Mechanistic Interpretability, Adversarial Evaluations, Threat Modeling, Distributed Systems
+* **ML & AI:** PyTorch, vLLM, Hugging Face, Transformers, Gemini/Google/Anthropic/OpenAI APIs
+* **Agentic AI & RAG:** LangGraph, LangChain, retrieval-augmented generation, Chroma vector databases, embeddings, semantic/vector search, BM25, hybrid retrieval, cross-encoder reranking, multi-query retrieval
+* **Evaluation:** LLM evals, retrieval benchmarking (MRR, nDCG, recall), groundedness, citation validation, ablation studies, paired-bootstrap confidence intervals, pytest
+* **Systems & Infrastructure:** Linux/Ubuntu Server, SQLite, GitHub Actions CI, AWS, Apache Flink, Distributed GPU Clusters
+* **Core Competencies:** Agent Orchestration, Machine Reasoning, AI Alignment, Context Management, Mechanistic Interpretability, Adversarial Evaluation, Threat Modeling, Distributed Systems
 
-## First-Author AI Research
+## AI Research & Agent Engineering
+* **arXiv Research Agent** (2026)
+  [[GitHub]](https://github.com/pavelgolikov/arxiv-research-agent) | [[Evals]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/EVALS.md) | [[Example Review]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/examples/example_review.md)
+  * Built an evaluation-first **RAG** literature-review agent with **LangGraph, LangChain, Gemini, and Chroma vector storage**; it searches arXiv, screens candidates, parses PDFs without losing page provenance, and synthesizes claim-level grounded reviews with page-anchored citations.
+  * Implemented dense embedding search, **BM25**, hybrid reciprocal-rank fusion, **cross-encoder reranking**, and multi-query expansion; benchmarked four retrieval strategies on 50 hand-labeled questions over 570 chunks using MRR, nDCG, recall, and paired-bootstrap confidence intervals.
+  * Designed two-layer citation grounding—deterministic chunk/paper/quote checks plus an LLM support judge—achieving 96.2% claim survival, 98.7% citation support integrity, and 100% independent re-validation in the measured run.
+  * Engineered deterministic LangGraph map-reduce fan-out, retry-aware typed failures, partial-result rendering, and resumable **SQLite checkpointing**; shipped 163 offline tests enforced by CI and measured a median cost of $0.054 per research question.
+
 * **ArbiGraph** (2026 – Present)
   [[arXiv]](https://arxiv.org/abs/2607.20764) | [[GitHub]](https://github.com/pavelgolikov/ArbiGraph) | [[Hugging Face]](https://huggingface.co/datasets/PavelGolikov/arbigraph)
   * Built **ArbiGraph**, a Python evaluation framework for testing whether LLM agents can follow long, multi-step workflows without losing, mixing up, or reusing stale intermediate state.

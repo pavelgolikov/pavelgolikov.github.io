@@ -1,4 +1,4 @@
-\documentclass[10pt, letterpaper]{article}
+\documentclass[9pt, letterpaper]{extarticle}
 
 % Packages
 % \usepackage[left=0.75in, right=0.75in, top=0.75in, bottom=0.75in]{geometry}
@@ -9,6 +9,7 @@
 \usepackage{xcolor}
 \usepackage{lmodern}
 \usepackage{xparse}
+\linespread{1.10}
 
 % Colors and Links
 \definecolor{darkblue}{RGB}{0, 0, 139}
@@ -23,14 +24,18 @@
 \titleformat{\section}{\large\bfseries\uppercase}{}{0em}{}[\titlerule]
 \titlespacing*{\section}{0pt}{1.0ex plus .5ex minus .2ex}{0.6ex plus .2ex}
 
+% List Spacing: compact dash-level bullets, clearer dot-level separation
+\setlist[itemize,1]{itemsep=3pt, parsep=0pt, partopsep=0pt}
+\setlist[itemize,2]{itemsep=-1pt, parsep=0pt, partopsep=0pt}
+
 % Custom Commands
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \NewDocumentCommand{\resumeSubheading}{m m g g}{
-  \vspace{-2pt}\item
+  \vspace{0pt}\item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & #2 \\
       \IfNoValueF{#3}{\textit{\small#3} & \textit{\small #4} \\}
-    \end{tabular*}\vspace{-7pt}
+    \end{tabular*}\vspace{-4pt}
 }
 
 \begin{document}
@@ -51,7 +56,7 @@
 %-----------------------------------------------------------
 \section{Professional Profile}
 \vspace{0pt}
-    \small{AI Researcher specializing in machine reasoning and alignment. Blends formal logic with rigorous low-level systems engineering to architect custom agentic frameworks and highly creative adversarial evaluations. Former Military Intelligence Operator who formerly held a Top Secret clearance, bringing a rigorous, threat-modeling mindset to AI security and model capability evaluations.}
+    \small{AI Researcher and agent engineer specializing in robust machine reasoning, retrieval-augmented generation (RAG), LLM evaluation, and alignment. Builds grounded agentic workflows, vector-retrieval systems, and dataset generators for context-management evaluation in LLM agents. Former Military Intelligence Operator who held a Top Secret clearance, bringing a threat-modeling mindset to AI security and model capability evaluation.}
 
 %-----------------------------------------------------------
 % SKILLS
@@ -60,17 +65,25 @@
 \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
      \textbf{Languages:}{ Python, C++, Java, SQL, LaTeX} \\
-     \textbf{ML \& AI:}{ PyTorch, vLLM, HuggingFace, Transformers, Google/Anthropic/OpenAI APIs, Agent Harness} \\
-     \textbf{Systems \& Infrastructure:}{ Linux/Ubuntu Server, AWS, Apache Flink, Distributed GPU Clusters} \\
-     \textbf{Core Competencies:}{ Large Language Models (LLMs), Machine Reasoning, AI Alignment, Context Management, Mechanistic Interpretability, Adversarial Evaluations, Threat Modeling, Distributed Systems }
+     \textbf{AI \& Agents:}{ PyTorch, LangGraph, LangChain, RAG, Hugging Face, vLLM, Transformers, Gemini/OpenAI/Anthropic APIs} \\
+     \textbf{Retrieval \& Evals:}{ Chroma vector storage, embeddings, BM25, hybrid retrieval, cross-encoder reranking, MRR/nDCG/recall, groundedness, citation validation} \\
+     \textbf{Systems:}{ Linux, SQLite, GitHub Actions CI, AWS, Apache Flink, Distributed GPU Clusters}
     }}
 \end{itemize}
 
 %-----------------------------------------------------------
 % RESEARCH & PUBLICATIONS
 %-----------------------------------------------------------
-\section{First-Author AI Research}
+\section{AI Research \& Agent Engineering}
 \begin{itemize}[leftmargin=0.15pt]
+
+\resumeSubheading
+    {arXiv Research Agent $\vert$ \normalfont{\textit{\href{https://github.com/pavelgolikov/arxiv-research-agent}{GitHub} $\vert$ \href{https://github.com/pavelgolikov/arxiv-research-agent/blob/main/EVALS.md}{Evals}}}}{2026}
+    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
+        \resumeItem{Built an evaluation-first \textbf{RAG} literature-review agent with \textbf{LangGraph, LangChain, Gemini, and Chroma vector storage}; orchestrates arXiv search, PDF parsing, hybrid retrieval, reranking, and citation-grounded synthesis.}
+        \resumeItem{Benchmarked dense, BM25, hybrid, and cross-encoder retrieval on 50 hand-labeled questions over 570 chunks using MRR, nDCG, recall, and paired-bootstrap confidence intervals; evaluated groundedness and claim support.}
+        \resumeItem{Engineered deterministic map-reduce fan-out, retry-aware partial results, and resumable \textbf{SQLite checkpointing}; shipped 163 offline tests in CI and measured a median end-to-end cost of \$0.054 per question.}
+    \end{itemize}
 
 \resumeSubheading
     {ArbiGraph $\vert$ \normalfont{\textit{\href{https://arxiv.org/abs/2607.20764}{arXiv} $\vert$ \href{https://github.com/pavelgolikov/ArbiGraph}{GitHub} $\vert$ \href{https://huggingface.co/datasets/PavelGolikov/arbigraph}{Hugging Face}}}}{2026 -- Present}

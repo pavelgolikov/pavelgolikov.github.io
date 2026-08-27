@@ -7,16 +7,18 @@ redirect_from:
   - /about.html
 ---
 
-> 🚨 **I am currently transitioning to industry and actively seeking full-time roles as an AI Researcher / Scientist, with a focus on robust machine reasoning and AI alignment.**
+> 🚨 **I am currently transitioning to industry and actively seeking full-time roles as an AI Researcher / Scientist, with a focus on agentic AI, retrieval-augmented generation (RAG), LLM evaluation, robust machine reasoning, and AI alignment.**
 
-I am an AI Researcher at the [University of Toronto](https://www.utoronto.ca/), working in [Prof. Gennady Pekhimenko's](https://www.cs.toronto.edu/~pekhMDL/) EcoSystem research group, and a member of the [Vector Institute](https://vectorinstitute.ai/). My research focuses on understanding the fundamental limits of algorithmic reasoning in Large Language Models and agentic systems. I design custom agents alongside adversarial evaluations and use mechanistic interpretability to diagnose structural failures in frontier models and agentic systems.
+I am an AI Researcher at the [University of Toronto](https://www.utoronto.ca/), working in [Prof. Gennady Pekhimenko's](https://www.cs.toronto.edu/~pekhMDL/) EcoSystem research group, and a member of the [Vector Institute](https://vectorinstitute.ai/). I build and evaluate reliable LLM systems, including agentic workflows, retrieval-augmented generation (RAG) pipelines, and dataset generators for context-management evaluation. My work spans hybrid vector search, grounded generation, and LLM evals through mechanistic interpretability and the fundamental limits of algorithmic reasoning.
 
 
 My path to AI research is highly multidisciplinary, blending formal logic, low-level systems engineering, and security analysis. Before my graduate studies, I served as an Intelligence Operator in the Canadian Armed Forces, where I analyzed classified information. This experience ingrained the rigorous, threat-modeling mindset I now apply to AI security and adversarial testing.
 
 Academically, I began with a BSc in Mathematics and Philosophy (formal logic). In my Master's research, I focused on distributed systems, building full-stack IoT streaming framework using C++, Python, AWS, and Apache Flink. Today, my background in computer systems allows me to approach ML not just mathematically, but with a rigorous engineering lens.
 
-## Current Research
+## Current Research & Open-Source Systems
+* **arXiv Research Agent** - Built an evaluation-first RAG literature-review agent with LangGraph, LangChain, Gemini, and persistent Chroma vector storage. The workflow searches arXiv, screens papers, performs page-preserving PDF parsing, and generates claim-level grounded reviews with page-anchored citations. Its retrieval layer supports dense embeddings, BM25 sparse search, hybrid reciprocal-rank fusion, cross-encoder reranking, and multi-query expansion. I evaluated the system on two hand-labeled datasets with MRR, nDCG, recall, groundedness, claim-support, threshold-sweep, and paired-bootstrap analyses; it also includes resumable SQLite checkpoints, typed partial failures, and 163 offline tests in CI. [[GitHub]](https://github.com/pavelgolikov/arxiv-research-agent) | [[Project Details]](/projects/arxiv-research-agent/) | [[Evals]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/EVALS.md)
+
 * **ArbiGraph** - Built an open-source benchmark generator for evaluating context management in tool-assisted language agents. ArbiGraph composes executable natural-language math, GSM-style, and Python-tracing tasks into typed task graphs, making dependency length, distractors, branches, and scalar/list state controllable while preserving exact automatic verification. The framework supports user-defined DAG topologies, executable solvers, dynamic rejection sampling, graph visualization, and released datasets/results for reproducible evaluation. In preliminary Qwen3.5-27B evaluations, isolated tasks remained high accuracy (94.5% math, 96.8% Python, 100.0% GSM), but dependent math accuracy fell to 75.5% on chains and 61.2% on multichains, exposing state-propagation failures hidden by single-task benchmarks. [[arXiv]](https://arxiv.org/abs/2607.20764) [[GitHub]](https://github.com/pavelgolikov/ArbiGraph) [[Hugging Face]](https://huggingface.co/datasets/PavelGolikov/arbigraph)
 
 ## Selected Publications

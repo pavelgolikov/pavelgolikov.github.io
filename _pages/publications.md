@@ -9,6 +9,12 @@ author_profile: true
   <div class="wordwrap">You can also find my articles on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
 {% endif %}
 
+## Research Software
+
+* **arXiv Research Agent: Evaluation-First RAG for Grounded Literature Review**
+  An open-source LangGraph/LangChain agent that searches arXiv, stores page-preserving paper chunks in a Chroma vector database, and produces citation-grounded literature reviews. Includes dense, BM25, hybrid, and cross-encoder-reranked retrieval; two hand-labeled evaluation datasets; retrieval ablations; groundedness and claim-support evals; SQLite checkpointing; and 163 offline CI tests.
+  [[GitHub]](https://github.com/pavelgolikov/arxiv-research-agent) | [[Project Details]](/projects/arxiv-research-agent/) | [[Evals]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/EVALS.md)
+
 
 ## arXiv
 

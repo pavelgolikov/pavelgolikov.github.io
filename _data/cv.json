@@ -1,152 +1,179 @@
 {
   "basics": {
-    "name": "Your Sidebar Name",
-    "email": "none@example.org",
+    "name": "Pavel Golikov",
+    "label": "AI Researcher & Agent Engineer",
+    "email": "paulgolikov@gmail.com",
     "phone": "",
-    "website": "https://academicpages.github.io",
-    "summary": "Currently employed at Red Brick University. Short biography for the left-hand sidebar",
+    "website": "https://pavelgolikov.github.io",
+    "summary": "AI researcher and agent engineer specializing in robust machine reasoning, retrieval-augmented generation (RAG), LLM evaluation, and alignment. Builds grounded agentic workflows, vector-retrieval systems, and dataset generators for context-management evaluation in LLM agents.",
     "location": {
       "address": "",
       "postalCode": "",
-      "city": "Earth",
-      "countryCode": "US",
-      "region": ""
+      "city": "Toronto",
+      "countryCode": "CA",
+      "region": "Ontario"
     },
     "profiles": [
       {
         "network": "Google Scholar",
         "username": "",
-        "url": "https://scholar.google.com/citations?user=PS_CX0AAAAAJ"
-      },
-      {
-        "network": "ORCID",
-        "username": "",
-        "url": "https://orcid.org/yourorcidurl"
+        "url": "https://scholar.google.ca/citations?user=Vgv-NP8AAAAJ&hl=en"
       },
       {
         "network": "GitHub",
-        "username": "academicpages",
-        "url": "https://github.com/academicpages"
+        "username": "pavelgolikov",
+        "url": "https://github.com/pavelgolikov"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "pavel-golikov-b266211b6",
+        "url": "https://www.linkedin.com/in/pavel-golikov-b266211b6/"
       }
     ]
   },
-  "work": [],
+  "work": [
+    {
+      "company": "University of Toronto",
+      "position": "AI Researcher",
+      "website": "https://www.utoronto.ca/",
+      "startDate": "2022",
+      "endDate": "Present",
+      "summary": "EcoSystem research group; member of the Vector Institute.",
+      "highlights": [
+        "Researches robust machine reasoning, agent evaluation, context management, and AI alignment.",
+        "Builds open-source agentic systems, RAG pipelines, and dataset generators for context-management evaluation; conducts mechanistic-interpretability analyses."
+      ]
+    },
+    {
+      "company": "University of Toronto",
+      "position": "Systems & Infrastructure Engineering (MSc Thesis)",
+      "website": "https://www.utoronto.ca/",
+      "startDate": "2020",
+      "endDate": "2022",
+      "summary": "Built a distributed IoT streaming framework spanning edge devices and cloud infrastructure.",
+      "highlights": [
+        "Programmed Arduino/C++ sensors, Python services, socket networking, AWS infrastructure, and Apache Flink pipelines."
+      ]
+    },
+    {
+      "company": "Canadian Armed Forces",
+      "position": "Intelligence Operator",
+      "website": "https://forces.ca/",
+      "startDate": "2013",
+      "endDate": "2018",
+      "summary": "Analyzed classified information streams and formerly held a Top Secret security clearance.",
+      "highlights": [
+        "Developed an adversarial threat-modeling mindset centered on operational security, evidence quality, and rigorous validation."
+      ]
+    }
+  ],
   "education": [
     {
-      "institution": "GitHub University",
-      "area": "Ph.D in Version Control Theory",
-      "studyType": "",
-      "startDate": "",
-      "endDate": "2018",
+      "institution": "University of Toronto",
+      "area": "PhD in Computer Science (paused to transition to industry)",
+      "studyType": "PhD",
+      "startDate": "2022",
+      "endDate": "Present",
       "gpa": null,
       "courses": []
     },
     {
-      "institution": "GitHub University",
-      "area": "M.S. in Jekyll",
-      "studyType": "",
-      "startDate": "",
-      "endDate": "2014",
+      "institution": "University of Toronto",
+      "area": "Master of Science in Computer Science",
+      "studyType": "MSc",
+      "startDate": "2020",
+      "endDate": "2022",
       "gpa": null,
       "courses": []
     },
     {
-      "institution": "GitHub University",
-      "area": "B.S. in GitHub",
-      "studyType": "",
+      "institution": "University of Toronto",
+      "area": "Bachelor of Science in Mathematics and Philosophy (Formal Logic)",
+      "studyType": "BSc",
       "startDate": "",
-      "endDate": "2012",
+      "endDate": "2011",
       "gpa": null,
       "courses": []
     }
   ],
-  "skills": [],
+  "skills": [
+    {
+      "name": "Agentic AI & RAG",
+      "level": "",
+      "keywords": ["LangGraph", "LangChain", "retrieval-augmented generation", "agent orchestration", "grounded generation", "citation validation"]
+    },
+    {
+      "name": "Vector Retrieval",
+      "level": "",
+      "keywords": ["Chroma vector databases", "embeddings", "semantic search", "BM25", "hybrid retrieval", "reciprocal-rank fusion", "cross-encoder reranking", "multi-query retrieval"]
+    },
+    {
+      "name": "LLM Evaluation",
+      "level": "",
+      "keywords": ["LLM evals", "MRR", "nDCG", "recall", "groundedness", "ablation studies", "paired-bootstrap confidence intervals", "pytest"]
+    },
+    {
+      "name": "ML & Systems",
+      "level": "",
+      "keywords": ["Python", "PyTorch", "Hugging Face", "Transformers", "vLLM", "Gemini/OpenAI/Anthropic APIs", "SQLite", "GitHub Actions", "Linux", "AWS", "Apache Flink"]
+    }
+  ],
   "languages": [],
   "interests": [],
   "references": [],
   "publications": [
     {
-      "name": "Paper Title Number 1",
-      "publisher": "Journal 1",
-      "releaseDate": "2009-10-01",
-      "website": "https://academicpages.github.io/files/paper1.pdf",
-      "summary": "This paper is about the number 1. The number 2 is left for future work."
+      "name": "ArbiGraph: Arbitrarily Scalable Verifiable Task Graphs for Evaluating Context Management",
+      "publisher": "arXiv",
+      "releaseDate": "2026-07-28",
+      "website": "https://arxiv.org/abs/2607.20764",
+      "summary": "A benchmark generator for exact evaluation of state management across controllable, executable task graphs."
     },
     {
-      "name": "Paper Title Number 2",
-      "publisher": "Journal 1",
-      "releaseDate": "2010-10-01",
-      "website": "https://academicpages.github.io/files/paper2.pdf",
-      "summary": "This paper is about the number 2. The number 3 is left for future work."
+      "name": "Robust Reasoning Benchmark",
+      "publisher": "arXiv",
+      "releaseDate": "2026-04-13",
+      "website": "https://arxiv.org/abs/2604.08571",
+      "summary": "An adversarial evaluation of structural fragility in LLM reasoning."
     },
     {
-      "name": "Paper Title Number 3",
-      "publisher": "Journal 1",
-      "releaseDate": "2015-10-01",
-      "website": "https://academicpages.github.io/files/paper3.pdf",
-      "summary": "This paper is about the number 3. The number 4 is left for future work."
+      "name": "Fusing Adds and Shifts for Efficient Dot Products",
+      "publisher": "IEEE Computer Architecture Letters",
+      "releaseDate": "2026-01-01",
+      "website": "https://doi.org/10.1109/LCA.2025.3637718",
+      "summary": "An algorithmic and hardware optimization for efficient dot-product computation."
     },
     {
-      "name": "Paper Title Number 4",
-      "publisher": "GitHub Journal of Bugs",
-      "releaseDate": "2024-02-17",
-      "website": "https://academicpages.github.io/files/paper3.pdf",
-      "summary": "This paper is about fixing template issue #693."
+      "name": "GPUPool: A Holistic Approach to Fine-Grained GPU Sharing in the Cloud",
+      "publisher": "PACT",
+      "releaseDate": "2022-10-10",
+      "website": "https://doi.org/10.1145/3559009.3569650",
+      "summary": "A system for fine-grained GPU sharing in cloud environments."
+    },
+    {
+      "name": "Habitat: A Runtime-Based Computational Performance Predictor for Deep Neural Network Training",
+      "publisher": "USENIX ATC",
+      "releaseDate": "2021-07-14",
+      "website": "https://www.usenix.org/conference/atc21/presentation/yu",
+      "summary": "A runtime-based performance predictor for DNN training workloads."
     }
   ],
-  "presentations": [
-    {
-      "name": "Talk 1 on Relevant Topic in Your Field",
-      "event": "UC San Francisco, Department of Testing",
-      "date": "2012-03-01",
-      "location": "San Francisco, CA, USA",
-      "description": ""
-    },
-    {
-      "name": "Tutorial 1 on Relevant Topic in Your Field",
-      "event": "UC-Berkeley Institute for Testing Science",
-      "date": "2013-03-01",
-      "location": "Berkeley, CA, USA",
-      "description": ""
-    },
-    {
-      "name": "Talk 2 on Relevant Topic in Your Field",
-      "event": "London School of Testing",
-      "date": "2014-02-01",
-      "location": "London, UK",
-      "description": ""
-    },
-    {
-      "name": "Conference Proceeding talk 3 on Relevant Topic in Your Field",
-      "event": "Testing Institute of America 2014 Annual Conference",
-      "date": "2014-03-01",
-      "location": "Los Angeles, CA, USA",
-      "description": ""
-    }
-  ],
-  "teaching": [
-    {
-      "course": "Teaching experience 1",
-      "institution": "University 1, Department",
-      "date": "2014-01-01",
-      "role": "Undergraduate course",
-      "description": ""
-    },
-    {
-      "course": "Teaching experience 2",
-      "institution": "University 1, Department",
-      "date": "2015-01-01",
-      "role": "Workshop",
-      "description": ""
-    }
-  ],
+  "presentations": [],
+  "teaching": [],
   "portfolio": [
     {
-      "name": "Portfolio item number 1",
-      "category": "portfolio",
-      "date": "",
-      "url": "",
-      "description": "Short description of portfolio item number 1<br/><img src='/images/500x300.png'>"
+      "name": "arXiv Research Agent",
+      "category": "Agentic AI / RAG / LLM Evals",
+      "date": "2026-08-26",
+      "url": "https://github.com/pavelgolikov/arxiv-research-agent",
+      "description": "Evaluation-first LangGraph literature-review agent with persistent Chroma vector storage, dense/BM25/hybrid/cross-encoder retrieval, citation grounding, resumable SQLite checkpoints, hand-labeled eval datasets, and 163 offline CI tests."
+    },
+    {
+      "name": "ArbiGraph",
+      "category": "Agent Evaluation",
+      "date": "2026-07-28",
+      "url": "https://github.com/pavelgolikov/ArbiGraph",
+      "description": "Open-source benchmark generator for evaluating context management in tool-assisted LLM agents using executable, controllable task graphs."
     }
   ]
 }
