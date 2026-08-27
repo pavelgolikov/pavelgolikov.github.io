@@ -6,7 +6,7 @@ author_profile: true
 excerpt: "A grounded RAG literature-review agent with hybrid vector retrieval, citation validation, reproducible LLM evals, and resumable LangGraph orchestration."
 ---
 
-[[GitHub]](https://github.com/pavelgolikov/arxiv-research-agent) | [[Evaluation Results]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/EVALS.md) | [[Design Notes]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/DESIGN.md) | [[Example Review]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/examples/example_review.md)
+[[GitHub]](https://github.com/pavelgolikov/arxiv-research-agent) &#124; [[Evaluation Results]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/EVALS.md) &#124; [[Design Notes]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/DESIGN.md) &#124; [[Example Review]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/examples/example_review.md)
 
 The **arXiv Research Agent** is an evaluation-first retrieval-augmented generation (RAG) system that turns a natural-language research question into a grounded Markdown literature review. It searches arXiv, screens candidates, downloads and parses selected papers, builds a persistent vector index, retrieves evidence for each analytical facet, validates every citation, and synthesizes the surviving claims with Gemini through LangChain.
 
