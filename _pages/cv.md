@@ -47,12 +47,12 @@ AI Researcher and agent engineer specializing in robust machine reasoning, retri
   * Proposed and validated a novel algorithmic optimization for dot-product computations, demonstrating a strong foundational understanding of hardware-level ML primitives and efficiency.
 
 ## Engineering & Professional Experience
-* **Graduate Researcher (PhD) — ML Systems & Agentic Evaluation** (2022 – August 2026)
+* **Graduate Researcher (PhD, on leave) — ML Systems & Agent Evaluation** (2022 – Present)
   *University of Toronto, EcoSystem Research Group*
   * Conducted research spanning ML systems and efficient computation, with later work focused on robust machine reasoning, agent evaluation, context management, and AI alignment, in the EcoSystem Research Group and as a member of the Vector Institute.
   * Developed open-source evaluation frameworks, agentic RAG systems, and mechanistic-interpretability analyses, resulting in first-author research on context management and reasoning robustness.
 
-* **Graduate Researcher (MSc Thesis) — Distributed Systems** (2020 – 2022)
+* **Graduate Researcher (MSc) — Distributed Systems** (2020 – 2022)
   *University of Toronto, EcoSystem Research Group*
   * Engineered a flexible IoT distributed data-streaming framework from scratch, designed to automatically partition computational streaming queries between edge devices and cloud instances.
   * Built the full software stack: programmed Arduino/C++ sensors for real-time biological data collection (EMG/ECG), developed custom socket networking protocols, and deployed cloud infrastructure using AWS and Apache Flink.
@@ -67,6 +67,6 @@ AI Researcher and agent engineer specializing in robust machine reasoning, retri
   * Taught foundational mathematics to students in Grades 10, 11, and 12, developing the ability to distill and communicate complex quantitative concepts.
 
 ## Education
-* **PhD in Computer Science (Leave of absence beginning September 2026)**, University of Toronto, 2022 – Present
+* **PhD in Computer Science (on leave as of September 2026)**, University of Toronto, 2022 – Present
 * **Master of Science (MSc) in Computer Science**, University of Toronto, 2020 – 2022
 * **Bachelor of Science (BSc) in Mathematics and Philosophy (Formal Logic)**, University of Toronto, Graduated 2011

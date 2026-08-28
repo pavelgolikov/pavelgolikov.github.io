@@ -34,10 +34,10 @@
   "work": [
     {
       "company": "University of Toronto, EcoSystem Research Group",
-      "position": "Graduate Researcher (PhD) — ML Systems & Agentic Evaluation",
+      "position": "Graduate Researcher (PhD, on leave) — ML Systems & Agent Evaluation",
       "website": "https://www.utoronto.ca/",
       "startDate": "2022",
-      "endDate": "August 2026",
+      "endDate": "Present",
       "summary": "",
       "highlights": [
         "Conducted research spanning ML systems and efficient computation, with later work focused on robust machine reasoning, agent evaluation, context management, and AI alignment, in the EcoSystem Research Group and as a member of the Vector Institute.",
@@ -46,7 +46,7 @@
     },
     {
       "company": "University of Toronto, EcoSystem Research Group",
-      "position": "Graduate Researcher (MSc Thesis) — Distributed Systems",
+      "position": "Graduate Researcher (MSc) — Distributed Systems",
       "website": "https://www.utoronto.ca/",
       "startDate": "2020",
       "endDate": "2022",

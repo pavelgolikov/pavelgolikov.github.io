@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025/Debian) (preloaded format=pdflatex 2026.8.10)  28 AUG 2026 13:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025/Debian) (preloaded format=pdflatex 2026.8.10)  28 AUG 2026 16:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -409,7 +409,7 @@ Package rerunfilecheck Info: File `Pavel_Golikov_CV.out' has not changed.
 Here is how much of TeX's memory you used:
  9886 strings out of 469514
  155281 string characters out of 5470072
- 604678 words of memory out of 5000000
+ 603641 words of memory out of 5000000
  38425 multiletter control sequences out of 15000+600000
  661956 words of font info for 61 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -420,7 +420,7 @@ r/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/publ
 ic/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri8.pfb></usr/share/te
 xmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf/fonts/type1/public/lm/lms
 y9.pfb>
-Output written on Pavel_Golikov_CV.pdf (1 page, 178576 bytes).
+Output written on Pavel_Golikov_CV.pdf (1 page, 178560 bytes).
 PDF statistics:
  95 PDF objects out of 1000 (max. 8388607)
  74 compressed objects within 1 object stream
