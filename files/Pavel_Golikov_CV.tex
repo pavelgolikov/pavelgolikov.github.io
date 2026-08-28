@@ -66,7 +66,7 @@
     \small{\item{
      \textbf{Languages:}{ Python, C++, Java, SQL, LaTeX} \\
      \textbf{AI \& Agents:}{ PyTorch, LangGraph, LangChain, RAG, Hugging Face, vLLM, Transformers, Gemini/OpenAI/Anthropic APIs} \\
-     \textbf{Retrieval \& Evals:}{ Chroma vector storage, embeddings, BM25, hybrid retrieval, cross-encoder reranking, MRR/nDCG/recall, groundedness, citation validation} \\
+     \textbf{RAG \& Evals:}{ Vector storage, embeddings, BM25, hybrid retrieval, cross-encoder reranking, MRR/nDCG/recall, groundedness, validation} \\
      \textbf{Systems:}{ Linux, SQLite, GitHub Actions CI, AWS, Apache Flink, Distributed GPU Clusters}
     }}
 \end{itemize}
@@ -78,28 +78,26 @@
 \begin{itemize}[leftmargin=0.15pt]
 
 \resumeSubheading
+    {ArbiGraph $\vert$ \normalfont{\textit{\href{https://arxiv.org/abs/2607.20764}{arXiv} $\vert$ \href{https://github.com/pavelgolikov/ArbiGraph}{GitHub} $\vert$ \href{https://huggingface.co/datasets/PavelGolikov/arbigraph}{Hugging Face}}}}{2026 -- Present}
+    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
+        \resumeItem{Built an open-source benchmark and dataset generator for evaluating context management in tool-assisted LLM agents across arbitrarily scalable, long-horizon task graphs.}
+        \resumeItem{Generated math, word-problem, and Python-tracing workflows with executable ground truth, enabling exact evaluation of state retention, updates, propagation, and stale-state reuse without manual labels.}
+        \resumeItem{Controlled graph length, branching, distractors, and value types; implemented a calculator-agent harness with answer extraction, tool-call validation, continuation handling, and repair prompts.}
+    \end{itemize}
+
+\resumeSubheading
     {arXiv Research Agent $\vert$ \normalfont{\textit{\href{https://github.com/pavelgolikov/arxiv-research-agent}{GitHub} $\vert$ \href{https://github.com/pavelgolikov/arxiv-research-agent/blob/main/EVALS.md}{Evals}}}}{2026}
     \begin{itemize}[leftmargin=0.15in, topsep=2pt]
         \resumeItem{Built an evaluation-first \textbf{RAG} literature-review agent with \textbf{LangGraph, LangChain, Gemini, and Chroma vector storage}; orchestrates arXiv search, PDF parsing, hybrid retrieval, reranking, and citation-grounded synthesis.}
         \resumeItem{Benchmarked dense, BM25, hybrid, and cross-encoder retrieval on 50 hand-labeled questions over 570 chunks using MRR, nDCG, recall, and paired-bootstrap confidence intervals; evaluated groundedness and claim support.}
-        \resumeItem{Engineered deterministic map-reduce fan-out, retry-aware partial results, and resumable \textbf{SQLite checkpointing}; shipped 163 offline tests in CI and measured a median end-to-end cost of \$0.054 per question.}
-    \end{itemize}
-
-\resumeSubheading
-    {ArbiGraph $\vert$ \normalfont{\textit{\href{https://arxiv.org/abs/2607.20764}{arXiv} $\vert$ \href{https://github.com/pavelgolikov/ArbiGraph}{GitHub} $\vert$ \href{https://huggingface.co/datasets/PavelGolikov/arbigraph}{Hugging Face}}}}{2026 -- Present}
-    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
-        \resumeItem{Built \textbf{ArbiGraph}, a Python evaluation framework for testing whether LLM agents can follow long, multi-step workflows without losing, mixing up, or reusing stale intermediate state.}
-        \resumeItem{Converted math, word-problem, and Python-tracing tasks into automatically generated workflows with executable ground truth, enabling exact grading without manual labels.}
-        \resumeItem{Added controls for workflow length, branching, irrelevant distractors, and value types, letting researchers reproduce agent failure modes and scale difficulty without hand-crafting prompts.}
-        \resumeItem{Implemented the agent evaluation harness around a calculator tool, including answer extraction, tool-call validation, continuation handling, and repair prompts for incomplete or malformed runs.}
-%        \resumeItem{Found that Qwen3.5-27B stays strong on isolated tasks but degrades when tasks depend on earlier outputs, exposing a practical reliability risk for long-running LLM agent workflows.}
+        \resumeItem{Engineered deterministic map-reduce fan-out, retry-aware partial results, and resumable \textbf{SQLite checkpointing}; shipped 163 offline tests in CI and measured a median end-to-end cost of \$0.054 per run.}
     \end{itemize}
 
   \resumeSubheading
     {Robust Reasoning Benchmark (RRB) $\vert$ \normalfont{\textit{\href{https://arxiv.org/abs/2604.08571}{arXiv} $\vert$ \href{https://doi.org/10.48550/arXiv.2604.08571}{DOI} $\vert$ \href{https://github.com/pavelgolikov/Robust-Reasoning-Benchmark.git}{GitHub}}}}{2026}
     \begin{itemize}[leftmargin=0.15in, topsep=2pt]
-        \resumeItem{Designed a highly creative adversarial evaluation framework leveraging 13 deterministic textual perturbations to decouple an LLM's mechanical deciphering from its underlying mathematical logic.}
-        \resumeItem{Demonstrated that the attention drift occurs \textit{within a single query's Chain-of-Thought}, empirically showing that intermediate reasoning steps pollute the dense attention mechanism, identifying the optimal \textbf{granularity of reasoning} as a critical open research problem.}
+        \resumeItem{Designed an adversarial evaluation framework leveraging 13 deterministic textual perturbations to decouple an LLM's mechanical deciphering from its underlying mathematical logic.}
+        \resumeItem{Demonstrated that the attention drift occurs \textit{within a single query's Chain-of-Thought}, empirically showing that intermediate reasoning steps pollute the dense attention mechanism.}
         \resumeItem{Engineered custom mechanistic interpretability pipelines in \textbf{PyTorch} for layerwise attention-allocation analysis across token index boundaries, testing models ranging from 7B to 30B parameters.}
     \end{itemize}
 
@@ -119,8 +117,16 @@
 \begin{itemize}[leftmargin=0.15in]
 
   \resumeSubheading
-    {Systems \& Infrastructure Engineering (MSc Thesis)}{2020 -- 2022}
-    {University of Toronto}{Toronto, ON}
+    {Graduate Researcher (PhD) --- ML Systems \& Agent Evaluation}{2022 -- August 2026}
+    {University of Toronto, EcoSystem Research Group}{Toronto, ON}
+    \begin{itemize}[leftmargin=0.15in, topsep=2pt]
+        \resumeItem{Conducted research spanning ML systems and efficient computation, with later work focused on robust machine reasoning, agent evaluation, context management, and AI alignment, in the EcoSystem Research Group and as a member of the Vector Institute.}
+        \resumeItem{Developed open-source evaluation frameworks, agentic RAG systems, and mechanistic-interpretability analyses, resulting in first-author research on context management and reasoning robustness.}
+    \end{itemize}
+
+  \resumeSubheading
+    {Graduate Researcher (MSc Thesis) --- Distributed Systems}{2020 -- 2022}
+    {University of Toronto, EcoSystem Research Group}{Toronto, ON}
     \begin{itemize}[leftmargin=0.15in, topsep=2pt]
         \resumeItem{Engineered a flexible IoT distributed data-streaming framework from scratch, designed to automatically partition computational streaming queries between edge devices and cloud instances.}
         \resumeItem{Built the full software stack: programmed Arduino/C++ sensors for real-time biological data collection (EMG/ECG), developed custom socket networking protocols, and deployed cloud infrastructure using \textbf{AWS} and \textbf{Apache Flink}.}
@@ -150,7 +156,7 @@
 \begin{itemize}[leftmargin=0.15in]
   \resumeSubheading
     {University of Toronto}{Toronto, ON}
-    {PhD in Computer Science (Paused to transition to industry)}{2022 -- Present}
+    {PhD in Computer Science (Leave of absence beginning September 2026)}{2022 -- Present}
   \resumeSubheading
     {University of Toronto}{Toronto, ON}
     {Master of Science (MSc) in Computer Science}{2020 -- 2022}

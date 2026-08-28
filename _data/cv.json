@@ -5,7 +5,7 @@
     "email": "paulgolikov@gmail.com",
     "phone": "",
     "website": "https://pavelgolikov.github.io",
-    "summary": "AI researcher and agent engineer specializing in robust machine reasoning, retrieval-augmented generation (RAG), LLM evaluation, and alignment. Builds grounded agentic workflows, vector-retrieval systems, and dataset generators for context-management evaluation in LLM agents.",
+    "summary": "AI Researcher and agent engineer specializing in robust machine reasoning, retrieval-augmented generation (RAG), LLM evaluation, and alignment. Builds grounded agentic workflows, vector-retrieval systems, and dataset generators for context-management evaluation in LLM agents. Former Military Intelligence Operator who held a Top Secret clearance, bringing a threat-modeling mindset to AI security and model capability evaluation.",
     "location": {
       "address": "",
       "postalCode": "",
@@ -33,26 +33,27 @@
   },
   "work": [
     {
-      "company": "University of Toronto",
-      "position": "AI Researcher",
+      "company": "University of Toronto, EcoSystem Research Group",
+      "position": "Graduate Researcher (PhD) — ML Systems & Agentic Evaluation",
       "website": "https://www.utoronto.ca/",
       "startDate": "2022",
-      "endDate": "Present",
-      "summary": "EcoSystem research group; member of the Vector Institute.",
+      "endDate": "August 2026",
+      "summary": "",
       "highlights": [
-        "Researches robust machine reasoning, agent evaluation, context management, and AI alignment.",
-        "Builds open-source agentic systems, RAG pipelines, and dataset generators for context-management evaluation; conducts mechanistic-interpretability analyses."
+        "Conducted research spanning ML systems and efficient computation, with later work focused on robust machine reasoning, agent evaluation, context management, and AI alignment, in the EcoSystem Research Group and as a member of the Vector Institute.",
+        "Developed open-source evaluation frameworks, agentic RAG systems, and mechanistic-interpretability analyses, resulting in first-author research on context management and reasoning robustness."
       ]
     },
     {
-      "company": "University of Toronto",
-      "position": "Systems & Infrastructure Engineering (MSc Thesis)",
+      "company": "University of Toronto, EcoSystem Research Group",
+      "position": "Graduate Researcher (MSc Thesis) — Distributed Systems",
       "website": "https://www.utoronto.ca/",
       "startDate": "2020",
       "endDate": "2022",
-      "summary": "Built a distributed IoT streaming framework spanning edge devices and cloud infrastructure.",
+      "summary": "",
       "highlights": [
-        "Programmed Arduino/C++ sensors, Python services, socket networking, AWS infrastructure, and Apache Flink pipelines."
+        "Engineered a flexible IoT distributed data-streaming framework from scratch, designed to automatically partition computational streaming queries between edge devices and cloud instances.",
+        "Built the full software stack: programmed Arduino/C++ sensors for real-time biological data collection (EMG/ECG), developed custom socket networking protocols, and deployed cloud infrastructure using AWS and Apache Flink."
       ]
     },
     {
@@ -61,16 +62,28 @@
       "website": "https://forces.ca/",
       "startDate": "2013",
       "endDate": "2018",
-      "summary": "Analyzed classified information streams and formerly held a Top Secret security clearance.",
+      "summary": "",
       "highlights": [
-        "Developed an adversarial threat-modeling mindset centered on operational security, evidence quality, and rigorous validation."
+        "Formerly held a Top Secret security clearance while conducting rigorous analysis of classified information streams to produce actionable intelligence reports for command elements.",
+        "Developed a strong adversarial threat-modeling mindset, emphasizing operational security, rigorous data validation, and the identification of logical vulnerabilities in complex, multi-agent scenarios."
+      ]
+    },
+    {
+      "company": "Blyth Academy",
+      "position": "Mathematics Teacher",
+      "website": "",
+      "startDate": "2012 – 2013 & 2018 – 2019",
+      "endDate": "",
+      "summary": "",
+      "highlights": [
+        "Taught foundational mathematics to students in Grades 10, 11, and 12, developing the ability to distill and communicate complex quantitative concepts."
       ]
     }
   ],
   "education": [
     {
       "institution": "University of Toronto",
-      "area": "PhD in Computer Science (paused to transition to industry)",
+      "area": "PhD in Computer Science (leave of absence beginning September 2026)",
       "studyType": "PhD",
       "startDate": "2022",
       "endDate": "Present",
@@ -98,24 +111,24 @@
   ],
   "skills": [
     {
-      "name": "Agentic AI & RAG",
+      "name": "Languages",
       "level": "",
-      "keywords": ["LangGraph", "LangChain", "retrieval-augmented generation", "agent orchestration", "grounded generation", "citation validation"]
+      "keywords": ["Python", "C++", "Java", "SQL", "LaTeX"]
     },
     {
-      "name": "Vector Retrieval",
+      "name": "AI & Agents",
       "level": "",
-      "keywords": ["Chroma vector databases", "embeddings", "semantic search", "BM25", "hybrid retrieval", "reciprocal-rank fusion", "cross-encoder reranking", "multi-query retrieval"]
+      "keywords": ["PyTorch", "LangGraph", "LangChain", "RAG", "Hugging Face", "vLLM", "Transformers", "Gemini/OpenAI/Anthropic APIs"]
     },
     {
-      "name": "LLM Evaluation",
+      "name": "RAG & Evals",
       "level": "",
-      "keywords": ["LLM evals", "MRR", "nDCG", "recall", "groundedness", "ablation studies", "paired-bootstrap confidence intervals", "pytest"]
+      "keywords": ["Vector storage", "embeddings", "BM25", "hybrid retrieval", "cross-encoder reranking", "MRR/nDCG/recall", "groundedness", "validation"]
     },
     {
-      "name": "ML & Systems",
+      "name": "Systems",
       "level": "",
-      "keywords": ["Python", "PyTorch", "Hugging Face", "Transformers", "vLLM", "Gemini/OpenAI/Anthropic APIs", "SQLite", "GitHub Actions", "Linux", "AWS", "Apache Flink"]
+      "keywords": ["Linux", "SQLite", "GitHub Actions CI", "AWS", "Apache Flink", "Distributed GPU Clusters"]
     }
   ],
   "languages": [],
@@ -162,18 +175,18 @@
   "teaching": [],
   "portfolio": [
     {
+      "name": "ArbiGraph",
+      "category": "Agent Evaluation",
+      "date": "2026-07-28",
+      "url": "https://github.com/pavelgolikov/ArbiGraph",
+      "description": "Open-source benchmark and dataset generator for evaluating context management in tool-assisted LLM agents across arbitrarily scalable, long-horizon task graphs."
+    },
+    {
       "name": "arXiv Research Agent",
       "category": "Agentic AI / RAG / LLM Evals",
       "date": "2026-08-26",
       "url": "https://github.com/pavelgolikov/arxiv-research-agent",
       "description": "Evaluation-first LangGraph literature-review agent with persistent Chroma vector storage, dense/BM25/hybrid/cross-encoder retrieval, citation grounding, resumable SQLite checkpoints, hand-labeled eval datasets, and 163 offline CI tests."
-    },
-    {
-      "name": "ArbiGraph",
-      "category": "Agent Evaluation",
-      "date": "2026-07-28",
-      "url": "https://github.com/pavelgolikov/ArbiGraph",
-      "description": "Open-source benchmark generator for evaluating context management in tool-assisted LLM agents using executable, controllable task graphs."
     }
   ]
 }
