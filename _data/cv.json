@@ -118,7 +118,7 @@
     {
       "name": "AI & Agents",
       "level": "",
-      "keywords": ["PyTorch", "LangGraph", "LangChain", "RAG", "Hugging Face", "vLLM", "Transformers", "Gemini/OpenAI/Anthropic APIs"]
+      "keywords": ["PyTorch", "Reinforcement Learning (RL)", "RLVR", "LangGraph", "LangChain", "RAG", "Hugging Face", "vLLM", "Transformers", "Gemini/OpenAI/Anthropic APIs"]
     },
     {
       "name": "RAG & Evals",

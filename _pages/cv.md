@@ -18,7 +18,7 @@ AI Researcher and agent engineer specializing in robust machine reasoning, retri
 
 ## Technical Skills
 * **Languages:** Python, C++, Java, SQL, LaTeX
-* **AI & Agents:** PyTorch, LangGraph, LangChain, RAG, Hugging Face, vLLM, Transformers, Gemini/OpenAI/Anthropic APIs
+* **AI & Agents:** PyTorch, Reinforcement Learning (RL), RLVR, LangGraph, LangChain, RAG, Hugging Face, vLLM, Transformers, Gemini/OpenAI/Anthropic APIs
 * **RAG & Evals:** Vector storage, embeddings, BM25, hybrid retrieval, cross-encoder reranking, MRR/nDCG/recall, groundedness, validation
 * **Systems:** Linux, SQLite, GitHub Actions CI, AWS, Apache Flink, Distributed GPU Clusters
 
