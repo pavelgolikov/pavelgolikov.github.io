@@ -140,7 +140,7 @@
       "publisher": "arXiv",
       "releaseDate": "2026-07-28",
       "website": "https://arxiv.org/abs/2607.20764",
-      "summary": "A benchmark generator for exact evaluation of state management across controllable, executable task graphs."
+      "summary": "A benchmark generator for exact evaluation of state management across controllable, executable task graphs. The public implementation also includes reinforcement learning with verifiable rewards (RLVR) environments with dataset-backed and on-demand episodes, hidden verifier state, exact binary rewards, and per-node diagnostics."
     },
     {
       "name": "Robust Reasoning Benchmark",
@@ -179,7 +179,7 @@
       "category": "Agent Evaluation",
       "date": "2026-07-28",
       "url": "https://github.com/pavelgolikov/ArbiGraph",
-      "description": "Open-source benchmark and dataset generator for evaluating context management in tool-assisted LLM agents across arbitrarily scalable, long-horizon task graphs."
+      "description": "Open-source benchmark and dataset generator for evaluating context management in tool-assisted LLM agents across arbitrarily scalable, long-horizon task graphs. It includes dataset-backed and on-demand reinforcement learning with verifiable rewards (RLVR) environments with hidden verifier state, exact binary rewards, and per-node diagnostics."
     },
     {
       "name": "arXiv Research Agent",

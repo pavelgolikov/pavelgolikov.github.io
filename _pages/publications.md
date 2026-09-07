@@ -15,6 +15,7 @@ author_profile: true
   Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.
   *arXiv preprint arXiv:2607.20764*, 2026.
   [[arXiv]](https://arxiv.org/abs/2607.20764) | [[GitHub]](https://github.com/pavelgolikov/ArbiGraph) | [[Hugging Face]](https://huggingface.co/datasets/PavelGolikov/arbigraph)
+  > *Project update:* The public implementation includes reinforcement learning with verifiable rewards (RLVR) environments with dataset-backed and on-demand episodes, hidden verifier state, exact binary rewards, and per-node diagnostics.
 
 * **Robust Reasoning Benchmark**
   Pavel Golikov, Evgenii Opryshko, Gennady Pekhimenko, and Mark C. Jeffrey.

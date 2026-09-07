@@ -27,7 +27,7 @@ AI Researcher and agent engineer specializing in robust machine reasoning, retri
   [[arXiv]](https://arxiv.org/abs/2607.20764) | [[GitHub]](https://github.com/pavelgolikov/ArbiGraph) | [[Hugging Face]](https://huggingface.co/datasets/PavelGolikov/arbigraph)
   * Built an open-source benchmark and dataset generator for evaluating context management in tool-assisted LLM agents across arbitrarily scalable, long-horizon task graphs.
   * Generated math, word-problem, and Python-tracing workflows with executable ground truth, enabling exact evaluation of state retention, updates, propagation, and stale-state reuse without manual labels.
-  * Controlled graph length, branching, distractors, and value types; implemented a calculator-agent harness with answer extraction, tool-call validation, continuation handling, and repair prompts.
+  * Built reinforcement learning with verifiable rewards (RLVR) environments supporting dataset-backed and on-demand episodes, hidden verifier state, exact binary rewards, and per-node diagnostics.
 
 * **arXiv Research Agent** (2026)
   [[GitHub]](https://github.com/pavelgolikov/arxiv-research-agent) | [[Evals]](https://github.com/pavelgolikov/arxiv-research-agent/blob/main/EVALS.md)

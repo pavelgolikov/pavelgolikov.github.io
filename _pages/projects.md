@@ -9,7 +9,7 @@ redirect_from:
 
 ## ArbiGraph
 
-An open-source benchmark generator for testing whether tool-assisted LLM agents can retain, update, propagate, and discard typed computational state across arbitrarily scalable task graphs. Includes executable ground truth, controllable DAG topologies, exact evaluation, and released example datasets.
+An open-source benchmark generator for testing whether tool-assisted LLM agents can retain, update, propagate, and discard typed computational state across arbitrarily scalable task graphs. Includes executable ground truth, controllable DAG topologies, exact evaluation, and released example datasets. ArbiGraph also provides reinforcement learning with verifiable rewards (RLVR) environments with dataset-backed and on-demand episodes, hidden verifier state, exact binary rewards, and per-node diagnostics.
 
 [[arXiv]](https://arxiv.org/abs/2607.20764) &#124; [[GitHub]](https://github.com/pavelgolikov/ArbiGraph) &#124; [[Hugging Face]](https://huggingface.co/datasets/PavelGolikov/arbigraph)
 
